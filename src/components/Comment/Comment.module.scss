@@ -1,0 +1,78 @@
+  .comment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+    background-color: #676666;
+    padding: 4vw;
+
+    .userCommentContent {
+      position: relative;
+      width: 100%;
+    }
+
+    .time {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: block;
+      font-weight: bold;
+      opacity: .6;
+      margin-top: 1vh;
+    }
+  }
+
+  .userCommentInfo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    column-gap: 2vw;
+  }
+
+  .userName {
+    font-weight: bold;
+    max-width: 50vw;
+    overflow-wrap: break-word;
+  }
+
+  .userShortName {
+    opacity: .6;
+    max-width: 50vw;
+    overflow-wrap: break-word;
+  }
+
+  .userCommentText {
+    margin: 2vh 0;
+  }
+
+  .about {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .likes {
+    display: flex;
+    column-gap: 2vw;
+    align-items: center;
+  }
+
+  .like {
+    display: block;
+    background-color: transparent;
+    padding: 0;
+
+    img {
+      width: 2.5vh;
+    }
+  }
+
+  .editor {
+    button {
+      font-size: 1.5vh;
+      background-color: transparent;
+      color: white;
+      padding: 1vh;
+    }
+  }

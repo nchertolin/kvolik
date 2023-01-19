@@ -1,0 +1,31 @@
+.header {
+  position: sticky;
+  top: 0;
+  width: 100vw;
+  height: 7vh;
+  background-color: #2E3031;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3vh;
+  z-index: 1;
+}
+
+.headerWrapper {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    font-size: 6vw;
+    font-weight: bold;
+  }
+}
+
+.button {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  color: white
+}

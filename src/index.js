@@ -1,17 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import './index.scss';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+// const defaultState = {
+//   animes: [
+//     {
+//       id: 1,
+//       picture: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+//       name: 'Code geas',
+//       genre: 'ONA / 2023'
+//     },
+//     {
+//       id: 2,
+//       picture: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+//       name: 'Naruto',
+//       genre: 'ONA / 2023'
+//     },
+//     {
+//       id: 3,
+//       picture: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+//       name: 'Avatar',
+//       genre: 'ONA / 2023'
+//     },
+//     {
+//       id: 4,
+//       picture: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+//       name: 'Darling',
+//       genre: 'ONA / 2023'
+//     }
+//   ]
+// };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Router>
     <App />
-  </React.StrictMode>
+  </Router>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

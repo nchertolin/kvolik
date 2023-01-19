@@ -1,0 +1,185 @@
+@import './font.css';
+
+$bg-color: #252626;
+$light-bg-color: #2E3031;
+$input-color: #676666;
+$light-color: #ffffff;
+$accent-color: #FFE34F;
+$h2-fz: 1.7vh;
+$h3-fz: 1.5vh;
+$h1-fz: 2.7vh;
+
+body {
+  margin: 0;
+  font-family: 'Gilroy', sans-serif;
+  font-size: $h2-fz;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $bg-color;
+  color: $light-color;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: $light-color;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+h1 {
+  margin-bottom: 3vh;
+  font-size: $h1-fz;
+}
+
+button {
+  border: 0;
+  background-color: $light-color;
+  color: black;
+  padding: 8px 24px;
+  border-radius: 5px;
+  font-weight: 500;
+  font-family: 'Gilroy', 'sans-serif';
+
+  &.primary-button {
+    background-color: $accent-color;
+  }
+}
+
+.menu-modal {
+  position: absolute;
+  top: 7vh;
+  left: 0;
+  width: 80vw;
+  height: 100vh;
+  background-color: $light-bg-color;
+  transition: all .3s ease-in;
+
+  &.hidden {
+    left: -80vw;
+  }
+
+  .menu-modal__wrapper {
+    width: 100%;
+    margin-top: 5vh;
+    margin-left: 7.5vw;
+  }
+
+  .user-wrapper {
+    display: flex;
+    column-gap: 4vw;
+    margin-bottom: 5vh;
+  }
+
+  p {
+    text-transform: uppercase;
+    font-size: $h3-fz;
+    font-weight: 600;
+    opacity: .6;
+    margin-left: 24px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0;
+
+    .link {
+      display: block;
+      padding: 10px 24px;
+      width: 80%;
+
+      &.active {
+        background-color: $input-color;
+      }
+    }
+  }
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $light-bg-color;
+  transition: all .3s ease;
+
+  .search__wrapper {
+    width: 85%;
+    margin-top: 3vh;
+
+    .input__wrapper {
+      display: flex;
+      position: relative;
+      width: 100%;
+
+      input {
+        width: 100%;
+        height: 6vh;
+        padding-left: 4vw;
+        padding-right: 10vw;
+        font-size: $h2-fz;
+        font-family: 'Gilroy';
+        outline: none;
+        border: 0;
+        border-radius: 5px;
+        background-color: $input-color;
+        color: $light-color;
+
+        &::placeholder {
+          color: $light-color;
+          opacity: 0.6;
+        }
+
+      }
+
+      img {
+        width: 3vh;
+      }
+
+      button {
+        position: absolute;
+        top: 1.5vh;
+        right: 2.5vw;
+      }
+    }
+  }
+
+  &.hidden {
+    top: -100vh;
+  }
+}
+
+.content {
+  width: 85vw;
+  margin: 0 auto;
+}
+
+.buttons {
+  display: flex;
+  column-gap: 5vw;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: $h2-fz;
+  margin-bottom: .5vh;
+}
+
+h3 {
+  font-size: 1.5vh;
+  opacity: 0.6;
+}

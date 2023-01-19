@@ -1,0 +1,6 @@
+.ul {
+  display: grid;
+  grid-template-columns: repeat(2, 40vw);
+  gap: 5vw;
+  margin: 7.5vw 0;
+}

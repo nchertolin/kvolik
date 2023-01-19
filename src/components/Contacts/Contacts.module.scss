@@ -1,0 +1,35 @@
+.contacts {
+  display: grid;
+  grid-template-columns: 37vw 1fr;
+  gap: 6vw;
+  margin-bottom: 3.5vh;
+}
+
+.info {
+  height: 37vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  p {
+    opacity: 0.6;
+  }
+}
+
+.avatar {
+  width: 37vw;
+}
+
+.description {
+  margin-bottom: 3.5vh;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  column-gap: 9vw;
+
+  img {
+    width: 10vw;
+  }
+}
