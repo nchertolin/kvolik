@@ -29,10 +29,6 @@
     background-color: white;
     border-radius: 5px;
     color: black;
-
-    &.rate {
-      background-color: #FFE34F;
-    }
   }
 }
 
@@ -134,4 +130,12 @@
   flex-direction: column;
   row-gap: 1.5vh;
   border-radius: 5px;
+}
+
+.rate {
+  background-color: #FFE34F;
+  width: 50vw;
+  height: 10vw;
+  font-weight: bold;
+  font-size: 1.7vh;
 }

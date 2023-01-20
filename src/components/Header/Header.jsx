@@ -34,7 +34,7 @@ export default function Header() {
         <div className='menu-modal__wrapper'>
           <div className='user-wrapper'>
             <img src={user} alt="" />
-            <button className='primary-button'>Войти</button>
+            <NavLink onClick={showMenu} className='primary-button' to='/login'>Войти</NavLink>
           </div>
           <p>Навигация</p>
           <ul>

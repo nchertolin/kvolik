@@ -5,6 +5,8 @@ import AnimesList from "./components/AnimesList/AnimesList";
 import Contacts from "./components/Contacts/Contacts";
 import Layout from "./components/Layout";
 import { v4 } from 'uuid';
+import Login from "./components/Login/Login";
+import SignUp from "./components/SignUp/SignUp";
 
 function App() {
   const [animes, setAnimes] = useState([]);
@@ -23,6 +25,8 @@ function App() {
   return isLoading ? 'Loading' : (
     <div className="App">
       <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
         <Route path='/' element={<Layout />}>
           <Route index element={<AnimesList title='Список аниме' animes={animes} />} />
           {animes.map(({ title, url, id, albumId }) => <Route key={v4()} path={`/${id}`}
