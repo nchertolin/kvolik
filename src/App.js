@@ -7,6 +7,11 @@ import Layout from "./components/Layout";
 import { v4 } from 'uuid';
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
+import { isMobile } from "react-device-detect";
+import AnimeDesktop from "./components/AnimeDesktop/AnimeDesktop";
+
+
+const URL = 'http://188.19.14.239:44349';
 
 function App() {
   const [animes, setAnimes] = useState([]);
@@ -14,10 +19,10 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://jsonplaceholder.typicode.com/photos')
+    fetch(`${URL}/api/anime`)
       .then(response => response.json())
       .then(data => {
-        setAnimes(data.slice(0, 6))
+        setAnimes(data)
         setLoading(false);
       })
   }, []);
@@ -29,8 +34,9 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/' element={<Layout />}>
           <Route index element={<AnimesList title='Список аниме' animes={animes} />} />
-          {animes.map(({ title, url, id, albumId }) => <Route key={v4()} path={`/${id}`}
-            element={<Anime name={title} picture={url} genre={albumId} />} />)}
+          {animes.map(({ title, url, shortName, albumId }) => <Route key={v4()} path={`/${shortName}`}
+            element={isMobile ? <Anime name={title} picture={url} genre={albumId} />
+              : <AnimeDesktop name={title} picture={url} genre={albumId} />} />)}
           <Route path='soon' element={<AnimesList title='Озвучка ожидается' animes={animes.slice(0, 2)} />} />
           <Route path='contacts' element={<Contacts />} />
           <Route path='/*' element={<div className='content'>Ой, страница не найдена</div>} />

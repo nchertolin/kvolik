@@ -1,31 +1,42 @@
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: sticky;
   top: 0;
   width: 100vw;
   height: 7vh;
   background-color: #2E3031;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 3vh;
-  z-index: 1;
-}
+  margin-bottom: 50px;
+  z-index: 2;
+  font-size: 14px;
 
-.headerWrapper {
-  width: 85%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  p {
-    font-size: 6vw;
-    font-weight: bold;
+  .wrapper {
+    width: 85%;
+    max-width: 2000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
-.button {
-  padding: 0;
-  background-color: transparent;
-  border: 0;
-  color: white
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.pcNav {
+  display: flex;
+  column-gap: 7vw;
+
+  li {
+    text-transform: uppercase;
+
+    a {
+
+      &.active {
+        font-weight: bold;
+      }
+    }
+  }
 }

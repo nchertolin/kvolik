@@ -3,10 +3,18 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    padding: 4vw;
+
+    @media (min-width: 991px) {
+      min-height: 40px;
+      padding: 30px;
+    }
+
+    @media (min-width: 768px) {}
+
     border-radius: 5px;
     color: white;
     background-color: #676666;
-    padding: 4vw;
 
     .userCommentContent {
       position: relative;
@@ -29,6 +37,12 @@
     display: flex;
     align-items: center;
     column-gap: 2vw;
+
+    @media (min-width: 991px) {
+      column-gap: 10px;
+    }
+
+    @media (min-width: 768px) {}
   }
 
   .userName {
@@ -50,6 +64,16 @@
     display: flex;
     column-gap: 2vw;
     align-items: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @media (min-width: 991px) {
+      column-gap: 10px;
+    }
+
+    @media (min-width: 768px) {}
   }
 
   .like {

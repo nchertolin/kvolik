@@ -7,7 +7,7 @@ export default function SignUp() {
       <div className={styles.wrapper}>
         <h1>Регистрация</h1>
         <input type="text" name="login" placeholder='Имя пользователя' />
-        <input type="email" name="login" placeholder='Эл. почта' />
+        <input type="email" name="email" placeholder='Эл. почта' />
         <input type="password" name="password" placeholder='Пароль' />
         <input type="password" name="password" placeholder='Повторите пароль' />
 

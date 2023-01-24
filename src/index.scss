@@ -5,14 +5,14 @@ $light-bg-color: #2E3031;
 $input-color: #676666;
 $light-color: #ffffff;
 $accent-color: #FFE34F;
-$h2-fz: 1.7vh;
-$h3-fz: 1.5vh;
-$h1-fz: 2.7vh;
+$h2-fz: 14px;
+$h3-fz: 14px;
+$h1-fz: 24px;
 
 body {
   margin: 0;
   font-family: 'Gilroy', sans-serif;
-  font-size: $h2-fz;
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $bg-color;
@@ -32,6 +32,15 @@ ul {
 a {
   color: $light-color;
   text-decoration: none;
+  transition: all .3s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &:active {
+    opacity: 0.3;
+  }
 }
 
 img {
@@ -41,6 +50,14 @@ img {
 h1 {
   margin-bottom: 3vh;
   font-size: $h1-fz;
+
+  @media (min-width: 991px) {
+    margin-bottom: 30px;
+    font-size: 30px
+  }
+
+  @media (min-width: 768px) {}
+
 }
 
 button {
@@ -51,6 +68,11 @@ button {
   border-radius: 5px;
   font-weight: 500;
   font-family: 'Gilroy', 'sans-serif';
+
+  &:hover {
+    opacity: .5;
+    cursor: pointer;
+  }
 }
 
 .primary-button {
@@ -163,12 +185,20 @@ button {
 
 .content {
   width: 85vw;
+  max-width: 2000px;
   margin: 0 auto;
 }
 
 .buttons {
   display: flex;
   column-gap: 5vw;
+
+  @media (min-width: 991px) {
+    column-gap: 2vw;
+    height: 40px;
+  }
+
+  @media (min-width: 768px) {}
 }
 
 h2 {
@@ -184,6 +214,7 @@ h3 {
 
 input {
   font-family: 'Gilroy', 'sans-serif';
+  font-size: 1.7vh;
   outline: none;
   border: 0;
   border-radius: 5px;
