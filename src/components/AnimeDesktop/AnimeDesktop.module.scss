@@ -62,7 +62,8 @@
 .infoWrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  row-gap: 30px;
 }
 
 .info {

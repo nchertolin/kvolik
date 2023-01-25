@@ -4,7 +4,7 @@ import user from '../../assets/icons/user.svg';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
 
-export default function Comment({ name, text, likes }) {
+export default function Comment({ username, message, likes }) {
   const likeRef = useRef();
   const likesCount = useRef();
   function likeIt() {
@@ -25,10 +25,10 @@ export default function Comment({ name, text, likes }) {
         <div className={styles.userCommentInfo}>
           <img src={user} alt="" />
           <div>
-            <p className={styles.userName}>@{name}</p>
+            <p className={styles.userName}>@{username}</p>
           </div>
         </div>
-        <p className={styles.userCommentText}>{text}</p>
+        <p className={styles.userCommentText}>{message}</p>
         <div className={styles.about}>
           <div className={styles.likes} onClick={likeIt}>
             <button className={styles.like}><img ref={likeRef} src={like} alt="" /></button>

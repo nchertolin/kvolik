@@ -6,11 +6,11 @@ export default function Card({ name, shortName, picture, nameEng, type, releaseF
   return (
     <div className={styles.card}>
       <Link to={`/${shortName}`}>
-        <img src={picture} alt="картинка" />
+        <img src={picture} alt="" />
         <h3>{nameEng}</h3>
         <h2>{name}</h2>
       </Link>
-      <h3>{type} / {episodesAmount} / {releaseFrom}</h3>
+      <h3>{type} / {episodesAmount} / {releaseFrom.substring(0, 4)}</h3>
     </div>
   )
 }
