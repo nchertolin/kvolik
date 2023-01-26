@@ -1,0 +1,74 @@
+.wrapper {
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30vw;
+  row-gap: 30px;
+
+  img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+
+  a,
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 40px;
+    color: black;
+    border-radius: 5px;
+    font-weight: 500;
+  }
+}
+
+.favorites {
+  background-color: white;
+}
+
+.editList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+
+  li {
+    h3 {
+      opacity: 1;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 300px;
+      height: 40px;
+      padding-left: 15px;
+    }
+  }
+}

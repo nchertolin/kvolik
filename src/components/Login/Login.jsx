@@ -12,7 +12,7 @@ export default function Login() {
     <div className={styles.login}>
       <div className={styles.wrapper}>
         <h1>Вход</h1>
-        <input type="text" name="login" placeholder='Эл. почта' />
+        <input type="text" name="login" placeholder='Логин' />
         <div className={styles.visibility}>
           <input type={isShown ? "text" : "password"} name="password" placeholder='Пароль' />
           <button className={styles.show} onClick={showPassword}><img src={isShown ? unShow : show} alt="показать" /></button>
