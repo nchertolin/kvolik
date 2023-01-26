@@ -1,9 +1,35 @@
 .card {
   width: 40vw;
 
+  @media (min-width: 991px) {
+    width: 20vw;
+    max-width: 400px;
+    height: 40vw;
+
+    h2 {
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+  }
+
+  @media (min-width: 768px) {}
+
   img {
     width: 40vw;
     margin-bottom: 1vh;
     border-radius: 10px;
+
+    @media (min-width: 991px) {
+      width: 20vw;
+      height: 30vw;
+      max-width: 400px;
+      max-height: 600px;
+      border-radius: 15px;
+    }
+
+    @media (min-width: 768px) {}
   }
 }

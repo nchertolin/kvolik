@@ -22,10 +22,8 @@ export default function Slider({ pictures }) {
   }
 
   return (
-    <div className={styles.slider}>
-      <div className={styles.wrapper}>
-        <img src={pictures[currentPic]} alt="" />
-      </div>
+    <div className={styles.wrapper}>
+      <img src={pictures[currentPic]} alt="" />
       <ul className={styles.dots}>
         {pictures.map((element, index) => <li key={v4()}><span className={index === currentPic ? styles.active : ''}></span></li>)}
       </ul>
