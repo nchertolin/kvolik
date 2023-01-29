@@ -16,7 +16,7 @@ export default function Header({ user }) {
             <li><NavLink className={setActiveLink} to='/contacts'>Заказать озвучку</NavLink></li>
           </ul>
         </nav>
-        {user ? <NavLink to='/account'><img className={styles.user} src={user.imageUrl} alt={user.username} /></NavLink>
+        {user.name ? <NavLink to='/account'><img className={styles.user} src={user.imageUrl} alt={user.name} /></NavLink>
           : <NavLink className='primary-button' to='login'>Войти</NavLink>}
       </div>
     </header>

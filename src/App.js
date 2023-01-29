@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Anime from "./components/Anime/Anime";
+import Anime from "./components/Anime/Anime.jsx";
 import AnimeDesktop from "./components/AnimeDesktop/AnimeDesktop";
 import AnimesList from "./components/AnimesList/AnimesList";
 import Contacts from "./components/Contacts/Contacts";
@@ -12,14 +12,17 @@ import { v4 } from "uuid";
 import Loading from "./components/Loading/Loading";
 import Account from "./components/Account/Account";
 import Edit from "./components/Account/Edit";
+import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 export const URL = 'http://localhost:44349';
-const user = {
+
+const testUser = {
   name: 'Канеки Кен',
   login: 'kanekiken',
   imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg'
 };
 
 function App() {
+  const [user, setUser] = useState({});
   const [ids, setIds] = useState([]);
   const [isLoading, setLoading] = useState();
   useEffect(() => {
@@ -31,7 +34,13 @@ function App() {
         { id: 1, shortName: 'code-geas' },
         { id: 2, shortName: 'spy-x-family-2' },
         { id: 3, shortName: 'spy-x-family' }]))
-      .finally(() => setLoading(false))
+      .finally(() => setLoading(false));
+
+    fetch(`${URL}/api/account/`)
+      .then(response => response.json())
+      .then(data => setUser(data))
+      .catch(() => setUser(testUser))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -51,7 +60,7 @@ function App() {
               <Route path='account' element={<Account user={user} />} />
               <Route path='account/edit' element={<Edit user={user} />} />
               {/* <Route path='favorites' element={<Edit user={user} />} /> */}
-              <Route path='*' element={<div className='content'>Ой, кажется страница не существует</div>} />
+              <Route path='*' element={<ErrorPage />} />
             </Route>
           </Routes>
         </>}

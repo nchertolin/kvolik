@@ -4,7 +4,7 @@ import user from '../../assets/icons/user.svg';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
 
-export default function Comment({ username, message, likes }) {
+export default function Comment({ name, message, likes, imageUrl }) {
   const likeRef = useRef();
   const likesCount = useRef();
   function likeIt() {
@@ -20,23 +20,21 @@ export default function Comment({ username, message, likes }) {
 
   return (
     <li className={styles.comment}>
-      <div className={styles.userCommentContent}>
-        <p className={styles.time}>Вчера</p>
-        <div className={styles.userCommentInfo}>
-          <img src={user} alt="" />
-          <div>
-            <p className={styles.userName}>@{username}</p>
+      <div className={styles.wrapper}>
+        <img className={styles.avatar} src={imageUrl} alt="" />
+        <div className={styles.content}>
+          <div className={styles.info}>
+            <h2 className={styles.name}>{name}</h2>
+            <span>•</span>
+            <h2 className={styles.time}>Вчера</h2>
           </div>
-        </div>
-        <p className={styles.userCommentText}>{message}</p>
-        <div className={styles.about}>
-          <div className={styles.likes} onClick={likeIt}>
-            <button className={styles.like}><img ref={likeRef} src={like} alt="" /></button>
-            <span ref={likesCount}>{likes}</span>
-          </div>
-          <div className={styles.editor}>
-            <button>Редактировать</button>
-            <button>Удалить</button>
+          <p className={styles.message}>{message}</p>
+          <div className={styles.actions}>
+            <button className={styles.delete}>Удалить</button>
+            <div className={styles.likes}>
+              <button className={styles.like} onClick={likeIt}><img ref={likeRef} src={like} alt="" /></button>
+              <span ref={likesCount}>{likes}</span>
+            </div>
           </div>
         </div>
       </div>

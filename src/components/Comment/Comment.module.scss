@@ -1,96 +1,65 @@
-  .comment {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 4vw;
+.wrapper {
+  position: relative;
+  display: flex;
+  column-gap: 20px;
+}
 
-    @media (min-width: 991px) {
-      min-height: 40px;
-      padding: 30px;
-    }
+.avatar {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
-    @media (min-width: 768px) {}
+.content {
+  width: 100%;
+}
 
-    border-radius: 5px;
-    color: white;
-    background-color: #676666;
+.info {
+  display: flex;
+  column-gap: 10px;
+}
 
-    .userCommentContent {
-      position: relative;
-      width: 100%;
-    }
+.name {
+  font-weight: bold;
+}
 
-    .time {
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: block;
-      font-weight: bold;
-      opacity: .6;
-      margin-top: 1vh;
-    }
+.time {
+  opacity: .6;
+  font-weight: bold;
+}
+
+.message {
+  margin: 10px 0;
+}
+
+.actions {
+  display: flex;
+  width: 98%;
+  justify-content: space-between;
+}
+
+.likes {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.like {
+  background-color: transparent;
+  padding: 0;
+}
+
+.delete {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 14px;
+  opacity: .6;
+
+  &:hover {
+    text-decoration: underline;
+    opacity: .6;
   }
-
-  .userCommentInfo {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    column-gap: 2vw;
-
-    @media (min-width: 991px) {
-      column-gap: 10px;
-    }
-
-    @media (min-width: 768px) {}
-  }
-
-  .userName {
-    font-weight: bold;
-    max-width: 50vw;
-    overflow-wrap: break-word;
-  }
-
-  .userCommentText {
-    margin: 2vh 0;
-  }
-
-  .about {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .likes {
-    display: flex;
-    column-gap: 2vw;
-    align-items: center;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    @media (min-width: 991px) {
-      column-gap: 10px;
-    }
-
-    @media (min-width: 768px) {}
-  }
-
-  .like {
-    display: block;
-    background-color: transparent;
-    padding: 0;
-
-    img {
-      width: 2.5vh;
-    }
-  }
-
-  .editor {
-    button {
-      font-size: 1.5vh;
-      background-color: transparent;
-      color: white;
-      padding: 1vh;
-    }
-  }
+}

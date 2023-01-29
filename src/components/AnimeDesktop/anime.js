@@ -19,18 +19,38 @@ export const testAnime = {
     "http://kvolikdub.ru/wp-content/uploads/2022/07/5a736eff9ccce.jpg"
   ],
   imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/06/8p3HXHOQXjMpU9gAkZVAqozhDzQ.jpg",
-  trailerUrl: "https://youtu.be/O9Rdqm_74C0",
+  trailerUrl: "https://www.youtube.com/embed/v-AGjx0N24U",
   rating: 0,
   reviews: [
     {
-      username: 'uzumaki',
+      name: 'Наруто Узумаки',
+      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       message: 'Я стану хогаге',
       likes: 99
     },
     {
-      username: 'kanekiken',
+      name: 'Канеки Кен',
+      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       message: 'Я не вернусь в антейку',
       likes: 7
+    },
+    {
+      name: 'Канеки Кен',
+      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      message: 'Я не вернусь в антейку',
+      likes: 7
+    },
+    {
+      name: 'Канеки Кен',
+      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      message: 'Я не вернусь в антейку',
+      likes: 7
+    },
+    {
+      name: 'Наруто Узумаки',
+      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      message: 'Я стану хогаге',
+      likes: 99
     }
   ]
 }
