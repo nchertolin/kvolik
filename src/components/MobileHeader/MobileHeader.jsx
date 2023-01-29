@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react';
 import menu from '../../assets/icons/menu.svg';
 import close from '../../assets/icons/close.svg';
 import search from '../../assets/icons/search.svg';
-import user from '../../assets/icons/user.svg';
+import userImage from '../../assets/icons/user.svg';
 import { NavLink } from 'react-router-dom';
 import styles from './MobileHeader.module.scss';
 
-export default function MobileHeader() {
+export default function MobileHeader({ user }) {
 
   function showMenu() {
     menuModal.current.classList.toggle('hidden');
@@ -32,10 +32,16 @@ export default function MobileHeader() {
 
       <div ref={menuModal} className="menu-modal hidden">
         <div className='menu-modal__wrapper'>
-          <div className='user-wrapper'>
-            <img src={user} alt="" />
-            <NavLink onClick={showMenu} className='primary-button' to='/login'>Войти</NavLink>
-          </div>
+          {user.name
+            ?
+            <NavLink className='user-wrapper' to='/account' onClick={showMenu}>
+              <img className={styles.user} src={user.imageUrl} alt={user.name} />
+              <h2>{user.name}</h2>
+            </NavLink>
+            : <div className='user-wrapper'>
+              <img src={user} alt="" />
+              <NavLink onClick={showMenu} className='primary-button' to='/login'>Войти</NavLink>
+            </div>}
           <p>Навигация</p>
           <ul>
             <li><NavLink to='/' className={setActiveLink} onClick={showMenu}>Аниме</NavLink></li>
@@ -69,6 +75,6 @@ export default function MobileHeader() {
           </div>
         </div>
       </div>
-    </header>
+    </header >
   )
 }

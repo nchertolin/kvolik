@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
 
-export default function Header() {
+export default function Header({ user }) {
   const setActiveLink = ({ isActive }) => isActive ? styles.active : '';
 
   return (
@@ -16,7 +16,8 @@ export default function Header() {
             <li><NavLink className={setActiveLink} to='/contacts'>Заказать озвучку</NavLink></li>
           </ul>
         </nav>
-        <NavLink className='primary-button' to='login'>Войти</NavLink>
+        {user.name ? <NavLink to='/account'><img className={styles.user} src={user.imageUrl} alt={user.name} /></NavLink>
+          : <NavLink className='primary-button' to='login'>Войти</NavLink>}
       </div>
     </header>
   )
