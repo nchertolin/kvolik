@@ -8,12 +8,12 @@ import { testAnimes } from './animes.js';
 import { URL } from '../../App';
 
 
-export default function AnimesList({ title }) {
+export default function AnimesList({ title, isSoon }) {
   const [animes, setAnimes] = useState([]);
   const [isLoading, setLoading] = useState();
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/anime`)
+    fetch(`${URL}/api/anime${isSoon ? '/soon' : ''}`)
       .then(response => response.json())
       .then(data => setAnimes(data))
       .catch(() => setAnimes(testAnimes))

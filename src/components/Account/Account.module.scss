@@ -46,11 +46,11 @@
     color: black;
     border-radius: 5px;
     font-weight: 500;
-  }
-}
 
-.favorites {
-  background-color: white;
+    &.logout {
+      background-color: #ff0000;
+    }
+  }
 }
 
 .editList {

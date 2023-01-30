@@ -36,7 +36,7 @@ function App() {
         { id: 3, shortName: 'spy-x-family' }]))
       .finally(() => setLoading(false));
 
-    fetch(`${URL}/api/account/`)
+    fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
       .then(response => response.json())
       .then(data => setUser(data))
       .catch(() => setUser(testUser))
@@ -55,9 +55,9 @@ function App() {
               {ids.map(({ id, shortName }) =>
                 <Route key={v4()} path={`${shortName}`}
                   element={isMobile ? <Anime id={id} /> : <AnimeDesktop id={id} />} />)}
-              {/* <Route path='soon' element={<AnimesList title='Озвучка ожидается' animes={animes.slice(0, 2)} />} /> */}
+              <Route path='soon' element={<AnimesList title='Озвучка ожидается' isSoon={true} />} />
               <Route path='contacts' element={<Contacts />} />
-              <Route path='account' element={<Account user={user} />} />
+              <Route path='account' element={<Account user={user} setUser={setUser} />} />
               <Route path='account/edit' element={<Edit user={user} />} />
               {/* <Route path='favorites' element={<Edit user={user} />} /> */}
               <Route path='*' element={<ErrorPage />} />

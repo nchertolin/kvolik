@@ -13,6 +13,7 @@
 
 .content {
   width: 100%;
+  font-size: 14px;
 }
 
 .info {
@@ -31,6 +32,7 @@
 
 .message {
   margin: 10px 0;
+  font-size: 14px;
 }
 
 .actions {
@@ -55,8 +57,8 @@
   margin: 0;
   padding: 0;
   color: white;
-  font-size: 14px;
   opacity: .6;
+  font-size: 14px;
 
   &:hover {
     text-decoration: underline;

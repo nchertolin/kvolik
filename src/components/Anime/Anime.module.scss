@@ -113,10 +113,6 @@
     font-size: 16px;
     margin-bottom: 2vh;
   }
-
-  button {
-    height: 40px;
-  }
 }
 
 
@@ -125,6 +121,10 @@
   flex-direction: column;
   row-gap: 15px;
   margin-bottom: 5vh;
+
+  button {
+    height: 40px;
+  }
 
   textarea {
     width: 100%;
@@ -186,4 +186,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  button {
+    height: 40px;
+  }
 }
