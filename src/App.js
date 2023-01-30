@@ -14,23 +14,22 @@ import Account from "./components/Account/Account";
 import Edit from "./components/Account/Edit";
 import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 export const URL = 'https://localhost:44349';
-
 const testUser = {
   name: 'Канеки Кен',
   login: 'kanekiken',
-  imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg'
+  avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg'
 };
 
 function App() {
   const [user, setUser] = useState({});
-  const [ids, setIds] = useState([]);
+  const [names, setNames] = useState([]);
   const [isLoading, setLoading] = useState();
   useEffect(() => {
     setLoading(true);
     fetch(`${URL}/api/anime/names`)
       .then(response => response.json())
-      .then(data => setIds(data))
-      .catch(() => setIds([
+      .then(data => setNames(data))
+      .catch(() => setNames([
         { id: 1, shortName: 'code-geas' },
         { id: 2, shortName: 'spy-x-family-2' },
         { id: 3, shortName: 'spy-x-family' }]))
@@ -39,7 +38,7 @@ function App() {
     fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
       .then(response => response.json())
       .then(data => setUser(data))
-      //.catch(() => setUser(testUser))
+      .catch(() => setUser(testUser))
       .finally(() => setLoading(false));
   }, []);
 
@@ -52,9 +51,8 @@ function App() {
             <Route path='/signup' element={<SignUp />} />
             <Route path='/' element={<Layout user={user} />}>
               <Route index element={<AnimesList title='Список аниме' />} />
-              {ids.map(shortName =>
-                <Route key={v4()} path={`${shortName}`}
-                  element={isMobile ? <Anime id={shortName} /> : <AnimeDesktop id={shortName} />} />)}
+              {names.map(shortName => <Route key={v4()} path={`${shortName}`}
+                element={isMobile ? <Anime id={shortName} /> : <AnimeDesktop shortName={shortName} />} />)}
               <Route path='soon' element={<AnimesList title='Озвучка ожидается' isSoon={true} />} />
               <Route path='contacts' element={<Contacts />} />
               <Route path='account' element={<Account user={user} setUser={setUser} />} />

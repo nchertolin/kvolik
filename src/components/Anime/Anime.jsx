@@ -95,8 +95,8 @@ export default function Anime({ id }) {
           <div className={styles.comments}>
             <h3>Комментарии</h3>
             <ul className={styles.userComments}>
-              {reviews.map(({ name, message, likes, imageUrl }) => <Comment key={v4()} name={name}
-                message={message} likes={likes} imageUrl={imageUrl} />)}
+              {reviews.map((name, reviewText, likes, avatarImageUrl) => <Comment key={v4()} name={name}
+                reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl} />)}
               <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
             </ul>
             <div className={styles.write}>
@@ -105,7 +105,6 @@ export default function Anime({ id }) {
                   evt.target.style.height = 'auto';
                   evt.target.style.height = `${evt.target.scrollHeight}px`;
                 }} />
-
               <button className='primary-button'>Отправить</button>
             </div>
           </div>

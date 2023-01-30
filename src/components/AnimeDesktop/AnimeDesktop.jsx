@@ -8,7 +8,7 @@ import { URL } from '../../App';
 import { testAnime } from './anime.js';
 import Loading from '../Loading/Loading';
 
-export default function AnimeDesktop({ id }) {
+export default function AnimeDesktop({ shortName }) {
   const ratingRef = useRef();
   const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
     ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl,
@@ -17,12 +17,12 @@ export default function AnimeDesktop({ id }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/anime/${id}`)
+    fetch(`${URL}/api/anime/${shortName}`)
       .then(response => response.json())
       .then(data => setAnime(data))
       .catch(() => setAnime(testAnime))
       .finally(() => setLoading(false))
-  }, [id]);
+  }, [shortName]);
   return (
     isLoading ? <Loading /> :
       <div>
@@ -108,8 +108,8 @@ export default function AnimeDesktop({ id }) {
           <div className={styles.comments}>
             <h3>Комментарии</h3>
             <ul className={styles.userComments}>
-              {reviews.map(({ name, message, likes, imageUrl }) => <Comment key={v4()} name={name}
-                message={message} likes={likes} imageUrl={imageUrl} />)}
+              {reviews.map(({ name, reviewText, likes, avatarImageUrl }) => <Comment key={v4()} name={name}
+                reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl} />)}
               <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
             </ul>
             <div className={styles.write}>

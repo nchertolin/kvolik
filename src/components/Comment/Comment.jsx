@@ -1,10 +1,9 @@
 import React, { useRef } from 'react'
 import styles from './Comment.module.scss';
-import user from '../../assets/icons/user.svg';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
 
-export default function Comment({ name, message, likes, imageUrl }) {
+export default function Comment({ name, reviewText, likes, avatarImageUrl }) {
   const likeRef = useRef();
   const likesCount = useRef();
   function likeIt() {
@@ -21,14 +20,14 @@ export default function Comment({ name, message, likes, imageUrl }) {
   return (
     <li className={styles.comment}>
       <div className={styles.wrapper}>
-        <img className={styles.avatar} src={imageUrl} alt="" />
+        <img className={styles.avatar} src={avatarImageUrl} alt="" />
         <div className={styles.content}>
           <div className={styles.info}>
             <h2 className={styles.name}>{name}</h2>
             <span>•</span>
             <h2 className={styles.time}>Вчера</h2>
           </div>
-          <p className={styles.message}>{message}</p>
+          <p className={styles.message}>{reviewText}</p>
           <div className={styles.actions}>
             <button className={styles.delete}>Удалить</button>
             <div className={styles.likes}>

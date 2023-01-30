@@ -29,7 +29,7 @@ export default function Login() {
         localStorage.setItem('token', `${data['token']}`)
         window.location.href = '..'
       })
-      //.catch(() => window.location.href = '..')
+      .catch((err) => console.log(err.message))
   }
 
   return (
