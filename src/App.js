@@ -13,7 +13,7 @@ import Loading from "./components/Loading/Loading";
 import Account from "./components/Account/Account";
 import Edit from "./components/Account/Edit";
 import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
-export const URL = 'http://localhost:44349';
+export const URL = 'https://localhost:44349';
 
 const testUser = {
   name: 'Канеки Кен',
@@ -27,7 +27,7 @@ function App() {
   const [isLoading, setLoading] = useState();
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/ids`)
+    fetch(`${URL}/api/anime/names`)
       .then(response => response.json())
       .then(data => setIds(data))
       .catch(() => setIds([
@@ -39,7 +39,7 @@ function App() {
     fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
       .then(response => response.json())
       .then(data => setUser(data))
-      .catch(() => setUser(testUser))
+      //.catch(() => setUser(testUser))
       .finally(() => setLoading(false));
   }, []);
 
@@ -52,9 +52,9 @@ function App() {
             <Route path='/signup' element={<SignUp />} />
             <Route path='/' element={<Layout user={user} />}>
               <Route index element={<AnimesList title='Список аниме' />} />
-              {ids.map(({ id, shortName }) =>
+              {ids.map(shortName =>
                 <Route key={v4()} path={`${shortName}`}
-                  element={isMobile ? <Anime id={id} /> : <AnimeDesktop id={id} />} />)}
+                  element={isMobile ? <Anime id={shortName} /> : <AnimeDesktop id={shortName} />} />)}
               <Route path='soon' element={<AnimesList title='Озвучка ожидается' isSoon={true} />} />
               <Route path='contacts' element={<Contacts />} />
               <Route path='account' element={<Account user={user} setUser={setUser} />} />

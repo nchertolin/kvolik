@@ -13,14 +13,23 @@ export default function Login() {
 
   function loginUser() {
     console.log(login, password);
-    fetch(`${URL}/api/account/login`, { method: 'POST', body: JSON.stringify({ username: login, password: password }) })
+    fetch(`${URL}/api/account/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username: login, password: password })
+    })
       .then(response => {
         if (response.ok) {
           return response.json();
         } else throw new Error();
       })
-      .then(data => localStorage.setItem('token', data.token))
-      .catch(() => window.location.href = '..')
+      .then(data => {
+        localStorage.setItem('token', `${data['token']}`)
+        window.location.href = '..'
+      })
+      //.catch(() => window.location.href = '..')
   }
 
   return (

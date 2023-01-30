@@ -15,7 +15,7 @@ export default function Anime({ id }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/anime/${id}`)
+    fetch(`${URL}/api/anime/${id}`)
       .then(response => response.json())
       .then(data => setAnime(data))
       .catch(() => setAnime(testAnime))
