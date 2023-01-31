@@ -24,32 +24,32 @@ export const testAnime = {
   reviews: [
     {
       name: 'Наруто Узумаки',
-      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-      message: 'Я стану хогаге',
+      avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      reviewText: 'Я стану хогаге',
       likes: 99
     },
     {
       name: 'Канеки Кен',
-      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-      message: 'Я не вернусь в антейку',
+      avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      reviewText: 'Я не вернусь в антейку',
       likes: 7
     },
     {
       name: 'Канеки Кен',
-      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-      message: 'Я не вернусь в антейку',
+      avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      reviewText: 'Я не вернусь в антейку',
       likes: 7
     },
     {
       name: 'Канеки Кен',
-      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-      message: 'Я не вернусь в антейку',
+      avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      reviewText: 'Я не вернусь в антейку',
       likes: 7
     },
     {
       name: 'Наруто Узумаки',
-      imageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-      message: 'Я стану хогаге',
+      avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+      reviewText: 'Я стану хогаге',
       likes: 99
     }
   ]

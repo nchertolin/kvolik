@@ -7,9 +7,16 @@ import styles from './AnimeDesktop.module.scss';
 import { URL } from '../../App';
 import { testAnime } from './anime.js';
 import Loading from '../Loading/Loading';
+import { Link } from 'react-router-dom';
+
+export function showRating(ref, isOpen) {
+  ref.current.style.opacity = isOpen ? 1 : 0;
+  ref.current.style.pointerEvents = isOpen ? 'all' : 'none';
+}
 
 export default function AnimeDesktop({ shortName }) {
   const ratingRef = useRef();
+  const isAuth = localStorage.getItem('token') !== null;
   const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
     ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl,
     rating, reviews }, setAnime] = useState(testAnime);
@@ -36,10 +43,8 @@ export default function AnimeDesktop({ shortName }) {
                 </div>
               </div>
               <a href='#watch'>Смотреть онлайн</a>
-              <button className={styles.rate} onClick={() => {
-                ratingRef.current.style.opacity = 1;
-                ratingRef.current.style.pointerEvents = 'all';
-              }}>Оценить аниме</button>
+              {!isAuth ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
+                : <Link to='../login' className={styles.rate}>Оценить аниме</Link>}
             </div>
             <div className={styles.infoWrapper}>
               <h1 className={styles.title}>{name}</h1>
@@ -87,7 +92,6 @@ export default function AnimeDesktop({ shortName }) {
             </div>
           </div>
           <p className={styles.description}>{description}</p>
-
           <div className={styles.extraHeaders}>
             <h2 className={styles.head}>Кадры из аниме</h2>
             <h2 className={styles.head}>Трейлер из аниме</h2>
@@ -112,18 +116,18 @@ export default function AnimeDesktop({ shortName }) {
                 reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl} />)}
               <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
             </ul>
-            <div className={styles.write}>
-              <textarea placeholder='Ваш комментарий'
+            {isAuth ? <div className={styles.write}>
+              <textarea disabled={!isAuth} placeholder='Ваш комментарий'
                 onChange={(evt) => {
                   evt.target.style.height = 'auto';
                   evt.target.style.height = `${evt.target.scrollHeight}px`;
                 }} />
-
-              <button className='primary-button'>Отправить</button>
+              <button className='primary-button' disabled={!isAuth}>Отправить</button>
             </div>
+              : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
           </div>
         </div>
-        <Rating reference={ratingRef} />
-      </div >
+        <Rating reference={ratingRef} shortName={shortName} />
+      </div>
   )
 }

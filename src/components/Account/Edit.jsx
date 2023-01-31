@@ -12,8 +12,12 @@ export default function Edit({ user }) {
     })
       .then(response => {
         if (response.ok) {
-          window.location.href = '..';
+          return response.json();
         } else throw new Error();
+      })
+      .then((data) => {
+        window.location.href = '..';
+        localStorage.setItem('token', `${data['token']}`)
       })
       .catch(err => console.log(err.message));
   }

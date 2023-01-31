@@ -29,10 +29,7 @@ function App() {
     fetch(`${URL}/api/anime/names`)
       .then(response => response.json())
       .then(data => setNames(data))
-      .catch(() => setNames([
-        { id: 1, shortName: 'code-geas' },
-        { id: 2, shortName: 'spy-x-family-2' },
-        { id: 3, shortName: 'spy-x-family' }]))
+      .catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
       .finally(() => setLoading(false));
 
     fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
@@ -52,7 +49,7 @@ function App() {
             <Route path='/' element={<Layout user={user} />}>
               <Route index element={<AnimesList title='Список аниме' />} />
               {names.map(shortName => <Route key={v4()} path={`${shortName}`}
-                element={isMobile ? <Anime id={shortName} /> : <AnimeDesktop shortName={shortName} />} />)}
+                element={isMobile ? <Anime shortName={shortName} /> : <AnimeDesktop shortName={shortName} />} />)}
               <Route path='soon' element={<AnimesList title='Озвучка ожидается' isSoon={true} />} />
               <Route path='contacts' element={<Contacts />} />
               <Route path='account' element={<Account user={user} setUser={setUser} />} />

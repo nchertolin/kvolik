@@ -23,11 +23,11 @@ export default function Login() {
       .then(response => {
         if (response.ok) {
           return response.json();
-        } else throw new Error();
+        } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => {
-        localStorage.setItem('token', `${data['token']}`)
-        window.location.href = '..'
+        localStorage.setItem('token', `${data['token']}`);
+        window.location.href = '..';
       })
       .catch((err) => console.log(err.message))
   }

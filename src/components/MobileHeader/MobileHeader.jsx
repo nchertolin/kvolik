@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import menu from '../../assets/icons/menu.svg';
 import close from '../../assets/icons/close.svg';
 import search from '../../assets/icons/search.svg';
-import userImage from '../../assets/icons/user.svg';
 import { NavLink } from 'react-router-dom';
 import styles from './MobileHeader.module.scss';
 
@@ -35,7 +34,7 @@ export default function MobileHeader({ user }) {
           {user.name
             ?
             <NavLink className='user-wrapper' to='/account' onClick={showMenu}>
-              <img className={styles.user} src={user.imageUrl} alt={user.name} />
+              <img className={styles.user} src={user.avatarImageUrl} alt={user.name} />
               <h2>{user.name}</h2>
             </NavLink>
             : <div className='user-wrapper'>

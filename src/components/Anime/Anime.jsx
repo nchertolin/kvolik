@@ -6,8 +6,11 @@ import Slider from '../Slider/Slider';
 import Rating from '../Rating/Rating';
 import { testAnime } from '../AnimeDesktop/anime.js';
 import Loading from '../Loading/Loading';
+import { showRating } from '../AnimeDesktop/AnimeDesktop';
+import { Link } from 'react-router-dom';
 
-export default function Anime({ id }) {
+export default function Anime({ shortName }) {
+  const isAuth = localStorage.getItem('token') !== null;
   const ratingRef = useRef();
   const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
     ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl, rating, reviews }, setAnime] = useState(testAnime);
@@ -15,12 +18,12 @@ export default function Anime({ id }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/anime/${id}`)
+    fetch(`${URL}/api/anime/${shortName}`)
       .then(response => response.json())
       .then(data => setAnime(data))
       .catch(() => setAnime(testAnime))
       .finally(() => setLoading(false))
-  }, [id]);
+  }, [shortName]);
   return (
     isLoading ? <Loading /> :
       <>
@@ -35,10 +38,8 @@ export default function Anime({ id }) {
           </div>
           <div className={styles.buttons}>
             <a href='#watch'>Смотреть онлайн</a>
-            <button onClick={() => {
-              ratingRef.current.style.opacity = 1;
-              ratingRef.current.style.pointerEvents = 'all';
-            }} className={styles.rate}>Оценить аниме</button>
+            {isAuth ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
+              : <Link to='../login' className={styles.rate}>Оценить аниме</Link>}
           </div>
           <Rating reference={ratingRef} />
           <div className={styles.info}>
@@ -95,21 +96,22 @@ export default function Anime({ id }) {
           <div className={styles.comments}>
             <h3>Комментарии</h3>
             <ul className={styles.userComments}>
-              {reviews.map((name, reviewText, likes, avatarImageUrl) => <Comment key={v4()} name={name}
+              {reviews.map(({ name, reviewText, likes, avatarImageUrl }) => <Comment key={v4()} name={name}
                 reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl} />)}
               <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
             </ul>
-            <div className={styles.write}>
-              <textarea placeholder='Ваш комментарий'
+            {isAuth ? <div className={styles.write}>
+              <textarea disabled={!isAuth} placeholder='Ваш комментарий'
                 onChange={(evt) => {
                   evt.target.style.height = 'auto';
                   evt.target.style.height = `${evt.target.scrollHeight}px`;
                 }} />
-              <button className='primary-button'>Отправить</button>
+              <button className='primary-button' disabled={!isAuth}>Отправить</button>
             </div>
+              : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
           </div>
         </div>
-        <Rating reference={ratingRef} />
+        <Rating reference={ratingRef} shortName={shortName} />
       </>
   )
 }
