@@ -2,14 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styles from './Card.module.scss';
 
-export default function Card({ name, shortName, picture, nameEng, type, releaseFrom, episodesAmount, rating }) {
+export default function Card({ name, shortName, picture, nameEng, type, releaseFrom, episodesAmount, averageRating }) {
   return (
     <div className={styles.card}>
       <Link to={`/${shortName}`}>
         <div className={styles.pictureWrapper}>
           <img src={picture} alt="" />
           <div className={styles.ratingWrapper}>
-            <p>{rating ?? 9.8}</p>
+            <p>{averageRating}</p>
           </div>
         </div>
         <h3>{nameEng}</h3>

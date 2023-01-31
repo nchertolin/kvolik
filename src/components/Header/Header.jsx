@@ -8,15 +8,13 @@ export default function Header({ user }) {
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
-        <p className={styles.logo}>KVOLIKDUB</p>
-        <nav>
-          <ul className={styles.pcNav}>
-            <li><NavLink className={setActiveLink} to='/'>Аниме</NavLink></li>
-            <li><NavLink className={setActiveLink} to='/soon'>Скоро</NavLink></li>
-            <li><NavLink className={setActiveLink} to='/contacts'>Заказать озвучку</NavLink></li>
-            {user.name && <li><NavLink className={setActiveLink} to='/favorites'>Избранное</NavLink></li>}
-          </ul>
-        </nav>
+        <NavLink to='/' className={styles.logo}>KVOLIKDUB</NavLink>
+        <ul className={styles.pcNav}>
+          <li><NavLink className={setActiveLink} to='/'>Аниме</NavLink></li>
+          <li><NavLink className={setActiveLink} to='/soon'>Скоро</NavLink></li>
+          <li><NavLink className={setActiveLink} to='/contacts'>Заказать озвучку</NavLink></li>
+          {user.name && <li><NavLink className={setActiveLink} to='/favorites'>Избранное</NavLink></li>}
+        </ul>
         {user.name ? <NavLink to='/account'><img className={styles.user} src={user.avatarImageUrl} alt={user.name} /></NavLink>
           : <NavLink className='primary-button' to='login'>Войти</NavLink>}
       </div>

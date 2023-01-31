@@ -46,6 +46,7 @@
     font-weight: bold;
     align-items: center;
     justify-content: center;
+    text-align: center;
     width: 100%;
     height: 50px;
     font-size: 14px;
@@ -184,7 +185,8 @@
   row-gap: 30px;
   margin-bottom: 20px;
   max-height: 400px;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .more {

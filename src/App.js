@@ -16,7 +16,7 @@ import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 export const URL = 'https://localhost:44349';
 const testUser = {
   name: 'Канеки Кен',
-  login: 'kanekiken',
+  username: 'kanekiken',
   avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg'
 };
 

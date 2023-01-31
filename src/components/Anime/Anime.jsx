@@ -13,7 +13,8 @@ export default function Anime({ shortName }) {
   const isAuth = localStorage.getItem('token') !== null;
   const ratingRef = useRef();
   const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
-    ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl, rating, reviews }, setAnime] = useState(testAnime);
+    ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl,
+    averageRating, reviews }, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Anime({ shortName }) {
     fetch(`${URL}/api/anime/${shortName}`)
       .then(response => response.json())
       .then(data => setAnime(data))
-      .catch(() => setAnime(testAnime))
+      .catch((err) => console.log(err.message))
       .finally(() => setLoading(false))
   }, [shortName]);
   return (
@@ -33,7 +34,7 @@ export default function Anime({ shortName }) {
           <div className={styles.pictureWrapper}>
             <img className={styles.picture} src={imageUrl} alt="" />
             <div className={styles.ratingWrapper}>
-              <p>{rating}</p>
+              <p>{averageRating}</p>
             </div>
           </div>
           <div className={styles.buttons}>
@@ -57,7 +58,9 @@ export default function Anime({ shortName }) {
             </div>
             <div className={styles.infoRow}>
               <p>Жанр</p>
-              <span>{genres[0]}</span>
+              <span>
+                {genres.map((genre, index) => index === genres.length - 1 ? genre : `${genre}, `)}
+              </span>
             </div>
             <div className={styles.infoRow}>
               <p>Первоисточник</p>
@@ -69,7 +72,9 @@ export default function Anime({ shortName }) {
             </div>
             <div className={styles.infoRow}>
               <p>Выпуск</p>
-              <span>с {releaseFrom.slice(0, 4)} по {releaseBy.slice(0, 4)}</span>
+              <span>
+                с января {releaseFrom.slice(0, 4)} по февраль {releaseBy.slice(0, 4)}
+              </span>
             </div>
             <div className={styles.infoRow}>
               <p>Возрастные ограничения</p>

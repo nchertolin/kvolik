@@ -54,11 +54,13 @@
 }
 
 .editList {
+  width: 300px;
   display: flex;
   flex-direction: column;
   row-gap: 15px;
+  margin-bottom: 15px;
 
-  li {
+  label {
     h3 {
       opacity: 1;
       font-size: 18px;
@@ -71,4 +73,31 @@
       padding-left: 15px;
     }
   }
+}
+
+.submit {
+  height: 40px;
+
+  &:disabled {
+    background-color: #676666;
+
+    &:hover {
+      cursor: auto;
+      opacity: 1;
+    }
+  }
+}
+
+.invalid {
+  border: 1px solid red;
+}
+
+.error {
+  color: red;
+}
+
+.errorSubmit {
+  display: none;
+  width: 100%;
+  color: red;
 }

@@ -18,7 +18,7 @@ export default function AnimesList({ title, isSoon }) {
       .then(data => setAnimes(data))
       .catch(() => setAnimes(testAnimes))
       .finally(() => setLoading(false))
-  }, []);
+  }, [isSoon]);
 
   return (
     <div className='content'>
@@ -37,9 +37,9 @@ export default function AnimesList({ title, isSoon }) {
           </div>
           <ul className={styles.ul}>
             {
-              animes.map(({ name, nameEng, type, releaseFrom, episodesAmount, shortName, imageUrl }) =>
+              animes.map(({ name, nameEng, type, releaseFrom, episodesAmount, shortName, imageUrl, averageRating }) =>
                 <li key={v4()}><Card name={name} nameEng={nameEng} shortName={shortName} picture={imageUrl}
-                  type={type} releaseFrom={releaseFrom} episodesAmount={episodesAmount} /></li>)
+                  type={type} releaseFrom={releaseFrom} episodesAmount={episodesAmount} averageRating={averageRating} /></li>)
             }
           </ul>
         </>}

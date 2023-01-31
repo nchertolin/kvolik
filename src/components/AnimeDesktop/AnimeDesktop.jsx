@@ -19,7 +19,7 @@ export default function AnimeDesktop({ shortName }) {
   const isAuth = localStorage.getItem('token') !== null;
   const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
     ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl,
-    rating, reviews }, setAnime] = useState(testAnime);
+    averageRating, reviews }, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function AnimeDesktop({ shortName }) {
     fetch(`${URL}/api/anime/${shortName}`)
       .then(response => response.json())
       .then(data => setAnime(data))
-      .catch(() => setAnime(testAnime))
+      .catch((err) => console.log(err))
       .finally(() => setLoading(false))
   }, [shortName]);
   return (
@@ -39,7 +39,7 @@ export default function AnimeDesktop({ shortName }) {
               <div className={styles.pictureWrapper}>
                 <img className={styles.picture} src={imageUrl} alt="" />
                 <div className={styles.ratingWrapper}>
-                  <p>{rating}</p>
+                  <p>{averageRating}</p>
                 </div>
               </div>
               <a href='#watch'>Смотреть онлайн</a>
@@ -64,7 +64,9 @@ export default function AnimeDesktop({ shortName }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Жанр</p>
-                  <span>{genres[0]}</span>
+                  <span>
+                    {genres.map((genre, index) => index === genres.length - 1 ? genre : `${genre}, `)}
+                  </span>
                 </div>
                 <div className={styles.infoRow}>
                   <p>Первоисточник</p>
@@ -77,7 +79,7 @@ export default function AnimeDesktop({ shortName }) {
                 <div className={styles.infoRow}>
                   <p>Выпуск</p>
                   <span>
-                    с {releaseFrom.substring(0, 4)} по {releaseBy.substring(0, 4)}
+                    с января {releaseFrom.slice(0, 4)} по февраль {releaseBy.slice(0, 4)}
                   </span>
                 </div>
                 <div className={styles.infoRow}>

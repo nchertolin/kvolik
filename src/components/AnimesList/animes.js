@@ -8,7 +8,7 @@ export const testAnimes = [
     releaseFrom: "2023-01-24T18:25:18.684Z",
     imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/06/8p3HXHOQXjMpU9gAkZVAqozhDzQ.jpg",
     episodesAmount: 25,
-    rating: 0
+    averageRating: 2.5
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ export const testAnimes = [
     releaseFrom: "2023-01-24T18:25:18.684Z",
     imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/08/9bd0ddcb8f8445c80723b5e3c97c6c82.jpg",
     episodesAmount: 12,
-    rating: 0
+    averageRating: 9.7
   },
   {
     id: 3,
@@ -30,6 +30,6 @@ export const testAnimes = [
     releaseFrom: "2023-01-24T18:25:18.684Z",
     imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/05/Spy-x-family-1449x2048.jpg",
     episodesAmount: 12,
-    rating: 0
+    averageRating: 5.1
   }
 ]
