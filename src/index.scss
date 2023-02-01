@@ -234,3 +234,17 @@ input {
     opacity: 0.6;
   }
 }
+
+.error {
+  color: red;
+}
+
+.error-submit {
+  display: none;
+  width: 100%;
+  color: red;
+}
+
+.invalid {
+  border: 1px solid red;
+}

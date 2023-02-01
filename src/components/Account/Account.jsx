@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import styles from './Account.module.scss';
@@ -16,16 +17,21 @@ export default function Account({ user, setUser }) {
   }
 
   return (
-    !user.name ? <ErrorPage />
-      : <div className={styles.wrapper}>
-        <div className={styles.userInfo}>
-          <img src={user.avatarImageUrl} alt="" />
-          <h2>{user.name}</h2>
-        </div>
-        <div className={styles.buttons}>
-          <Link to='edit' className={`primary-button ${styles.edit}`}>Редактировать</Link>
-          <button to='/' className={styles.logout} onClick={logoutUser}>Выйти</button>
-        </div>
-      </div >
+    <>
+      <Helmet>
+        <title>{user.name}</title>
+      </Helmet>
+      {!user.name ? <ErrorPage />
+        : <div className={styles.wrapper}>
+          <div className={styles.userInfo}>
+            <img src={user.avatarImageUrl} alt="" />
+            <h2>{user.name}</h2>
+          </div>
+          <div className={styles.buttons}>
+            <Link to='edit' className={`primary-button ${styles.edit}`}>Редактировать</Link>
+            <button to='/' className={styles.logout} onClick={logoutUser}>Выйти</button>
+          </div>
+        </div >}
+    </>
   )
 }

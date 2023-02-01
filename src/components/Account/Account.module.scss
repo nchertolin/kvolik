@@ -1,5 +1,5 @@
 .wrapper {
-  margin: 100px auto;
+  margin: 80px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,6 +13,7 @@
     object-fit: cover;
     border-radius: 50%;
     margin-bottom: 20px;
+    border: 2px solid #FFE34F;
   }
 
 }
@@ -86,18 +87,4 @@
       opacity: 1;
     }
   }
-}
-
-.invalid {
-  border: 1px solid red;
-}
-
-.error {
-  color: red;
-}
-
-.errorSubmit {
-  display: none;
-  width: 100%;
-  color: red;
 }

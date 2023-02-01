@@ -8,6 +8,7 @@ import { testAnime } from '../AnimeDesktop/anime.js';
 import Loading from '../Loading/Loading';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default function Anime({ shortName }) {
   const isAuth = localStorage.getItem('token') !== null;
@@ -28,6 +29,9 @@ export default function Anime({ shortName }) {
   return (
     isLoading ? <Loading /> :
       <>
+        <Helmet>
+          <title>{name}</title>
+        </Helmet>
         <div className='content'>
           <h1 className={styles.title}>{name}</h1>
           <h2 className={styles.second}>{nameEng}</h2>
