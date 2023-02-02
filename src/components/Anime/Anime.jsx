@@ -9,14 +9,44 @@ import Loading from '../Loading/Loading';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { URL } from '../../App';
+import star from '../../assets/icons/star.svg';
+import starFill from '../../assets/icons/star-fill.svg';
 
 export default function Anime({ shortName }) {
   const isAuth = localStorage.getItem('token') !== null;
   const ratingRef = useRef();
+  const favoriteRef = useRef();
   const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
     ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl,
     averageRating, reviews }, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
+  const [isFavorite, setFavorite] = useState();
+
+
+  function disableButton(isDisable) {
+    ratingRef.current.disabled = isDisable;
+  }
+
+  function addToFavorite() {
+    disableButton(true);
+    fetch(`${URL}/api/favorites/${shortName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then(() => setFavorite(!isFavorite))
+      .catch((err) => console.log(err.message))
+      .finally(() => disableButton(false));
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -25,7 +55,8 @@ export default function Anime({ shortName }) {
       .then(data => setAnime(data))
       .catch((err) => console.log(err.message))
       .finally(() => setLoading(false))
-  }, [shortName]);
+  }, [shortName, isFavorite]);
+
   return (
     isLoading ? <Loading /> :
       <>
@@ -37,8 +68,12 @@ export default function Anime({ shortName }) {
           <h2 className={styles.second}>{nameEng}</h2>
           <div className={styles.pictureWrapper}>
             <img className={styles.picture} src={imageUrl} alt="" />
-            <div className={styles.ratingWrapper}>
+            <div className={styles.absolute}>
               <p>{averageRating}</p>
+              <button className={styles.favorite} ref={favoriteRef}
+                onClick={addToFavorite}>
+                <img src={isFavorite ? starFill : star} alt="В избранное" />
+              </button>
             </div>
           </div>
           <div className={styles.buttons}>

@@ -39,23 +39,29 @@
   position: relative;
 }
 
-.ratingWrapper {
+.absolute {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: absolute;
   top: 5%;
-  left: 0;
-  width: 20%;
-
-  @media (max-width: 480px) {
-    width: 30%;
-  }
-
-  background-color: #FFE34F;
-  display: flex;
-  justify-content: center;
+  left: 5%;
+  height: 6%;
 
   p {
-    font-size: 16px;
     font-weight: bold;
-    color: black;
+    font-size: 22px;
+  }
+
+  .favorite {
+    background-color: transparent;
+    width: auto;
+    padding: 0;
+
+    img {
+      height: 30px;
+      width: auto;
+    }
   }
 }

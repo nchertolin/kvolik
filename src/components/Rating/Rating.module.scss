@@ -14,12 +14,7 @@
 }
 
 .wrapper {
-  width: 50vw;
-
-  @media (min-width: 991px) {
-    width: 40vw;
-  }
-
+  width: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,13 +33,9 @@
       background-color: #FFE34F;
       color: black;
       width: 100%;
-      height: 4vh;
+      height: 40px;
       border-radius: 5px;
       font-weight: 500;
-
-      @media (min-width: 991px) {
-        height: 40px;
-      }
 
       &:disabled {
         background-color: #676666;
@@ -73,14 +64,10 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  column-gap: 4vw;
+  column-gap: 10px;
 
-  @media (min-width: 768px) {
-    column-gap: 10px;
-  }
-
-  @media (min-width: 991px) {
-    column-gap: 10px;
+  img {
+    width: 30px;
   }
 }
 

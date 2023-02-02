@@ -76,18 +76,17 @@
 
 .infoRow {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
+  max-width: 70%;
 
   p {
     opacity: .6;
-    max-width: 40%;
+    width: 40%;
     font-weight: 500;
   }
 
   span {
-    max-width: 40%;
-    text-align: right;
+    width: 40%;
+    text-align: left;
   }
 }
 
@@ -197,22 +196,32 @@
 }
 
 .pictureWrapper {
+  width: 100%;
   position: relative;
 }
 
-.ratingWrapper {
+.absolute {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: absolute;
   top: 5%;
-  left: 0;
-  background-color: #FFE34F;
-  width: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  left: 5%;
+  height: 6%;
 
   p {
-    font-size: 18px;
     font-weight: bold;
-    color: black;
+    font-size: 22px;
+  }
+
+  .favorite {
+    background-color: transparent;
+    width: auto;
+    padding: 0;
+
+    img {
+      height: 30px;
+    }
   }
 }

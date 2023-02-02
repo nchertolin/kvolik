@@ -9,6 +9,8 @@ import { URL } from '../../App';
 import { testAnime } from './anime.js';
 import Loading from '../Loading/Loading';
 import { Link } from 'react-router-dom';
+import star from '../../assets/icons/star.svg';
+import starFill from '../../assets/icons/star-fill.svg';
 
 export function showRating(ref, isOpen) {
   ref.current.style.opacity = isOpen ? 1 : 0;
@@ -17,20 +19,51 @@ export function showRating(ref, isOpen) {
 
 export default function AnimeDesktop({ shortName }) {
   const ratingRef = useRef();
+  const favoriteRef = useRef();
   const isAuth = localStorage.getItem('token') !== null;
-  const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
+  const [{ id, name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
     ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl,
     averageRating, reviews }, setAnime] = useState(testAnime);
+  const [isFavorite, setFavorite] = useState();
   const [isLoading, setLoading] = useState();
+
+  function disableButton(isDisable) {
+    ratingRef.current.disabled = isDisable;
+  }
+
+  function addToFavorite() {
+    disableButton(true);
+    fetch(`${URL}/api/favorites/${shortName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then(() => setFavorite(!isFavorite))
+      .catch((err) => console.log(err.message))
+      .finally(() => disableButton(false));
+  }
+
 
   useEffect(() => {
     setLoading(true);
     fetch(`${URL}/api/anime/${shortName}`)
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
       .then(data => setAnime(data))
       .catch((err) => console.log(err.message))
       .finally(() => setLoading(false));
-  }, [shortName]);
+  }, [shortName, isFavorite]);
   return (
     <>
       <Helmet>
@@ -43,8 +76,12 @@ export default function AnimeDesktop({ shortName }) {
               <div className={styles.buttons}>
                 <div className={styles.pictureWrapper}>
                   <img className={styles.picture} src={imageUrl} alt="" />
-                  <div className={styles.ratingWrapper}>
+                  <div className={styles.absolute}>
                     <p>{averageRating}</p>
+                    <button className={styles.favorite} ref={favoriteRef}
+                      onClick={addToFavorite}>
+                      <img src={isFavorite ? starFill : star} alt="В избранное" />
+                    </button>
                   </div>
                 </div>
                 <a href='#watch'>Смотреть онлайн</a>

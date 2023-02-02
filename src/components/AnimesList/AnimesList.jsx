@@ -9,7 +9,7 @@ import { testAnimes } from './animes.js';
 import { URL } from '../../App';
 
 
-export default function AnimesList({ title, isSoon }) {
+export default function AnimesList({ title, isSoon, isFavorites }) {
   const [animes, setAnimes] = useState([]);
   const [isLoading, setLoading] = useState();
   useEffect(() => {
@@ -30,16 +30,17 @@ export default function AnimesList({ title, isSoon }) {
         {isLoading ? <Loading /> :
           <>
             <h1>{title}</h1>
-            <div className={styles.buttonsWrapper}>
-              <div className='buttons'>
-                <button>Фильтр</button>
-                <button className='primary-button'>Дате добавления</button>
-              </div>
-              <div className={styles.searchWrapper}>
-                <input className={styles.search} type="text" placeholder='Поиск аниме' />
-                <img src={search} alt="" />
-              </div>
-            </div>
+            {!isSoon && !isFavorites &&
+              <div className={styles.buttonsWrapper}>
+                <div className='buttons'>
+                  <button>Фильтр</button>
+                  <button className='primary-button'>Дате добавления</button>
+                </div>
+                <div className={styles.searchWrapper}>
+                  <input className={styles.search} type="text" placeholder='Поиск аниме' />
+                  <img src={search} alt="" />
+                </div>
+              </div>}
             <ul className={styles.ul}>
               {
                 animes.map(({ name, nameEng, type, releaseFrom, episodesAmount, shortName, imageUrl, averageRating }) =>

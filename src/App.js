@@ -78,13 +78,9 @@ function App() {
 
               {names.map(shortName => <Route key={v4()} path={`${shortName}`}
                 element={
-                  isMobile
-                    ? <Suspense fallback={<Loading />}>
-                      <Anime shortName={shortName} />
-                    </Suspense>
-                    : <Suspense fallback={<Loading />}>
-                      <AnimeDesktop shortName={shortName} />
-                    </Suspense>
+                  <Suspense fallback={<Loading />}>
+                    {isMobile ? <Anime shortName={shortName} /> : <AnimeDesktop shortName={shortName} />}
+                  </Suspense>
                 } />)}
 
               <Route path='soon' element={
@@ -110,7 +106,13 @@ function App() {
                   <Edit user={user} />
                 </Suspense>
               } />
-              {/* <Route path='favorites' element={<Edit user={user} />} /> */}
+
+              <Route path='favorites' element={
+                <Suspense fallback={<Loading />}>
+                  <AnimesList title='Избранное' isSoon={true} />
+                </Suspense>
+              } />
+
               <Route path='*' element={
                 <Suspense fallback={<Loading />}>
                   <ErrorPage />

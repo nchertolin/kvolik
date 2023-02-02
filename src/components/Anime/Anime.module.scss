@@ -170,22 +170,8 @@
 }
 
 .pictureWrapper {
+  width: 100%;
   position: relative;
-}
-
-.ratingWrapper {
-  position: absolute;
-  top: 5%;
-  left: 0;
-  width: 20%;
-  background-color: #FFE34F;
-  display: flex;
-  justify-content: center;
-
-  p {
-    font-weight: bold;
-    color: black;
-  }
 }
 
 .more {
@@ -195,5 +181,31 @@
 
   button {
     height: 40px;
+  }
+}
+
+.absolute {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  height: 6%;
+
+  p {
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+  .favorite {
+    background-color: transparent;
+    width: auto;
+    padding: 0;
+
+    img {
+      height: 30px;
+    }
   }
 }
