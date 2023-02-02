@@ -17,9 +17,7 @@ export default function Anime({ shortName }) {
   const isAuth = localStorage.getItem('token') !== null;
   const ratingRef = useRef();
   const favoriteRef = useRef();
-  const [{ name, nameEng, type, episodesAmount, genres, primarySource, releaseFrom, releaseBy,
-    ageLimit, duration, description, exitStatus, frames, imageUrl, trailerUrl,
-    averageRating, reviews }, setAnime] = useState(testAnime);
+  const [anime, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
   const [isFavorite, setFavorite] = useState();
 
@@ -61,15 +59,15 @@ export default function Anime({ shortName }) {
     isLoading ? <Loading /> :
       <>
         <Helmet>
-          <title>{name}</title>
+          <title>{anime.name}</title>
         </Helmet>
         <div className='content'>
-          <h1 className={styles.title}>{name}</h1>
-          <h2 className={styles.second}>{nameEng}</h2>
+          <h1 className={styles.title}>{anime.name}</h1>
+          <h2 className={styles.second}>{anime.nameEng}</h2>
           <div className={styles.pictureWrapper}>
-            <img className={styles.picture} src={imageUrl} alt="" />
+            <img className={styles.picture} src={anime.imageUrl} alt="" />
             <div className={styles.absolute}>
-              <p>{averageRating}</p>
+              <p>{anime.averageRating}</p>
               <button className={styles.favorite} ref={favoriteRef}
                 onClick={addToFavorite}>
                 <img src={isFavorite ? starFill : star} alt="В избранное" />
@@ -85,54 +83,54 @@ export default function Anime({ shortName }) {
           <div className={styles.info}>
             <div className={styles.infoRow}>
               <p>Тип</p>
-              <span>{type}</span>
+              <span>{anime.type}</span>
             </div>
             <div className={styles.infoRow}>
               <p>Эпизоды</p>
-              <span>{episodesAmount}</span>
+              <span>{anime.episodesAmount}</span>
             </div>
             <div className={styles.infoRow}>
               <p>Статус</p>
-              <span>{exitStatus}</span>
+              <span>{anime.exitStatus}</span>
             </div>
             <div className={styles.infoRow}>
               <p>Жанр</p>
               <span>
-                {genres.map((genre, index) => index === genres.length - 1 ? genre : `${genre}, `)}
+                {anime.genres.map((genre, index) => index === anime.genres.length - 1 ? genre : `${genre}, `)}
               </span>
             </div>
             <div className={styles.infoRow}>
               <p>Первоисточник</p>
-              <span>{primarySource}</span>
+              <span>{anime.primarySource}</span>
             </div>
             <div className={styles.infoRow}>
               <p>Сезон</p>
-              <span>{releaseFrom.slice(0, 4)}</span>
+              <span>{anime.releaseFrom.slice(0, 4)}</span>
             </div>
             <div className={styles.infoRow}>
               <p>Выпуск</p>
               <span>
-                с января {releaseFrom.slice(0, 4)} по февраль {releaseBy.slice(0, 4)}
+                с января {anime.releaseFrom.slice(0, 4)} по февраль {anime.releaseBy.slice(0, 4)}
               </span>
             </div>
             <div className={styles.infoRow}>
               <p>Возрастные ограничения</p>
-              <span>{ageLimit}</span>
+              <span>{anime.ageLimit}</span>
             </div>
             <div className={styles.infoRow}>
               <p>Длительность</p>
-              <span>{duration} мин</span>
+              <span>{anime.duration} мин</span>
             </div>
           </div>
-          <p className={styles.description}>{description}</p>
+          <p className={styles.description}>{anime.description}</p>
           <div className={styles.extra}>
             <h2 className={styles.head}>Кадры из аниме</h2>
             <div style={{ marginBottom: '5vh' }}>
-              <Slider pictures={frames} />
+              <Slider pictures={anime.frames} />
             </div>
             <h2 className={styles.head}>Трейлер аниме</h2>
-            <iframe id='watch' title='Trailer' src={trailerUrl}></iframe>
-            <h2 className={styles.head}>Смотреть аниме {name}</h2>
+            <iframe id='watch' title='Trailer' src={anime.trailerUrl}></iframe>
+            <h2 className={styles.head}>Смотреть аниме {anime.name}</h2>
             <iframe title='Anime' src="//aniqit.com/serial/44055/59f71c4fb69d61db71942f5e8d608042/720p"
               allowFullScreen allow="autoplay *; fullscreen *"></iframe>
           </div>
@@ -140,7 +138,7 @@ export default function Anime({ shortName }) {
           <div className={styles.comments}>
             <h3>Комментарии</h3>
             <ul className={styles.userComments}>
-              {reviews.map(({ name, reviewText, likes, avatarImageUrl }) => <Comment key={v4()} name={name}
+              {anime.reviews.map(({ name, reviewText, likes, avatarImageUrl }) => <Comment key={v4()} name={name}
                 reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl} />)}
               <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
             </ul>

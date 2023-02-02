@@ -8,7 +8,7 @@ import { URL } from '../../App';
 import { useRef } from 'react';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 
-export default function Rating({ reference, id }) {
+export default function Rating({ reference, id, rating, setRating }) {
   const [isSubmited, setSubmited] = useState();
   const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const submit = useRef();
@@ -40,11 +40,17 @@ export default function Rating({ reference, id }) {
   function rate() {
     disableButton(true);
     const grade = score.filter(rate => rate === 1).length;
-    fetch(`${URL}/api/anime/${id}/rating`, {
-      method: 'POST', body: JSON.stringify({ grade: grade })
+    fetch(`${URL}/api/anime/${id}/rating?grade=${grade}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
     })
       .then(response => {
         if (response.ok) {
+          setRating(!rating);
           showRating(reference, false);
         } else throw new Error();
       })
