@@ -16,23 +16,19 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
   const [isEmpty, setEmpty] = useState();
 
   function searchAnimes(query) {
-    if (query.length > 2) {
-      setLoading(true);
-      fetch(`${URL}/api/anime${isSoon ? '/soon' : ''}?search=${query}`)
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else return response.json().then(text => { throw new Error(text.message) })
-        })
-        .then(data => {
-          if (data.length > 0) {
-            setEmpty(false);
-            setAnimes(data);
-          } else setEmpty(true);
-        })
-        .catch((err) => console.log(err.message))
-        .finally(() => setLoading(false))
-    }
+    setLoading(true);
+    fetch(`${URL}/api/anime${isSoon ? '/soon' : ''}?search=${query}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then(data => {
+        setEmpty(data.length === 0);
+        setAnimes(data);
+      })
+      .catch((err) => console.log(err.message))
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => {

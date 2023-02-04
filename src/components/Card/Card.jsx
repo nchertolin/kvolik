@@ -9,7 +9,7 @@ export default function Card({ name, shortName, picture, nameEng, type, releaseF
         <div className={styles.pictureWrapper}>
           <img className={styles.picture} src={picture} alt="" />
           <div className={styles.absolute}>
-            <p>{averageRating}</p>
+            <p>{+averageRating.toFixed(2)}</p>
           </div>
         </div>
         <h3>{nameEng}</h3>

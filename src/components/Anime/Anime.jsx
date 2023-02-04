@@ -26,7 +26,7 @@ export default function Anime({ shortName }) {
     ratingRef.current.disabled = isDisable;
   }
 
-  function checkFavorite() {
+  function checkFavorite(animeId) {
     fetch(`${URL}/api/favorites`, {
       headers: {
         'Content-Type': 'application/json',
@@ -39,13 +39,13 @@ export default function Anime({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then((animes) => setFavorite(animes.some(({ id }) => id === anime.id)))
+      .then((animes) => setFavorite(animes.some(({ id }) => id === animeId)))
   }
 
   function addToFavorite() {
     disableButton(true);
     fetch(`${URL}/api/favorites/${shortName}`, {
-      method: 'POST',
+      method: isFavorite ? 'DELETE' : 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -57,16 +57,22 @@ export default function Anime({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(checkFavorite)
       .catch((err) => console.log(err.message))
-      .finally(() => disableButton(false));
+      .finally(() => {
+        checkFavorite(anime.id);
+        disableButton(false);
+      });
   }
 
   useEffect(() => {
     setLoading(true);
     fetch(`${URL}/api/anime/${shortName}`)
       .then(response => response.json())
-      .then(data => setAnime(data))
+      .then(data => {
+        setAnime(data);
+        return data.id;
+      })
+      .then(id => checkFavorite(id))
       .catch((err) => console.log(err.message))
       .finally(() => setLoading(false))
   }, [shortName, rating]);

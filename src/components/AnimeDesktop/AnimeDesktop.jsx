@@ -29,7 +29,7 @@ export default function AnimeDesktop({ shortName }) {
     ratingRef.current.disabled = isDisable;
   }
 
-  function checkFavorite() {
+  function checkFavorite(animeId) {
     fetch(`${URL}/api/favorites`, {
       headers: {
         'Content-Type': 'application/json',
@@ -42,13 +42,13 @@ export default function AnimeDesktop({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then((animes) => setFavorite(animes.some(({ id }) => id === anime.id)))
+      .then((animes) => setFavorite(animes.some(({ id }) => id === animeId)))
   }
 
   function addToFavorite() {
     disableFavoriteButton(true);
-    fetch(`${URL}/api/favorites/${shortName}`, {
-      method: 'POST',
+    fetch(`${URL}/api/favorites/${anime.id}`, {
+      method: isFavorite ? 'DELETE' : 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -60,9 +60,11 @@ export default function AnimeDesktop({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(checkFavorite)
       .catch((err) => console.log(err.message))
-      .finally(() => disableFavoriteButton(false));
+      .finally(() => {
+        checkFavorite(anime.id);
+        disableFavoriteButton(false);
+      });
   }
 
   useEffect(() => {
@@ -73,10 +75,15 @@ export default function AnimeDesktop({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(data => setAnime(data))
+      .then(data => {
+        setAnime(data);
+        return data.id;
+      })
+      .then(id => checkFavorite(id))
       .catch((err) => console.log(err.message))
       .finally(() => setLoading(false));
   }, [shortName, rating]);
+
 
   return (
     <>
