@@ -5,13 +5,11 @@
   gap: 5vw;
   margin: 7.5vw 0;
 
-  @media (min-width: 991px) {
+  @media (min-width: 768px) {
     grid-template-columns: repeat(4, 20vw);
     gap: 1.66vw;
     margin: 50px 0;
   }
-
-  @media (min-width: 768px) {}
 
 }
 
@@ -23,10 +21,7 @@
 }
 
 .searchWrapper {
-  @media (max-width: 990px) {
-    display: none;
-  }
-
+  width: 23.5%;
   display: flex;
   align-items: center;
   position: relative;
@@ -39,7 +34,7 @@
 }
 
 .search {
-  width: 20vw;
+  width: 100%;
   max-width: 400px;
   padding: 0 20px 0 35px;
   height: 100%;

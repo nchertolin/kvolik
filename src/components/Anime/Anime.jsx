@@ -9,21 +9,37 @@ import Loading from '../Loading/Loading';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { URL } from '../../App';
+import { isAuth, URL } from '../../App';
 import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 
 export default function Anime({ shortName }) {
-  const isAuth = localStorage.getItem('token') !== null;
   const ratingRef = useRef();
   const favoriteRef = useRef();
   const [anime, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
   const [isFavorite, setFavorite] = useState();
+  const [rating, setRating] = useState(false);
 
 
   function disableButton(isDisable) {
     ratingRef.current.disabled = isDisable;
+  }
+
+  function checkFavorite() {
+    fetch(`${URL}/api/favorites`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then((animes) => setFavorite(animes.some(({ id }) => id === anime.id)))
   }
 
   function addToFavorite() {
@@ -41,7 +57,7 @@ export default function Anime({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => setFavorite(!isFavorite))
+      .then(checkFavorite)
       .catch((err) => console.log(err.message))
       .finally(() => disableButton(false));
   }
@@ -53,7 +69,7 @@ export default function Anime({ shortName }) {
       .then(data => setAnime(data))
       .catch((err) => console.log(err.message))
       .finally(() => setLoading(false))
-  }, [shortName, isFavorite]);
+  }, [shortName, rating]);
 
   return (
     isLoading ? <Loading /> :
@@ -67,11 +83,12 @@ export default function Anime({ shortName }) {
           <div className={styles.pictureWrapper}>
             <img className={styles.picture} src={anime.imageUrl} alt="" />
             <div className={styles.absolute}>
-              <p>{anime.averageRating}</p>
-              <button className={styles.favorite} ref={favoriteRef}
-                onClick={addToFavorite}>
-                <img src={isFavorite ? starFill : star} alt="В избранное" />
-              </button>
+              <p>{+anime.averageRating.toFixed(2)}</p>
+              {isAuth &&
+                <button className={styles.favorite} ref={favoriteRef}
+                  onClick={addToFavorite}>
+                  <img src={isFavorite ? starFill : star} alt="В избранное" />
+                </button>}
             </div>
           </div>
           <div className={styles.buttons}>
@@ -153,7 +170,7 @@ export default function Anime({ shortName }) {
               : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
           </div>
         </div>
-        <Rating reference={ratingRef} shortName={shortName} />
+        <Rating reference={ratingRef} shortName={shortName} rating={rating} setRating={setRating} />
       </>
   )
 }

@@ -7,19 +7,52 @@ import search from '../../assets/icons/search.svg';
 import Loading from '../Loading/Loading';
 import { testAnimes } from './animes.js';
 import { URL } from '../../App';
+import { isMobile } from 'react-device-detect';
 
 
 export default function AnimesList({ title, isSoon, isFavorites }) {
   const [animes, setAnimes] = useState([]);
   const [isLoading, setLoading] = useState();
+  const [isEmpty, setEmpty] = useState();
+
+  function searchAnimes(query) {
+    if (query.length > 2) {
+      setLoading(true);
+      fetch(`${URL}/api/anime${isSoon ? '/soon' : ''}?search=${query}`)
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else return response.json().then(text => { throw new Error(text.message) })
+        })
+        .then(data => {
+          if (data.length > 0) {
+            setEmpty(false);
+            setAnimes(data);
+          } else setEmpty(true);
+        })
+        .catch((err) => console.log(err.message))
+        .finally(() => setLoading(false))
+    }
+  }
+
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/anime${isSoon ? '/soon' : ''}`)
-      .then(response => response.json())
+    fetch(`${URL}/api/${isFavorites ? 'favorites' : `anime${isSoon ? '/soon' : ''}`}`, {
+      headers: isFavorites ? {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      } : {}
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
       .then(data => setAnimes(data))
       .catch(() => setAnimes(testAnimes))
       .finally(() => setLoading(false))
-  }, [isSoon]);
+  }, [isSoon, isFavorites]);
 
   return (
     <>
@@ -27,28 +60,28 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
         <title>{title}</title>
       </Helmet>
       <div className='content'>
-        {isLoading ? <Loading /> :
-          <>
-            <h1>{title}</h1>
-            {!isSoon && !isFavorites &&
-              <div className={styles.buttonsWrapper}>
-                <div className='buttons'>
-                  <button>Фильтр</button>
-                  <button className='primary-button'>Дате добавления</button>
-                </div>
-                <div className={styles.searchWrapper}>
-                  <input className={styles.search} type="text" placeholder='Поиск аниме' />
-                  <img src={search} alt="" />
-                </div>
-              </div>}
-            <ul className={styles.ul}>
-              {
-                animes.map(({ name, nameEng, type, releaseFrom, episodesAmount, shortName, imageUrl, averageRating }) =>
-                  <li key={v4()}><Card name={name} nameEng={nameEng} shortName={shortName} picture={imageUrl}
-                    type={type} releaseFrom={releaseFrom} episodesAmount={episodesAmount} averageRating={averageRating} /></li>)
-              }
-            </ul>
-          </>}
+        <h1>{title}</h1>
+        {!isFavorites &&
+          <div className={styles.buttonsWrapper}>
+            <div className='buttons'>
+              <button>Фильтр</button>
+              <button className='primary-button'>Дате добавления</button>
+            </div>
+            {!isMobile && <div className={styles.searchWrapper} onChange={(evt) => searchAnimes(evt.target.value)}>
+              <input className={styles.search} type="text" placeholder='Поиск аниме' />
+              <img src={search} alt="" />
+            </div>}
+          </div>}
+        {isLoading
+          ? <Loading />
+          : <ul className={styles.ul}>
+            {animes.map(({ name, nameEng, type, releaseFrom, episodesAmount, shortName, imageUrl, averageRating }) =>
+              <li key={v4()}>
+                <Card name={name} nameEng={nameEng} shortName={shortName} picture={imageUrl} type={type}
+                  releaseFrom={releaseFrom} episodesAmount={episodesAmount} averageRating={averageRating} />
+              </li>)}
+          </ul>}
+        {isEmpty && <p>Не удалось найти аниме по вашему запросу.</p>}
       </div>
     </>
   )

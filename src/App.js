@@ -4,17 +4,6 @@ import { isMobile } from "react-device-detect";
 import { v4 } from "uuid";
 import Loading from "./components/Loading/Loading";
 import Layout from "./components/Layout";
-// import Anime from "./components/Anime/Anime.jsx";
-// import AnimeDesktop from "./components/AnimeDesktop/AnimeDesktop";
-// import AnimesList from "./components/AnimesList/AnimesList";
-// import Contacts from "./components/Contacts/Contacts";
-// import Login from "./components/Login/Login";
-// import SignUp from "./components/SignUp/SignUp";
-// import Account from "./components/Account/Account";
-// import Edit from "./components/Account/Edit";
-// import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
-
-
 const Anime = lazy(() => import('./components/Anime/Anime.jsx'));
 const AnimeDesktop = lazy(() => import('./components/AnimeDesktop/AnimeDesktop'));
 const AnimesList = lazy(() => import('./components/AnimesList/AnimesList'));
@@ -24,14 +13,14 @@ const SignUp = lazy(() => import('./components/SignUp/SignUp'));
 const Account = lazy(() => import('./components/Account/Account'));
 const Edit = lazy(() => import('./components/Account/Edit'));
 const ErrorPage = lazy(() => import('./components/ErrorPage/ErrorPage'));
-
-
+export const isAuth = localStorage.getItem('token') !== null;
 export const URL = 'https://localhost:44349';
-const testUser = {
-  name: 'Канеки Кен',
-  username: 'kanekiken',
-  avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg'
-};
+
+// const testUser = {
+//   name: 'Канеки Кен',
+//   username: 'kanekiken',
+//   avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg'
+// };
 
 function App() {
   const [user, setUser] = useState({});
@@ -45,11 +34,13 @@ function App() {
       .catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
       .finally(() => setLoading(false));
 
-    fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
-      .then(response => response.json())
-      .then(data => setUser(data))
-      .catch(() => setUser(testUser))
-      .finally(() => setLoading(false));
+    if (localStorage.getItem('token')) {
+      fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+        .then(response => response.json())
+        .then(data => setUser(data))
+        .catch((err) => console.log(err.message))
+        .finally(() => setLoading(false));
+    }
   }, []);
 
   return (
@@ -109,7 +100,7 @@ function App() {
 
               <Route path='favorites' element={
                 <Suspense fallback={<Loading />}>
-                  <AnimesList title='Избранное' isSoon={true} />
+                  {isAuth ? <AnimesList title='Избранное' isFavorites={true} /> : <ErrorPage />}
                 </Suspense>
               } />
 

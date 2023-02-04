@@ -18,6 +18,10 @@ body {
   background-color: $bg-color;
   color: $light-color;
   overflow-x: hidden;
+
+  &.fixed {
+    position: fixed;
+  }
 }
 
 * {
@@ -149,39 +153,50 @@ button {
 
 .search {
   display: flex;
-  justify-content: center;
-  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: 0;
   top: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background-color: $light-bg-color;
   transition: all .3s ease;
+  z-index: 100;
 
   .search__wrapper {
     width: 85%;
-    margin-top: 3vh;
+    margin: 30px 0;
 
     .input__wrapper {
       display: flex;
+      align-items: center;
       position: relative;
       width: 100%;
 
       input {
         width: 100%;
-        height: 6vh;
-        padding-left: 4vw;
-        padding-right: 10vw;
-        font-size: $h2-fz;
-      }
+        height: 40px;
+        padding-left: 15px;
+        padding-right: 40px;
+        font-size: 16px;
 
-      img {
-        width: 3vh;
+        &:focus {
+          font-size: 16px;
+        }
       }
 
       button {
         position: absolute;
-        top: 1.5vh;
-        right: 2.5vw;
+        right: 10px;
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        color: white
+      }
+
+      img {
+        width: 25px;
       }
     }
   }

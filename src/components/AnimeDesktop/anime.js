@@ -19,8 +19,8 @@ export const testAnime = {
     "http://kvolikdub.ru/wp-content/uploads/2022/07/5a736eff9ccce.jpg"
   ],
   imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/06/8p3HXHOQXjMpU9gAkZVAqozhDzQ.jpg",
-  trailerUrl: "https://www.youtube.com/embed/v-AGjx0N24U",
-  averageRating: 9.9,
+  trailerUrl: "https://www.youtube-nocookie.com/embed/v-AGjx0N24U",
+  averageRating: 9.35,
   reviews: [
     {
       name: 'Наруто Узумаки',

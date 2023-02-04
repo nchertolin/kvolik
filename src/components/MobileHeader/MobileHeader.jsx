@@ -1,9 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, lazy, Suspense } from 'react';
 import menu from '../../assets/icons/menu.svg';
 import close from '../../assets/icons/close.svg';
 import search from '../../assets/icons/search.svg';
 import { NavLink } from 'react-router-dom';
 import styles from './MobileHeader.module.scss';
+import { isAuth } from '../../App';
+import Loading from '../Loading/Loading';
+
+const Search = lazy(() => import('../Search/Search'))
 
 export default function MobileHeader({ user }) {
 
@@ -14,37 +18,32 @@ export default function MobileHeader({ user }) {
 
   function showSearch() {
     searchModal.current.classList.toggle('hidden');
-  }
-
-  function clearSearchInput() {
-    searchInput.current.value = '';
+    document.body.classList.toggle('fixed')
   }
 
   const menuModal = useRef();
   const searchModal = useRef();
-  const searchInput = useRef();
   const [isMenuActive, setMenuActive] = useState();
   const setActiveLink = ({ isActive }) => isActive ? 'link active' : 'link';
 
   return (
     <header className={styles.header}>
-
       <div ref={menuModal} className="menu-modal hidden">
         <div className='menu-modal__wrapper'>
-          {user.name
+          {isAuth
             ?
             <NavLink className='user-wrapper' to='/account' onClick={showMenu}>
               <img className={styles.user} src={user.avatarImageUrl} alt={user.name} />
               <h2>{user.name}</h2>
             </NavLink>
             : <div className='user-wrapper'>
-              <img src={user} alt="" />
               <NavLink onClick={showMenu} className='primary-button' to='/login'>Войти</NavLink>
             </div>}
           <p>Навигация</p>
           <ul>
             <li><NavLink to='/' className={setActiveLink} onClick={showMenu}>Аниме</NavLink></li>
             <li><NavLink to='/soon' className={setActiveLink} onClick={showMenu}>Скоро</NavLink></li>
+            {isAuth && <li><NavLink to='/favorites' className={setActiveLink} onClick={showMenu}>Избранное</NavLink></li>}
             <li><NavLink to='/contacts' className={setActiveLink} onClick={showMenu}>Заказать озвучку</NavLink></li>
           </ul>
         </div>
@@ -55,25 +54,15 @@ export default function MobileHeader({ user }) {
           onClick={showMenu}>
           <img src={isMenuActive ? close : menu} alt="Меню" />
         </button>
-        <p>KVOLIK DUB</p>
+        <NavLink className={styles.logo} to='/'>KVOLIK DUB</NavLink>
         <button className={styles.button}
           onClick={showSearch}>
           <img src={search} alt="Поиск" />
         </button>
       </div>
-
-      <div ref={searchModal} className='search hidden'>
-        <div className='search__wrapper'>
-          <div className='input__wrapper'>
-            <input ref={searchInput} type="text" placeholder='Название аниме' />
-            <button className={styles.button}
-              onClick={() => {
-                showSearch();
-                clearSearchInput();
-              }}><img src={close} alt="X" /></button>
-          </div>
-        </div>
-      </div>
+      <Suspense fallback={<Loading />}>
+        <Search reference={searchModal} />
+      </Suspense>
     </header >
   )
 }

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styles from './Account.module.scss';
-import { URL } from '../../App.js'
+import { isAuth, URL } from '../../App.js'
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 
 export default function Edit({ user }) {
@@ -48,44 +49,45 @@ export default function Edit({ user }) {
   return (
     <>
       <Helmet>
-        <title>Редактировать профиля</title>
+        <title>{isAuth ? user.name : 'Редактировать профиля'}</title>
       </Helmet>
-      <div className={styles.wrapper}>
-        <img src={user.avatarImageUrl} alt="" />
-        <form autoComplete='off' className={styles.editList} onSubmit={handleSubmit(editUser)}>
-          <label>
-            <h3>Логин</h3>
-            <input type="text" className={errors?.username ? 'invalid' : ''} placeholder={user.username}
-              {...register('username', { required: 'Обязательноe поле.' })} />
-            {errors?.username && <p className='error'>{errors?.username.message}</p>}
-          </label>
-          <label>
-            <h3>Имя пользователя</h3>
-            <input type="text" className={errors?.name ? 'invalid' : ''} placeholder={user.name}
-              {...register('name', { required: 'Обязательноe поле.' })} />
-            {errors?.name && <p className='error'>{errors?.name.message}</p>}
-          </label>
-          <label>
-            <h3>Пароль</h3>
-            <input type="password" className={errors?.password ? styles.invalid : ''}
-              {...register('password', { required: 'Обязательноe поле.' })} />
-            {errors?.password && <p className='error'>{errors?.password.message}</p>}
-          </label>
-          <label>
-            <h3>Подтвердите пароль</h3>
-            <input type="password" className={errors?.cpassword ? styles.invalid : ''}
-              {...register('cpassword', {
-                required: 'Обязательноe поле.',
-                validate: (value) => {
-                  return watch('password') === value || "Пароли не совпадают.";
-                }
-              })} />
-            {errors?.cpassword && <p className='error'>{errors?.cpassword.message}</p>}
-          </label>
-          <button ref={submit} className={`${styles.submit} primary-button`}>Сохранить</button>
-          <p ref={error} className='error-submit'>Возникла ошибка при отправке, возможно такой логин занят.</p>
-        </form>
-      </div>
+      {!isAuth ? <ErrorPage />
+        : <div className={styles.wrapper}>
+          <img src={user.avatarImageUrl} alt="" />
+          <form autoComplete='off' className={styles.editList} onSubmit={handleSubmit(editUser)}>
+            <label>
+              <h3>Логин</h3>
+              <input type="text" className={errors?.username ? 'invalid' : ''} placeholder={user.username}
+                {...register('username', { required: 'Обязательноe поле.' })} />
+              {errors?.username && <p className='error'>{errors?.username.message}</p>}
+            </label>
+            <label>
+              <h3>Имя пользователя</h3>
+              <input type="text" className={errors?.name ? 'invalid' : ''} placeholder={user.name}
+                {...register('name', { required: 'Обязательноe поле.' })} />
+              {errors?.name && <p className='error'>{errors?.name.message}</p>}
+            </label>
+            <label>
+              <h3>Пароль</h3>
+              <input type="password" className={errors?.password ? styles.invalid : ''}
+                {...register('password', { required: 'Обязательноe поле.' })} />
+              {errors?.password && <p className='error'>{errors?.password.message}</p>}
+            </label>
+            <label>
+              <h3>Подтвердите пароль</h3>
+              <input type="password" className={errors?.cpassword ? styles.invalid : ''}
+                {...register('cpassword', {
+                  required: 'Обязательноe поле.',
+                  validate: (value) => {
+                    return watch('password') === value || "Пароли не совпадают.";
+                  }
+                })} />
+              {errors?.cpassword && <p className='error'>{errors?.cpassword.message}</p>}
+            </label>
+            <button ref={submit} className={`${styles.submit} primary-button`}>Сохранить</button>
+            <p ref={error} className='error-submit'>Возникла ошибка при отправке, возможно такой логин занят.</p>
+          </form>
+        </div>}
     </>
   )
 }

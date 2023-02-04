@@ -5,7 +5,7 @@ import Comment from '../Comment/Comment';
 import Rating from '../Rating/Rating';
 import Slider from '../Slider/Slider';
 import styles from './AnimeDesktop.module.scss';
-import { URL } from '../../App';
+import { isAuth, URL } from '../../App';
 import { testAnime } from './anime.js';
 import Loading from '../Loading/Loading';
 import { Link } from 'react-router-dom';
@@ -20,18 +20,33 @@ export function showRating(ref, isOpen) {
 export default function AnimeDesktop({ shortName }) {
   const ratingRef = useRef();
   const favoriteRef = useRef();
-  const isAuth = localStorage.getItem('token') !== null;
   const [anime, setAnime] = useState(testAnime);
   const [isFavorite, setFavorite] = useState();
   const [isLoading, setLoading] = useState();
   const [rating, setRating] = useState(false);
 
-  function disableButton(isDisable) {
+  function disableFavoriteButton(isDisable) {
     ratingRef.current.disabled = isDisable;
   }
 
+  function checkFavorite() {
+    fetch(`${URL}/api/favorites`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then((animes) => setFavorite(animes.some(({ id }) => id === anime.id)))
+  }
+
   function addToFavorite() {
-    disableButton(true);
+    disableFavoriteButton(true);
     fetch(`${URL}/api/favorites/${shortName}`, {
       method: 'POST',
       headers: {
@@ -45,11 +60,10 @@ export default function AnimeDesktop({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => setFavorite(!isFavorite))
+      .then(checkFavorite)
       .catch((err) => console.log(err.message))
-      .finally(() => disableButton(false));
+      .finally(() => disableFavoriteButton(false));
   }
-
 
   useEffect(() => {
     setLoading(true);
@@ -62,7 +76,8 @@ export default function AnimeDesktop({ shortName }) {
       .then(data => setAnime(data))
       .catch((err) => console.log(err.message))
       .finally(() => setLoading(false));
-  }, [shortName, isFavorite, rating]);
+  }, [shortName, rating]);
+
   return (
     <>
       <Helmet>
@@ -76,11 +91,12 @@ export default function AnimeDesktop({ shortName }) {
                 <div className={styles.pictureWrapper}>
                   <img className={styles.picture} src={anime.imageUrl} alt="" />
                   <div className={styles.absolute}>
-                    <p>{anime.averageRating}</p>
-                    <button className={styles.favorite} ref={favoriteRef}
-                      onClick={addToFavorite}>
-                      <img src={isFavorite ? starFill : star} alt="В избранное" />
-                    </button>
+                    <p>{+anime.averageRating.toFixed(2)}</p>
+                    {isAuth &&
+                      <button className={styles.favorite} ref={favoriteRef}
+                        onClick={addToFavorite}>
+                        <img src={isFavorite ? starFill : star} alt="В избранное" />
+                      </button>}
                   </div>
                 </div>
                 <a href='#watch'>Смотреть онлайн</a>
