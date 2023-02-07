@@ -28,7 +28,7 @@ export default function AnimeDesktop({ shortName, userEmail }) {
   const [isFavorite, setFavorite] = useState();
   const [isLoading, setLoading] = useState();
   const [rating, setRating] = useState(false);
-  const [reviews, setReviews] = useState(testAnime.reviews);
+  const [newReview, setNewReview] = useState(false);
 
   function sendReview({ message }) {
     disableReviewButton(true);
@@ -46,10 +46,11 @@ export default function AnimeDesktop({ shortName, userEmail }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(review => setReviews([...reviews, review]))
+      .then(() => setNewReview(!newReview))
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableReviewButton(false);
+        setNewReview(!newReview)
         reset();
       });
   }
@@ -118,13 +119,12 @@ export default function AnimeDesktop({ shortName, userEmail }) {
       })
       .then(data => {
         setAnime(data);
-        setReviews(data.reviews);
         return data.id;
       })
       .then(id => checkFavorite(id))
       .catch(err => console.log(err.message))
       .finally(() => setLoading(false));
-  }, [shortName, rating, reviews]);
+  }, [shortName, rating, newReview]);
 
 
   return (
@@ -220,9 +220,10 @@ export default function AnimeDesktop({ shortName, userEmail }) {
             <div className={styles.comments}>
               <h3>Комментарии</h3>
               <ul className={styles.userComments}>
-                {reviews.map(({ id, name, reviewText, likes, avatarImageUrl, publishTime, email }) =>
+                {anime.reviews.map(({ id, name, reviewText, likes, avatarImageUrl, publishTime, email }) =>
                   <Comment key={v4()} id={id} name={name} reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl}
-                    publishTime={publishTime} animeId={anime.id} isUser={email === userEmail} />)}
+                    publishTime={publishTime} animeId={anime.id} isUser={email === userEmail} setNewReview={setNewReview}
+                    newReview={newReview} />)}
                 <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
               </ul>
               {isAuth ?

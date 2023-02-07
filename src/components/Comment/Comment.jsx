@@ -1,30 +1,19 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './Comment.module.scss';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
 import { URL } from '../../App';
 
-export default function Comment({ id, name, reviewText, likes, avatarImageUrl, animeId, publishTime, isUser }) {
+export default function Comment({ id, name, reviewText, likes, avatarImageUrl, animeId, publishTime,
+  isUser, setNewReview, newReview }) {
+  const [isLiked, setLiked] = useState();
   const likeRef = useRef();
   const likesCount = useRef();
 
   const disableLikeButton = isDisable => likeRef.current.disabled = isDisable;
 
-  function fillHearth() {
-    disableLikeButton(true);
-    const isLiked = likeRef.current.classList.contains('liked');
-    if (isLiked) {
-      likeRef.current.src = like;
-      likesCount.current.textContent = Number(likesCount.current.textContent) - 1;
-    } else {
-      likeRef.current.src = liked;
-      likesCount.current.textContent = Number(likesCount.current.textContent) + 1;
-    }
-    likeRef.current.classList.toggle('liked');
-  }
-
   function likeIt() {
-    const isLiked = likeRef.current.classList.contains('liked');
+    disableLikeButton(true);
     fetch(`${URL}/api/anime/${animeId}/review/${id}/like`, {
       method: isLiked ? 'DELETE' : 'POST',
       headers: {
@@ -38,7 +27,7 @@ export default function Comment({ id, name, reviewText, likes, avatarImageUrl, a
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(fillHearth)
+      .then(() => setLiked(!isLiked))
       .catch(err => console.log(err.message))
       .finally(() => disableLikeButton(false));
   }
@@ -57,7 +46,7 @@ export default function Comment({ id, name, reviewText, likes, avatarImageUrl, a
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(useEffect)
+      .then(() => setNewReview(!newReview))
       .catch(err => console.log(err.message));
   }
 
@@ -71,11 +60,12 @@ export default function Comment({ id, name, reviewText, likes, avatarImageUrl, a
           <div className={styles.actions}>
             <div className={styles.item}>
               <p className={styles.time}>{publishTime.substring(8, 10)}.{publishTime.substring(5, 7)}</p>
-              {isUser && <button className={styles.delete} disabled={!isUser}
+              {!isUser && <button className={styles.delete} disabled={isUser}
                 onClick={deleteIt}>Удалить</button>}
             </div>
             <div className={styles.likes}>
-              <button className={styles.like} onClick={likeIt}><img ref={likeRef} src={like} alt="" /></button>
+              <button className={styles.like} onClick={likeIt}>
+                <img ref={likeRef} src={isLiked ? liked : like} alt="нравится" /></button>
               <span ref={likesCount}>{likes}</span>
             </div>
           </div>
