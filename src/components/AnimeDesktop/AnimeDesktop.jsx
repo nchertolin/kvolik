@@ -11,23 +11,59 @@ import Loading from '../Loading/Loading';
 import { Link } from 'react-router-dom';
 import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
+import { useForm } from 'react-hook-form';
 
 export function showRating(ref, isOpen) {
   ref.current.style.opacity = isOpen ? 1 : 0;
   ref.current.style.pointerEvents = isOpen ? 'all' : 'none';
 }
 
-export default function AnimeDesktop({ shortName }) {
+export default function AnimeDesktop({ shortName, userEmail }) {
+  const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
   const ratingRef = useRef();
   const favoriteRef = useRef();
+  const reviewRef = useRef();
+  const error = useRef();
   const [anime, setAnime] = useState(testAnime);
   const [isFavorite, setFavorite] = useState();
   const [isLoading, setLoading] = useState();
   const [rating, setRating] = useState(false);
+  const [reviews, setReviews] = useState(testAnime.reviews);
 
-  function disableFavoriteButton(isDisable) {
-    ratingRef.current.disabled = isDisable;
+  function sendReview({ message }) {
+    disableReviewButton(true);
+    fetch(`${URL}/api/anime/${anime.id}/review`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ reviewText: message })
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then(review => setReviews([...reviews, review]))
+      .catch(err => showError(true, err.message))
+      .finally(() => {
+        disableReviewButton(false);
+        reset();
+      });
   }
+
+  function showError(isShow, message) {
+    if (isShow) {
+      error.current.textContent = message;
+    }
+    error.current.style.display = isShow ? 'block' : 'none';
+  }
+
+  const disableReviewButton = isDisable => reviewRef.current.disabled = isDisable;
+
+  const disableFavoriteButton = isDisable => ratingRef.current.disabled = isDisable;
 
   function checkFavorite(animeId) {
     fetch(`${URL}/api/favorites`, {
@@ -67,6 +103,11 @@ export default function AnimeDesktop({ shortName }) {
       });
   }
 
+  function autoResize(evt) {
+    evt.target.style.height = 'auto';
+    evt.target.style.height = `${evt.target.scrollHeight}px`;
+  }
+
   useEffect(() => {
     setLoading(true);
     fetch(`${URL}/api/anime/${shortName}`)
@@ -77,12 +118,13 @@ export default function AnimeDesktop({ shortName }) {
       })
       .then(data => {
         setAnime(data);
+        setReviews(data.reviews);
         return data.id;
       })
       .then(id => checkFavorite(id))
-      .catch((err) => console.log(err.message))
+      .catch(err => console.log(err.message))
       .finally(() => setLoading(false));
-  }, [shortName, rating]);
+  }, [shortName, rating, reviews]);
 
 
   return (
@@ -178,18 +220,22 @@ export default function AnimeDesktop({ shortName }) {
             <div className={styles.comments}>
               <h3>Комментарии</h3>
               <ul className={styles.userComments}>
-                {anime.reviews.map(({ name, reviewText, likes, avatarImageUrl }) => <Comment key={v4()} name={name}
-                  reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl} />)}
+                {reviews.map(({ id, name, reviewText, likes, avatarImageUrl, publishTime, email }) =>
+                  <Comment key={v4()} id={id} name={name} reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl}
+                    publishTime={publishTime} animeId={anime.id} isUser={email === userEmail} />)}
                 <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
               </ul>
-              {isAuth ? <div className={styles.write}>
-                <textarea disabled={!isAuth} placeholder='Ваш комментарий'
-                  onChange={(evt) => {
-                    evt.target.style.height = 'auto';
-                    evt.target.style.height = `${evt.target.scrollHeight}px`;
-                  }} />
-                <button className='primary-button' disabled={!isAuth}>Отправить</button>
-              </div>
+              {isAuth ?
+                <form className={styles.write} onSubmit={handleSubmit(sendReview)}>
+                  <textarea disabled={!isAuth} placeholder='Ваш комментарий' onChange={autoResize}
+                    {...register('message', {
+                      required: 'Обязательноe поле.',
+                      maxLength: { value: 200, message: 'Максимальная длина комментария 200 символов.' }
+                    })} />
+                  {errors?.message && <p className='error'>{errors?.message.message}</p>}
+                  <button ref={reviewRef} className='primary-button' disabled={!isAuth}>Отправить</button>
+                  <p ref={error} className='error-submit'>Неверный логин или пароль.</p>
+                </form>
                 : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
             </div>
           </div>

@@ -25,14 +25,13 @@ export default function Login() {
   }
 
   function loginUser({ username, password }) {
-    console.log(username);
     disableButton(true);
     fetch(`${URL}/api/account/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: username, password: password })
+      body: JSON.stringify({ email: username, password: password })
     })
       .then(response => {
         if (response.ok) {
@@ -53,7 +52,7 @@ export default function Login() {
       <form className={styles.wrapper} onSubmit={handleSubmit(loginUser)}>
         <h1>Вход</h1>
         <label>
-          <input type="text" placeholder='Логин' className={errors?.username ? 'invalid' : ''}
+          <input type="email" placeholder='Эл. почта' className={errors?.username ? 'invalid' : ''}
             {...register('username', { required: 'Обязательноe поле.' })} />
           {errors?.username && <p className='error'>{errors?.username.message}</p>}
         </label>

@@ -26,7 +26,7 @@ export default function SignUp() {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({ username: username, name: name, password: password, confirmPassword: cpassword })
+      body: JSON.stringify({ email: username, name: name, password: password, confirmPassword: cpassword })
     })
       .then(response => {
         if (response.ok) {
@@ -47,7 +47,7 @@ export default function SignUp() {
       <form className={styles.wrapper} onSubmit={handleSubmit(signUpUser)}>
         <h1>Регистрация</h1>
         <label>
-          <input type="text" placeholder='Логин' className={errors?.username ? 'invalid' : ''}
+          <input type="email" placeholder='Эл. почта' className={errors?.username ? 'invalid' : ''}
             {...register('username', { required: 'Обязательноe поле.' })} />
           {errors?.username && <p className='error'>{errors?.username.message}</p>}
         </label>

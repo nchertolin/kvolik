@@ -38,7 +38,7 @@ function App() {
       fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
         .then(response => response.json())
         .then(data => setUser(data))
-        .catch((err) => console.log(err.message))
+        .catch(err => console.log(err.message))
         .finally(() => setLoading(false));
     }
   }, []);
@@ -70,7 +70,7 @@ function App() {
               {names.map(shortName => <Route key={v4()} path={`${shortName}`}
                 element={
                   <Suspense fallback={<Loading />}>
-                    {isMobile ? <Anime shortName={shortName} /> : <AnimeDesktop shortName={shortName} />}
+                    {isMobile ? <Anime shortName={shortName} /> : <AnimeDesktop shortName={shortName} userEmail={user.email} />}
                   </Suspense>
                 } />)}
 

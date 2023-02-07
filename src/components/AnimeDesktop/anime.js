@@ -24,32 +24,42 @@ export const testAnime = {
   reviews: [
     {
       name: 'Наруто Узумаки',
+      email: 'naruto@mail.ru',
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я стану хогаге',
+      publishTime: '2023-01-24T18:50:17.225Z',
       likes: 99
     },
     {
       name: 'Канеки Кен',
+      email: 'naruto@mail.ru',
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я не вернусь в антейку',
+      publishTime: '2023-01-24T18:50:17.225Z',
       likes: 7
     },
     {
       name: 'Канеки Кен',
+      email: 'naruto@mail.ru',
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я не вернусь в антейку',
+      publishTime: '2023-01-24T18:50:17.225Z',
       likes: 7
     },
     {
       name: 'Канеки Кен',
+      email: 'naruto@mail.ru',
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я не вернусь в антейку',
+      publishTime: '2023-01-24T18:50:17.225Z',
       likes: 7
     },
     {
       name: 'Наруто Узумаки',
+      email: 'naruto@mail.ru',
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я стану хогаге',
+      publishTime: '2023-01-24T18:50:17.225Z',
       likes: 99
     }
   ]

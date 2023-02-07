@@ -57,7 +57,7 @@ export default function Edit({ user }) {
           <form autoComplete='off' className={styles.editList} onSubmit={handleSubmit(editUser)}>
             <label>
               <h3>Логин</h3>
-              <input type="text" className={errors?.username ? 'invalid' : ''} placeholder={user.username}
+              <input type="text" className={errors?.username ? 'invalid' : ''} placeholder={user.email}
                 {...register('username', { required: 'Обязательноe поле.' })} />
               {errors?.username && <p className='error'>{errors?.username.message}</p>}
             </label>
