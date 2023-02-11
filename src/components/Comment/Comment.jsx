@@ -4,8 +4,8 @@ import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
 import { URL } from '../../App';
 
-export default function Comment({ review, animeId, isUser, setNewReview, newReview, userEmail }) {
-  const [isLiked, setLiked] = useState(review.likedUsersEmails.some(email => email === userEmail));
+export default function Comment({ review, animeId, isUser, setNewReview, newReview, isUsers, Liked }) {
+  const [isLiked, setLiked] = useState(Liked);
   const likeRef = useRef();
   const likesCount = useRef();
 
@@ -44,6 +44,7 @@ export default function Comment({ review, animeId, isUser, setNewReview, newRevi
       .then(() => setNewReview(!newReview))
       .catch(err => console.error(err.message));
   }
+
   return (
     <li className={styles.comment}>
       <div className={styles.wrapper}>
@@ -54,7 +55,7 @@ export default function Comment({ review, animeId, isUser, setNewReview, newRevi
           <div className={styles.actions}>
             <div className={styles.item}>
               <p className={styles.time}>{review.publishTime.substring(8, 10)}.{review.publishTime.substring(5, 7)}</p>
-              {review.email === userEmail && <button className={styles.delete} disabled={!isUser}
+              {isUsers && <button className={styles.delete} disabled={!isUser}
                 onClick={deleteIt}>Удалить</button>}
             </div>
             <div className={styles.likes}>

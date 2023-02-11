@@ -233,8 +233,8 @@ export default function AnimeDesktop({ shortName, userEmail }) {
               <h3>Комментарии</h3>
               <ul className={styles.userComments}>
                 {reviews.map(review =>
-                  <Comment key={v4()} review={review} animeId={anime.id} userEmail={userEmail}
-                    setNewReview={setNewReview} newReview={newReview} />)}
+                  <Comment key={v4()} review={review} animeId={anime.id} isUsers={userEmail === review.email}
+                    setNewReview={setNewReview} newReview={newReview} isLiked={review.likedUsersEmails.some(email => email === userEmail)} />)}
                 <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
               </ul>
               {isAuth ?
