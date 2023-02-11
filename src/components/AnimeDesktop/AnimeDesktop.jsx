@@ -18,6 +18,11 @@ export function showRating(ref, isOpen) {
   ref.current.style.pointerEvents = isOpen ? 'all' : 'none';
 }
 
+export function autoResize(evt) {
+  evt.target.style.height = 'auto';
+  evt.target.style.height = `${evt.target.scrollHeight}px`;
+}
+
 export default function AnimeDesktop({ shortName, userEmail }) {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
   const ratingRef = useRef();
@@ -27,7 +32,6 @@ export default function AnimeDesktop({ shortName, userEmail }) {
   const [anime, setAnime] = useState(testAnime);
   const [isFavorite, setFavorite] = useState();
   const [isLoading, setLoading] = useState();
-  const [rating, setRating] = useState();
   const [newReview, setNewReview] = useState();
   const [reviews, setReviews] = useState(testAnime.reviews);
 
@@ -103,11 +107,6 @@ export default function AnimeDesktop({ shortName, userEmail }) {
       });
   }
 
-  function autoResize(evt) {
-    evt.target.style.height = 'auto';
-    evt.target.style.height = `${evt.target.scrollHeight}px`;
-  }
-
   useEffect(() => {
     setLoading(true);
     fetch(`${URL}/api/anime/${shortName}`)
@@ -124,9 +123,9 @@ export default function AnimeDesktop({ shortName, userEmail }) {
       .then(id => checkFavorite(id))
       .catch(err => console.error(err.message))
       .finally(() => setLoading(false));
-  }, [shortName, rating]);
+  }, [shortName]);
 
-  //Цhen adding a new comment, data loading
+  //When adding a new comment, data loading
   useEffect(() => {
     fetch(`${URL}/api/anime/${shortName}`)
       .then(response => {
@@ -145,7 +144,7 @@ export default function AnimeDesktop({ shortName, userEmail }) {
         <title>{anime.name}</title>
       </Helmet>
       {isLoading ? <Loading /> :
-        <div>
+        <>
           <div className={styles.content}>
             <div className={styles.row}>
               <div className={styles.buttons}>
@@ -234,8 +233,8 @@ export default function AnimeDesktop({ shortName, userEmail }) {
               <ul className={styles.userComments}>
                 {reviews.map(review =>
                   <Comment key={v4()} review={review} animeId={anime.id} isUsers={userEmail === review.email}
-                    setNewReview={setNewReview} newReview={newReview} isLiked={review.likedUsersEmails.some(email => email === userEmail)} />)}
-                <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
+                    setNewReview={setNewReview} newReview={newReview} Liked={review.likedUsersEmails.some(email => email === userEmail)} />)}
+                {/* <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li> */}
               </ul>
               {isAuth ?
                 <form className={styles.write} onSubmit={handleSubmit(sendReview)}>
@@ -246,13 +245,13 @@ export default function AnimeDesktop({ shortName, userEmail }) {
                     })} />
                   {errors?.message && <p className='error'>{errors?.message.message}</p>}
                   <button ref={reviewRef} className='primary-button' disabled={!isAuth}>Отправить</button>
-                  <p ref={error} className='error-submit'>Неверный логин или пароль.</p>
+                  <p ref={error} className='error-submit'>Возникла ошибка при отправке.</p>
                 </form>
                 : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
             </div>
           </div>
-          <Rating reference={ratingRef} id={anime.id} setRating={setRating} rating={rating} />
-        </div>}
+          <Rating reference={ratingRef} id={anime.id} />
+        </>}
     </>
   )
 }

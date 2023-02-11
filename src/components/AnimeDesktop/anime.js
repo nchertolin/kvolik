@@ -28,7 +28,8 @@ export const testAnime = {
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я стану хогаге',
       publishTime: '2023-01-24T18:50:17.225Z',
-      likes: 99
+      likes: 99,
+      likedUsersEmails: []
     },
     {
       name: 'Канеки Кен',
@@ -36,7 +37,8 @@ export const testAnime = {
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я не вернусь в антейку',
       publishTime: '2023-01-24T18:50:17.225Z',
-      likes: 7
+      likes: 7,
+      likedUsersEmails: []
     },
     {
       name: 'Канеки Кен',
@@ -44,7 +46,8 @@ export const testAnime = {
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я не вернусь в антейку',
       publishTime: '2023-01-24T18:50:17.225Z',
-      likes: 7
+      likes: 7,
+      likedUsersEmails: []
     },
     {
       name: 'Канеки Кен',
@@ -52,7 +55,8 @@ export const testAnime = {
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я не вернусь в антейку',
       publishTime: '2023-01-24T18:50:17.225Z',
-      likes: 7
+      likes: 7,
+      likedUsersEmails: ['naruto@mail.ru']
     },
     {
       name: 'Наруто Узумаки',
@@ -60,7 +64,8 @@ export const testAnime = {
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я стану хогаге',
       publishTime: '2023-01-24T18:50:17.225Z',
-      likes: 99
+      likes: 99,
+      likedUsersEmails: []
     }
   ]
 }

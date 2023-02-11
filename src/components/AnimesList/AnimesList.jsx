@@ -14,6 +14,7 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
   const [animes, setAnimes] = useState([]);
   const [isLoading, setLoading] = useState();
   const [isEmpty, setEmpty] = useState();
+  const [selectedSort, setSelectedSort] = useState('DateDesc');
 
   function searchAnimes(query) {
     setLoading(true);
@@ -33,7 +34,7 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/${isFavorites ? 'favorites' : `anime${isSoon ? '/soon' : ''}`}`, {
+    fetch(`${URL}/api/${isFavorites ? 'favorites' : `anime${isSoon ? '/soon' : ''}?search=${selectedSort}`}`, {
       headers: isFavorites ? {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -48,7 +49,7 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
       .then(data => setAnimes(data))
       .catch(() => setAnimes(testAnimes))
       .finally(() => setLoading(false))
-  }, [isSoon, isFavorites]);
+  }, [isSoon, isFavorites, selectedSort]);
 
   return (
     <>
@@ -61,7 +62,14 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
           <div className={styles.buttonsWrapper}>
             <div className='buttons'>
               <button>Фильтр</button>
-              <button className='primary-button'>Дате добавления</button>
+              <div className={`primary-button ${styles.selectWrapper}`}>
+                <select className={styles.select} value={selectedSort} onChange={(evt) => {
+                  setSelectedSort(evt.target.value);
+                }}>
+                  <option value="DateDesc">По дате добавления</option>
+                  <option value="RatingDesc">По рейтингу</option>
+                </select>
+              </div>
             </div>
             {!isMobile && <div className={styles.searchWrapper} onChange={(evt) => searchAnimes(evt.target.value)}>
               <input className={styles.search} type="text" placeholder='Поиск аниме' />

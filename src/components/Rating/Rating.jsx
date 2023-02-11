@@ -8,7 +8,7 @@ import { URL } from '../../App';
 import { useRef } from 'react';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 
-export default function Rating({ reference, id, rating, setRating }) {
+export default function Rating({ reference, id }) {
   const [isSubmited, setSubmited] = useState();
   const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const submit = useRef();
@@ -50,7 +50,6 @@ export default function Rating({ reference, id, rating, setRating }) {
     })
       .then(response => {
         if (response.ok) {
-          setRating(!rating);
           showRating(reference, false);
         } else throw new Error();
       })

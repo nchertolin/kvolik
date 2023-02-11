@@ -24,7 +24,10 @@ export default function Comment({ review, animeId, isUser, setNewReview, newRevi
       .then(response => {
         if (!response.ok) return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => setLiked(!isLiked))
+      .then(() => {
+        setLiked(!isLiked);
+        setNewReview(!newReview);
+      })
       .catch(err => console.error(err.message))
       .finally(() => disableLikeButton(false));
   }
@@ -55,8 +58,7 @@ export default function Comment({ review, animeId, isUser, setNewReview, newRevi
           <div className={styles.actions}>
             <div className={styles.item}>
               <p className={styles.time}>{review.publishTime.substring(8, 10)}.{review.publishTime.substring(5, 7)}</p>
-              {isUsers && <button className={styles.delete} disabled={!isUser}
-                onClick={deleteIt}>Удалить</button>}
+              {isUsers && <button className={styles.delete} onClick={deleteIt}>Удалить</button>}
             </div>
             <div className={styles.likes}>
               <button className={styles.like} onClick={likeIt}>

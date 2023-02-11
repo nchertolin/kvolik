@@ -26,19 +26,32 @@ function App() {
   const [user, setUser] = useState({});
   const [names, setNames] = useState([]);
   const [isLoading, setLoading] = useState();
+
   useEffect(() => {
     setLoading(true);
     fetch(`${URL}/api/anime/names`)
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
       .then(data => setNames(data))
       .catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
       .finally(() => setLoading(false));
 
     if (localStorage.getItem('token')) {
-      fetch(`${URL}/api/account/`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
-        .then(response => response.json())
+      fetch(`${URL}/api/account/`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else return response.json().then(text => { throw new Error(text.message) })
+        })
         .then(data => setUser(data))
-        .catch(err => console.log(err.message))
+        .catch(err => console.err(err.message))
         .finally(() => setLoading(false));
     }
   }, []);
@@ -70,7 +83,9 @@ function App() {
               {names.map(shortName => <Route key={v4()} path={`${shortName}`}
                 element={
                   <Suspense fallback={<Loading />}>
-                    {isMobile ? <Anime shortName={shortName} /> : <AnimeDesktop shortName={shortName} userEmail={user.email} />}
+                    {isMobile
+                      ? <Anime shortName={shortName} userEmail={user.email} />
+                      : <AnimeDesktop shortName={shortName} userEmail={user.email} />}
                   </Suspense>
                 } />)}
 
@@ -100,7 +115,9 @@ function App() {
 
               <Route path='favorites' element={
                 <Suspense fallback={<Loading />}>
-                  {isAuth ? <AnimesList title='Избранное' isFavorites={true} /> : <ErrorPage />}
+                  {isAuth
+                    ? <AnimesList title='Избранное' isFavorites={true} />
+                    : <ErrorPage />}
                 </Suspense>
               } />
 
