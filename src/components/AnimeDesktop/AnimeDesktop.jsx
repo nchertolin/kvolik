@@ -27,8 +27,9 @@ export default function AnimeDesktop({ shortName, userEmail }) {
   const [anime, setAnime] = useState(testAnime);
   const [isFavorite, setFavorite] = useState();
   const [isLoading, setLoading] = useState();
-  const [rating, setRating] = useState(false);
-  const [newReview, setNewReview] = useState(false);
+  const [rating, setRating] = useState();
+  const [newReview, setNewReview] = useState();
+  const [reviews, setReviews] = useState(testAnime.reviews);
 
   function sendReview({ message }) {
     disableReviewButton(true);
@@ -42,15 +43,13 @@ export default function AnimeDesktop({ shortName, userEmail }) {
       body: JSON.stringify({ reviewText: message })
     })
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else return response.json().then(text => { throw new Error(text.message) })
+        if (!response.ok)
+          return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => setNewReview(!newReview))
+      .then(() => setReviews([...reviews, { reviewText: message }]))
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableReviewButton(false);
-        setNewReview(!newReview)
         reset();
       });
   }
@@ -119,12 +118,27 @@ export default function AnimeDesktop({ shortName, userEmail }) {
       })
       .then(data => {
         setAnime(data);
+        setReviews(data.reviews);
         return data.id;
       })
       .then(id => checkFavorite(id))
-      .catch(err => console.log(err.message))
+      .catch(err => console.error(err.message))
       .finally(() => setLoading(false));
-  }, [shortName, rating, newReview]);
+  }, [shortName, rating]);
+
+  //Цhen adding a new comment, data loading
+  useEffect(() => {
+    setLoading(true);
+    fetch(`${URL}/api/anime/${shortName}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then(data => setReviews(data.reviews))
+      .catch(err => console.error(err.message))
+      .finally(() => setLoading(false));
+  }, [shortName, newReview]);
 
 
   return (
@@ -220,10 +234,8 @@ export default function AnimeDesktop({ shortName, userEmail }) {
             <div className={styles.comments}>
               <h3>Комментарии</h3>
               <ul className={styles.userComments}>
-                {anime.reviews.map(({ id, name, reviewText, likes, avatarImageUrl, publishTime, email }) =>
-                  <Comment key={v4()} id={id} name={name} reviewText={reviewText} likes={likes} avatarImageUrl={avatarImageUrl}
-                    publishTime={publishTime} animeId={anime.id} isUser={email === userEmail} setNewReview={setNewReview}
-                    newReview={newReview} />)}
+                {reviews.map(review =>
+                  <Comment key={v4()} review={review} animeId={anime.id} isUser={review.email === userEmail} setNewReview={setNewReview} newReview={newReview} />)}
                 <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
               </ul>
               {isAuth ?
