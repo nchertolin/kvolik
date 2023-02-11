@@ -46,7 +46,7 @@ export default function AnimeDesktop({ shortName, userEmail }) {
         if (!response.ok)
           return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => setReviews([...reviews, { reviewText: message }]))
+      .then(() => setNewReview(!newReview))
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableReviewButton(false);
@@ -128,7 +128,6 @@ export default function AnimeDesktop({ shortName, userEmail }) {
 
   //Цhen adding a new comment, data loading
   useEffect(() => {
-    setLoading(true);
     fetch(`${URL}/api/anime/${shortName}`)
       .then(response => {
         if (response.ok) {
@@ -137,7 +136,6 @@ export default function AnimeDesktop({ shortName, userEmail }) {
       })
       .then(data => setReviews(data.reviews))
       .catch(err => console.error(err.message))
-      .finally(() => setLoading(false));
   }, [shortName, newReview]);
 
 
@@ -235,7 +233,8 @@ export default function AnimeDesktop({ shortName, userEmail }) {
               <h3>Комментарии</h3>
               <ul className={styles.userComments}>
                 {reviews.map(review =>
-                  <Comment key={v4()} review={review} animeId={anime.id} isUser={review.email === userEmail} setNewReview={setNewReview} newReview={newReview} />)}
+                  <Comment key={v4()} review={review} animeId={anime.id} userEmail={userEmail}
+                    setNewReview={setNewReview} newReview={newReview} />)}
                 <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li>
               </ul>
               {isAuth ?
