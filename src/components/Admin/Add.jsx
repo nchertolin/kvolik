@@ -88,7 +88,7 @@ export default function Add() {
           </label>
           <label>
             <input type="text" placeholder='Жанры (через запятую)'
-              className={errors?.username ? 'invalid' : ''}
+              className={errors?.genres ? 'invalid' : ''}
               {...register('genres', { required: 'Обязательноe поле.' })} />
             {errors?.genres && <p className='error'>{errors?.genres.message}</p>}
           </label>
@@ -98,27 +98,21 @@ export default function Add() {
               {...register('primarySource', { required: 'Обязательноe поле.' })} />
             {errors?.primarySource && <p className='error'>{errors?.primarySource.message}</p>}
           </label>
-          <label>
-            <input type="text" placeholder='Сезон'
-              className={errors?.username ? 'invalid' : ''}
-              {...register('username', { required: 'Обязательноe поле.' })} />
-            {errors?.username && <p className='error'>{errors?.username.message}</p>}
-          </label>
           {/* <label>
+            <input type="text" placeholder='Сезон'
+              className={errors?.releaseFrom ? 'invalid' : ''}
+              {...register('username', { required: 'Обязательноe поле.' })} />
+            {errors?.releaseFrom && <p className='error'>{errors?.releaseFrom.message}</p>}
+          </label>
+           <label>
             <input type="text" placeholder='Выпуск'
               className={errors?.releaseFrom ? 'invalid' : ''}
               {...register('releaseFrom', { required: 'Обязательноe поле.' })} />
             {errors?.releaseFrom && <p className='error'>{errors?.releaseFrom.message}</p>}
-          </label>
-          <label>
-            <input type="text" placeholder='Окончание'
-              className={errors?.releaseFrom ? 'invalid' : ''}
-              {...register('releaseBy', { required: 'Обязательноe поле.' })} />
-            {errors?.releaseBy && <p className='error'>{errors?.releaseBy.message}</p>}
           </label> */}
           <label>
             <input type="number" placeholder='Возрастные ограничения'
-              className={errors?.username ? 'invalid' : ''}
+              className={errors?.ageLimit ? 'invalid' : ''}
               {...register('ageLimit', { required: 'Обязательноe поле.' })} />
             {errors?.ageLimit && <p className='error'>{errors?.ageLimit.message}</p>}
           </label>
@@ -129,21 +123,22 @@ export default function Add() {
             {errors?.duration && <p className='error'>{errors?.duration.message}</p>}
           </label>
           <label>
-            <textarea placeholder='Описание' className={errors?.duration ? 'invalid' : ''}
-              {...register('duration', { required: 'Обязательноe поле.' })} />
-            {errors?.duration && <p className='error'>{errors?.duration.message}</p>}
+            <textarea placeholder='Описание'
+              className={errors?.description ? 'invalid' : ''}
+              {...register('description', { required: 'Обязательноe поле.' })} />
+            {errors?.description && <p className='error'>{errors?.description.message}</p>}
           </label>
           <label>
             <input type="text" placeholder='Ссылка на трейлер'
-              className={errors?.duration ? 'invalid' : ''}
-              {...register('duration', { required: 'Обязательноe поле.' })} />
-            {errors?.duration && <p className='error'>{errors?.duration.message}</p>}
-          </label>
-          <label>
-            <input type="text" placeholder='Ссылка на аниме в плеере'
               className={errors?.trailerUrl ? 'invalid' : ''}
               {...register('trailerUrl', { required: 'Обязательноe поле.' })} />
             {errors?.trailerUrl && <p className='error'>{errors?.trailerUrl.message}</p>}
+          </label>
+          <label>
+            <input type="text" placeholder='Ссылка на аниме в плеере'
+              className={errors?.playerLink ? 'invalid' : ''}
+              {...register('playerLink', { required: 'Обязательноe поле.' })} />
+            {errors?.playerLink && <p className='error'>{errors?.playerLink.message}</p>}
           </label>
           <label>
             <button className='primary-button'>Добавить на сайт</button>
