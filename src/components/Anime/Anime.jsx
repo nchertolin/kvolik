@@ -134,7 +134,7 @@ export default function Anime({ shortName, userEmail }) {
     isLoading ? <Loading /> :
       <>
         <Helmet>
-          <title>{anime.name}</title>
+          <title>KvolikDub - {anime.name}</title>
         </Helmet>
         {isLoading ? <Loading /> :
           <>

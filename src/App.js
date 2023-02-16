@@ -4,23 +4,28 @@ import { isMobile } from "react-device-detect";
 import { v4 } from "uuid";
 import Loading from "./components/Loading/Loading";
 import Layout from "./components/Layout";
+import AdminLayout from "./components/Admin/AdminLayout";
 const Anime = lazy(() => import('./components/Anime/Anime.jsx'));
 const AnimeDesktop = lazy(() => import('./components/AnimeDesktop/AnimeDesktop'));
 const AnimesList = lazy(() => import('./components/AnimesList/AnimesList'));
 const Contacts = lazy(() => import('./components/Contacts/Contacts'));
 const Login = lazy(() => import('./components/Login/Login'));
 const SignUp = lazy(() => import('./components/SignUp/SignUp'));
+const Forgot = lazy(() => import('./components/Login/Forgot'))
 const Account = lazy(() => import('./components/Account/Account'));
 const Edit = lazy(() => import('./components/Account/Edit'));
 const ErrorPage = lazy(() => import('./components/ErrorPage/ErrorPage'));
+const Panel = lazy(() => import('./components/Admin/Panel'));
+const Add = lazy(() => import('./components/Admin/Add'));
 export const isAuth = localStorage.getItem('token') !== null;
 export const URL = 'https://localhost:44349';
 
-// const testUser = {
-//   name: 'Канеки Кен',
-//   username: 'kanekiken',
-//   avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg'
-// };
+const testUser = {
+  name: 'Канеки Кен',
+  username: 'kanekiken',
+  avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+  isAdmin: true
+};
 
 function App() {
   const [user, setUser] = useState({});
@@ -51,7 +56,11 @@ function App() {
           } else return response.json().then(text => { throw new Error(text.message) })
         })
         .then(data => setUser(data))
-        .catch(err => console.err(err.message))
+        .catch(() => {
+          setUser(testUser);
+          localStorage.setItem('token', '123');
+        })
+        //.catch(err => console.err(err.message))
         .finally(() => setLoading(false));
     }
   }, []);
@@ -61,12 +70,30 @@ function App() {
       {isLoading ? <Loading /> :
         <>
           <Routes>
+            <Route path='/admin' element={<AdminLayout />}>
+              <Route index element={
+                <Suspense fallback={<Loading />}>
+                  <Add />
+                </Suspense>
+              } />
+              <Route path='users' element={
+                <Suspense fallback={<Loading />}>
+                  <Panel title='Пользователи' />
+                </Suspense>
+              } />
+            </Route>
+
             <Route path='/login' element={
               <Suspense fallback={<Loading />}>
                 <Login />
               </Suspense>
             } />
 
+            <Route path='/login/forgot' element={
+              <Suspense fallback={<Loading />}>
+                <Forgot />
+              </Suspense>
+            } />
             <Route path='/signup' element={
               <Suspense fallback={<Loading />}>
                 <SignUp />

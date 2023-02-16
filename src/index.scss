@@ -9,6 +9,10 @@ $h2-fz: 14px;
 $h3-fz: 14px;
 $h1-fz: 24px;
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Gilroy', sans-serif;

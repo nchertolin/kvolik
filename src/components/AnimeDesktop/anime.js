@@ -12,13 +12,13 @@ export const testAnime = {
   description: "Данное аниме расскажет историю про молодого Лелуш, который является наследником престола императора. Из-за тяжелой войны, он потерял всю свою семью, став сиротой. Повествование берёт начало, когда Британия захватывает треть часть мира, родина Лелуша – Япония, становится маленькой страной, которую прозвали «Зоной 13». Мальчик, на могиле родителей, дает обещание, что будет мстить за их смерть.",
   exitStatus: "Ongoing",
   frames: [
-    "http://kvolikdub.ru/wp-content/uploads/2022/07/5a736eff82bd7.jpg",
-    "http://kvolikdub.ru/wp-content/uploads/2022/07/5a736eff7ddc4-1.jpg",
-    "http://kvolikdub.ru/wp-content/uploads/2022/07/5a736eff7f738.jpg",
-    "http://kvolikdub.ru/wp-content/uploads/2022/07/5a736eff856b9.jpg",
-    "http://kvolikdub.ru/wp-content/uploads/2022/07/5a736eff9ccce.jpg"
+    "https://blog.alltheanime.com/wp-content/uploads/2022/01/Code-Geass-1-1024x512.jpg",
+    "https://discodracula.files.wordpress.com/2013/09/title20.jpg",
+    "https://cs14.pikabu.ru/post_img/big/2023/01/27/7/1674819164179144564.jpg",
+    "https://regnum.ru/uploads/pictures/news/2017/11/11/regnum_picture_151035059098895_normal.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMt234x1BsPbFn--Qs3YkiOghfyj_iMSsm_g&usqp=CAU"
   ],
-  imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/06/8p3HXHOQXjMpU9gAkZVAqozhDzQ.jpg",
+  imageUrl: "https://flxt.tmsimg.com/assets/p186544_b_v9_ad.jpg",
   trailerUrl: "https://www.youtube-nocookie.com/embed/v-AGjx0N24U",
   averageRating: 9.35,
   reviews: [

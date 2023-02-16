@@ -15,26 +15,11 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
   const [isLoading, setLoading] = useState();
   const [isEmpty, setEmpty] = useState();
   const [selectedSort, setSelectedSort] = useState('DateDesc');
-
-  function searchAnimes(query) {
-    setLoading(true);
-    fetch(`${URL}/api/anime${isSoon ? '/soon' : ''}?search=${query}`)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else return response.json().then(text => { throw new Error(text.message) })
-      })
-      .then(data => {
-        setEmpty(data.length === 0);
-        setAnimes(data);
-      })
-      .catch((err) => console.log(err.message))
-      .finally(() => setLoading(false))
-  }
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/${isFavorites ? 'favorites' : `anime${isSoon ? '/soon' : ''}?search=${selectedSort}`}`, {
+    fetch(`${URL}/api/${isFavorites ? 'favorites' : `anime${isSoon ? '/soon' : ''}?sort=${selectedSort}&search=${query}`}`, {
       headers: isFavorites ? {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -46,32 +31,34 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(data => setAnimes(data))
+      .then(data => {
+        setEmpty(data.length === 0);
+        setAnimes(data);
+      })
       .catch(() => setAnimes(testAnimes))
+      // .catch(err => console.error(err.message))
       .finally(() => setLoading(false))
-  }, [isSoon, isFavorites, selectedSort]);
+  }, [isSoon, isFavorites, selectedSort, query]);
 
   return (
     <>
       <Helmet>
-        <title>{title}</title>
+        <title>KvolikDub - {title}</title>
       </Helmet>
       <div className='content'>
         <h1>{title}</h1>
         {!isFavorites &&
-          <div className={styles.buttonsWrapper}>
-            <div className='buttons'>
-              <button>Фильтр</button>
+          <div className={styles.buttons}>
+            <div className={styles.actions}>
+              <button className={styles.filter}>Фильтр</button>
               <div className={`primary-button ${styles.selectWrapper}`}>
-                <select className={styles.select} value={selectedSort} onChange={(evt) => {
-                  setSelectedSort(evt.target.value);
-                }}>
+                <select className={styles.select} value={selectedSort} onChange={evt => setSelectedSort(evt.target.value)}>
                   <option value="DateDesc">По дате добавления</option>
                   <option value="RatingDesc">По рейтингу</option>
                 </select>
               </div>
             </div>
-            {!isMobile && <div className={styles.searchWrapper} onChange={(evt) => searchAnimes(evt.target.value)}>
+            {!isMobile && <div className={styles.searchWrapper} onChange={evt => setQuery(evt.target.value)}>
               <input className={styles.search} type="text" placeholder='Поиск аниме' />
               <img src={search} alt="" />
             </div>}

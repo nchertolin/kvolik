@@ -4,7 +4,6 @@ import styles from './Header.module.scss';
 
 export default function Header({ user }) {
   const setActiveLink = ({ isActive }) => isActive ? styles.active : '';
-
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>

@@ -6,7 +6,7 @@ export const testAnimes = [
     nameEng: "Code Geass: Lelouch of the Rebellionе",
     type: "ТВ-Сериал",
     releaseFrom: "2023-01-24T18:25:18.684Z",
-    imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/06/8p3HXHOQXjMpU9gAkZVAqozhDzQ.jpg",
+    imageUrl: "https://flxt.tmsimg.com/assets/p186544_b_v9_ad.jpg",
     episodesAmount: 25,
     averageRating: 2.5
   },
@@ -17,7 +17,7 @@ export const testAnimes = [
     nameEng: "Spy x family Chapter 2",
     type: "ТВ-Сериал",
     releaseFrom: "2023-01-24T18:25:18.684Z",
-    imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/08/9bd0ddcb8f8445c80723b5e3c97c6c82.jpg",
+    imageUrl: "https://m.media-amazon.com/images/M/MV5BMWM4Njg2MjUtODU3OS00MGNmLWIyNTctZGZkNTdjN2JhNmU2XkEyXkFqcGdeQXVyMTMzNDExODE5._V1_FMjpg_UX1000_.jpg",
     episodesAmount: 12,
     averageRating: 9.7
   },
@@ -28,8 +28,8 @@ export const testAnimes = [
     nameEng: "Spy x family Chapter 1",
     type: "ТВ-Сериал",
     releaseFrom: "2023-01-24T18:25:18.684Z",
-    imageUrl: "http://kvolikdub.ru/wp-content/uploads/2022/05/Spy-x-family-1449x2048.jpg",
+    imageUrl: "https://pictures.betaseries.com/fonds/poster/825cf977639e529842dd9235d0b03157.jpg",
     episodesAmount: 12,
     averageRating: 5.1
-  }
+  },
 ]

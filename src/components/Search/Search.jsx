@@ -5,6 +5,7 @@ import SearchCard from '../SearchCard/SearchCard';
 import Loading from '../Loading/Loading';
 import styles from './Search.module.scss';
 import { URL } from '../../App';
+import { testAnimes } from '../AnimesList/animes';
 
 export default function Search({ reference, }) {
   const searchInput = useRef();
@@ -30,7 +31,7 @@ export default function Search({ reference, }) {
         setEmpty(data.length === 0);
         setAnimes(data);
       })
-      .catch((err) => console.log(err.message))
+      .catch(err => console.log(err.message))
       .finally(() => setLoading(false))
   }
 

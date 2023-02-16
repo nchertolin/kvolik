@@ -2,9 +2,8 @@
   width: 40vw;
 
   @media (min-width: 768px) {
-    width: 20vw;
-    max-width: 400px;
-    height: 40vw;
+    width: 200px;
+    height: 100%;
 
     h2 {
       font-size: 18px;
@@ -12,6 +11,14 @@
 
     h3 {
       font-size: 16px;
+    }
+
+    h2,
+    h3 {
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 
@@ -23,10 +30,8 @@
     border-radius: 10px;
 
     @media (min-width: 768px) {
-      width: 20vw;
-      height: 30vw;
-      max-width: 400px;
-      max-height: 600px;
+      width: 200px;
+      height: 300px;
       border-radius: 15px;
     }
   }

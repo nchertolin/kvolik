@@ -68,7 +68,7 @@ export default function Login() {
           {errors?.password && <p className='error'>{errors?.password.message}</p>}
         </div>
 
-        <Link className={styles.forgot} to=''>Забыли пароль?</Link>
+        <Link className={styles.forgot} to='forgot'>Забыли пароль?</Link>
         <button ref={submit} className={`${styles.submit} primary-button`}>Войти</button>
         <div className={styles.signup}>
           <p>Нет аккаунта?</p>

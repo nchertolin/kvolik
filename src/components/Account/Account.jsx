@@ -8,7 +8,11 @@ import styles from './Account.module.scss';
 export default function Account({ user, setUser }) {
   function logoutUser() {
     setUser({});
-    fetch(`${URL}/api/account/logout`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+    fetch(`${URL}/api/account/logout`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => {
         if (response.ok) {
           localStorage.removeItem('token');
@@ -29,7 +33,9 @@ export default function Account({ user, setUser }) {
             <h2>{user.name}</h2>
           </div>
           <div className={styles.buttons}>
-            <Link to='edit' className={`primary-button ${styles.edit}`}>Редактировать</Link>
+            {user.isAdmin &&
+              <Link to='/admin' className={styles.admin}>Админ панель</Link>}
+            <Link to='edit' className='primary-button'>Редактировать</Link>
             <button to='/' className={styles.logout} onClick={logoutUser}>Выйти</button>
           </div>
         </div >}

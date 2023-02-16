@@ -141,7 +141,7 @@ export default function AnimeDesktop({ shortName, userEmail }) {
   return (
     <>
       <Helmet>
-        <title>{anime.name}</title>
+        <title>KvolikDub - {anime.name}</title>
       </Helmet>
       {isLoading ? <Loading /> :
         <>

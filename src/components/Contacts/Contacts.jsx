@@ -10,7 +10,7 @@ export default function Contacts() {
   return (
     <>
       <Helmet>
-        <title>Заказать озвучку</title>
+        <title>KvolikDub - Заказать озвучку</title>
       </Helmet>
       <div className='content'>
         <h1>Заказать озвучку</h1>
