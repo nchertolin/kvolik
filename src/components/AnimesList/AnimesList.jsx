@@ -6,11 +6,12 @@ import { v4 } from 'uuid';
 import search from '../../assets/icons/search.svg';
 import Loading from '../Loading/Loading';
 import { testAnimes } from './animes.js';
-import { URL } from '../../App';
+import { SERVER_URL } from '../../App';
 import { isMobile } from 'react-device-detect';
+import EmptyCard from '../Card/EmptyCard';
 
 
-export default function AnimesList({ title, isSoon, isFavorites }) {
+export default function AnimesList({ title, isSoon, isFavorites, user }) {
   const [animes, setAnimes] = useState([]);
   const [isLoading, setLoading] = useState();
   const [isEmpty, setEmpty] = useState();
@@ -19,7 +20,7 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/${isFavorites ? 'favorites' : `anime${isSoon ? '/soon' : ''}?sort=${selectedSort}&search=${query}`}`, {
+    fetch(`${SERVER_URL}/api/${isFavorites ? 'favorites' : `anime${isSoon ? '/soon' : ''}?sort=${selectedSort}&search=${query}`}`, {
       headers: isFavorites ? {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -66,6 +67,10 @@ export default function AnimesList({ title, isSoon, isFavorites }) {
         {isLoading
           ? <Loading />
           : <ul className={styles.ul}>
+            {user.isAdmin &&
+              <li>
+                <EmptyCard shortName='admin' />
+              </li>}
             {animes.map(({ name, nameEng, type, releaseFrom, episodesAmount, shortName, imageUrl, averageRating }) =>
               <li key={v4()}>
                 <Card name={name} nameEng={nameEng} shortName={shortName} picture={imageUrl} type={type}

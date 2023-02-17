@@ -9,13 +9,14 @@ import Loading from '../Loading/Loading';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { isAuth, URL } from '../../App';
+import { convertToMonth } from '../../util.js';
 import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 import { useForm } from 'react-hook-form';
 import { autoResize } from '../AnimeDesktop/AnimeDesktop';
+import { isAuth, SERVER_URL } from '../../App';
 
-export default function Anime({ shortName, userEmail }) {
+export default function Anime({ shortName, user }) {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
   const reviewRef = useRef();
   const error = useRef();
@@ -39,7 +40,7 @@ export default function Anime({ shortName, userEmail }) {
   }
 
   function checkFavorite(animeId) {
-    fetch(`${URL}/api/favorites`, {
+    fetch(`${SERVER_URL}/api/favorites`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -56,7 +57,7 @@ export default function Anime({ shortName, userEmail }) {
 
   function addToFavorite() {
     disableFavoriteButton(true);
-    fetch(`${URL}/api/favorites/${shortName}`, {
+    fetch(`${SERVER_URL}/api/favorites/${shortName}`, {
       method: isFavorite ? 'DELETE' : 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ export default function Anime({ shortName, userEmail }) {
 
   function sendReview({ message }) {
     disableReviewButton(true);
-    fetch(`${URL}/api/anime/${anime.id}/review`, {
+    fetch(`${SERVER_URL}/api/anime/${anime.id}/review`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +102,7 @@ export default function Anime({ shortName, userEmail }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${URL}/api/anime/${shortName}`)
+    fetch(`${SERVER_URL}/api/anime/${shortName}`)
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -117,9 +118,8 @@ export default function Anime({ shortName, userEmail }) {
       .finally(() => setLoading(false));
   }, [shortName]);
 
-  //When adding a new comment, data loading
   useEffect(() => {
-    fetch(`${URL}/api/anime/${shortName}`)
+    fetch(`${SERVER_URL}/api/anime/${shortName}`)
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -134,7 +134,7 @@ export default function Anime({ shortName, userEmail }) {
     isLoading ? <Loading /> :
       <>
         <Helmet>
-          <title>KvolikDub - {anime.name}</title>
+          <title>{anime.name}</title>
         </Helmet>
         {isLoading ? <Loading /> :
           <>
@@ -173,9 +173,7 @@ export default function Anime({ shortName, userEmail }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Жанр</p>
-                  <span>
-                    {anime.genres.map((genre, index) => index === anime.genres.length - 1 ? genre : `${genre}, `)}
-                  </span>
+                  <span>{anime.genres.join(', ')}</span>
                 </div>
                 <div className={styles.infoRow}>
                   <p>Первоисточник</p>
@@ -188,7 +186,7 @@ export default function Anime({ shortName, userEmail }) {
                 <div className={styles.infoRow}>
                   <p>Выпуск</p>
                   <span>
-                    с января {anime.releaseFrom.slice(0, 4)} по февраль {anime.releaseBy.slice(0, 4)}
+                    с {parseInt(anime.releaseFrom.slice(8, 10))} {convertToMonth(anime.releaseFrom.slice(5, 7))} {anime.releaseFrom.slice(0, 4)} по {parseInt(anime.releaseBy.slice(8, 10))} {convertToMonth(anime.releaseBy.slice(5, 7))} {anime.releaseBy.slice(0, 4)}
                   </span>
                 </div>
                 <div className={styles.infoRow}>
@@ -199,6 +197,15 @@ export default function Anime({ shortName, userEmail }) {
                   <p>Длительность</p>
                   <span>{anime.duration} мин</span>
                 </div>
+                <div className={styles.infoRow}>
+                  <p>Статус озвучки</p>
+                  <span>{anime.voiceoverStatus}</span>
+                </div>
+                {anime.voiceoverStatus === 'Озвучено' &&
+                  <div className={styles.infoRow}>
+                    <p>Тип озвучки</p>
+                    <span>{anime.isMonophonic ? 'Одноголосая' : 'Многоголосая'}</span>
+                  </div>}
               </div>
               <p className={styles.description}>{anime.description}</p>
               <div className={styles.extra}>
@@ -211,8 +218,8 @@ export default function Anime({ shortName, userEmail }) {
                 <h2 className={styles.head}>Смотреть аниме {anime.name}</h2>
                 <iframe
                   title='Anime'
-                  src="//aniqit.com/serial/44055/59f71c4fb69d61db71942f5e8d608042/720p"
-                  allowFullScreen allow="autoplay *; fullscreen *">
+                  src={anime.playerLink}
+                  allow="autoplay *; fullscreen *">
                 </iframe>
               </div>
               <div className={styles.comments}>
@@ -220,10 +227,9 @@ export default function Anime({ shortName, userEmail }) {
                 <ul className={styles.userComments}>
                   {reviews.map(review =>
                     <Comment key={v4()} review={review} animeId={anime.id}
-                      isUsers={userEmail === review.email}
+                      isUsers={user.email === review.email || user.isAdmin}
                       setNewReview={setNewReview} newReview={newReview}
-                      Liked={review.likedUsersEmails.some(email => email === userEmail)} />)}
-                  {/* <li className={styles.more}><button className='primary-button'>Загрузить еще</button></li> */}
+                      Liked={review.likedUsersEmails.some(email => email === user)} />)}
                 </ul>
                 {isAuth ?
                   <form className={styles.write} onSubmit={handleSubmit(sendReview)}>

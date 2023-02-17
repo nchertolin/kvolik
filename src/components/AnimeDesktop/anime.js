@@ -5,12 +5,13 @@ export const testAnime = {
   episodesAmount: 25,
   genres: ["Меха", "Фантастика", "Экшен"],
   primarySource: "Manga",
-  releaseFrom: "2023-01-24T18:50:17.225Z",
-  releaseBy: "2023-01-24T18:50:17.225Z",
+  releaseFrom: "2023-01-01T18:50:17.225Z",
+  releaseBy: "2023-02-24T18:50:17.225Z",
   ageLimit: 21,
   duration: 24,
   description: "Данное аниме расскажет историю про молодого Лелуш, который является наследником престола императора. Из-за тяжелой войны, он потерял всю свою семью, став сиротой. Повествование берёт начало, когда Британия захватывает треть часть мира, родина Лелуша – Япония, становится маленькой страной, которую прозвали «Зоной 13». Мальчик, на могиле родителей, дает обещание, что будет мстить за их смерть.",
   exitStatus: "Ongoing",
+  playerLink: '//aniqit.com/serial/44055/59f71c4fb69d61db71942f5e8d608042/720p',
   frames: [
     "https://blog.alltheanime.com/wp-content/uploads/2022/01/Code-Geass-1-1024x512.jpg",
     "https://discodracula.files.wordpress.com/2013/09/title20.jpg",
@@ -21,6 +22,8 @@ export const testAnime = {
   imageUrl: "https://flxt.tmsimg.com/assets/p186544_b_v9_ad.jpg",
   trailerUrl: "https://www.youtube-nocookie.com/embed/v-AGjx0N24U",
   averageRating: 9.35,
+  isMonophonic: false,
+  voiceoverStatus: 'Озвучено',
   reviews: [
     {
       name: 'Наруто Узумаки',

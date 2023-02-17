@@ -26,7 +26,11 @@
   }
 
   .filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 30%;
+    font-size: 14px;
 
     @media (min-width: 768px) {
       width: auto;
@@ -43,7 +47,6 @@
     width: auto;
     column-gap: 50px;
   }
-
 }
 
 
@@ -69,23 +72,25 @@
 
 .selectWrapper {
   width: 60%;
+  display: flex;
+  justify-content: center;
 
   @media (min-width: 768px) {
     width: auto;
   }
 
-  display: flex;
-  justify-content: center;
 }
 
 .select {
-  display: flex;
   font-family: 'Gilroy', sans-serif;
   font-weight: 500;
   outline: none;
   border: none;
   text-align: center;
   background-color: transparent;
-  font-size: 16px;
+  color: black;
 
+  &::after {
+    display: inline-block;
+  }
 }

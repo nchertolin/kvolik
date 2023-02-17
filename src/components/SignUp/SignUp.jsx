@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './SignUp.module.scss';
-import { URL } from '../../App.js'
+import { SERVER_URL } from '../../App.js'
 
 export default function SignUp() {
   const { register, watch, formState: { errors }, handleSubmit, reset } = useForm({ mode: "all" });
@@ -20,7 +20,7 @@ export default function SignUp() {
 
   function signUpUser({ username, name, password, cpassword }) {
     disableButton(true);
-    fetch(`${URL}/api/account/register`, {
+    fetch(`${SERVER_URL}/api/account/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -32,4 +32,5 @@ export const testAnimes = [
     episodesAmount: 12,
     averageRating: 5.1
   },
+
 ]

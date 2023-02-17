@@ -3,7 +3,7 @@ import show from '../../assets/icons/show.svg';
 import unShow from '../../assets/icons/show-off.svg';
 import styles from './Login.module.scss';
 import { Link } from 'react-router-dom';
-import { URL } from '../../App';
+import { SERVER_URL } from '../../App';
 import { useForm } from 'react-hook-form';
 
 export default function Login() {
@@ -13,9 +13,7 @@ export default function Login() {
   const submit = useRef()
   const error = useRef();
 
-  function disableButton(isDisable) {
-    submit.current.disabled = isDisable;
-  }
+  const disableButton = isDisable => submit.current.disabled = isDisable;
 
   function showError(isShow, message) {
     if (isShow) {
@@ -26,7 +24,7 @@ export default function Login() {
 
   function loginUser({ username, password }) {
     disableButton(true);
-    fetch(`${URL}/api/account/login`, {
+    fetch(`${SERVER_URL}/api/account/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

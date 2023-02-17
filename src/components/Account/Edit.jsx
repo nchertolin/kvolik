@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styles from './Account.module.scss';
-import { isAuth, URL } from '../../App.js'
+import { isAuth, SERVER_URL } from '../../App.js'
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import ErrorPage from '../ErrorPage/ErrorPage';
@@ -21,16 +21,16 @@ export default function Edit({ user }) {
     error.current.style.display = 'block';
   }
 
-  function editUser({ username, name, password }) {
+  function editUser({ email, name, password }) {
     disableButton(true);
-    fetch(`${URL}/api/account`, {
+    fetch(`${SERVER_URL}/api/account`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-      body: JSON.stringify({ username: username, name: name, password: password })
+      body: JSON.stringify({ username: email, name: name, password: password })
     })
       .then(response => {
         if (response.ok) {
@@ -57,9 +57,9 @@ export default function Edit({ user }) {
           <form autoComplete='off' className={styles.editList} onSubmit={handleSubmit(editUser)}>
             <label>
               <h3>Логин</h3>
-              <input type="text" className={errors?.username ? 'invalid' : ''} placeholder={user.email}
-                {...register('username', { required: 'Обязательноe поле.' })} />
-              {errors?.username && <p className='error'>{errors?.username.message}</p>}
+              <input type="text" className={errors?.email ? 'invalid' : ''} placeholder={user.email}
+                {...register('email', { required: 'Обязательноe поле.' })} />
+              {errors?.email && <p className='error'>{errors?.email.message}</p>}
             </label>
             <label>
               <h3>Имя пользователя</h3>

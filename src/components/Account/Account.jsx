@@ -33,8 +33,6 @@ export default function Account({ user, setUser }) {
             <h2>{user.name}</h2>
           </div>
           <div className={styles.buttons}>
-            {user.isAdmin &&
-              <Link to='/admin' className={styles.admin}>Админ панель</Link>}
             <Link to='edit' className='primary-button'>Редактировать</Link>
             <button to='/' className={styles.logout} onClick={logoutUser}>Выйти</button>
           </div>

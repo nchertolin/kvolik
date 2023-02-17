@@ -4,7 +4,7 @@ import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 import close from '../../assets/icons/close.svg';
 import { v4 } from 'uuid';
-import { URL } from '../../App';
+import { SERVER_URL } from '../../App';
 import { useRef } from 'react';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 
@@ -40,7 +40,7 @@ export default function Rating({ reference, id }) {
   function rate() {
     disableButton(true);
     const grade = score.filter(rate => rate === 1).length;
-    fetch(`${URL}/api/anime/${id}/rating?grade=${grade}`, {
+    fetch(`${SERVER_URL}/api/anime/${id}/rating?grade=${grade}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

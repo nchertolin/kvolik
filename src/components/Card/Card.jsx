@@ -7,15 +7,17 @@ export default function Card({ name, shortName, picture, nameEng, type, releaseF
     <div className={styles.card}>
       <Link to={`/${shortName}`}>
         <div className={styles.pictureWrapper}>
-          <img className={styles.picture} src={picture} alt="" />
+          <img src={picture} alt="" />
           <div className={styles.absolute}>
             {averageRating && <p>{+averageRating.toFixed(2)}</p>}
           </div>
         </div>
-        <h3>{nameEng}</h3>
-        <h2>{name}</h2>
+        <div className={styles.info}>
+          <h3>{nameEng}</h3>
+          <h2>{name}</h2>
+          <h3>{type} / {episodesAmount} серий / {releaseFrom.substring(0, 4)}</h3>
+        </div>
       </Link>
-      <h3>{type} / {episodesAmount} серий / {releaseFrom.substring(0, 4)}</h3>
     </div>
   )
 }

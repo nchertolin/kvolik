@@ -4,7 +4,7 @@ import close from '../../assets/icons/close.svg';
 import SearchCard from '../SearchCard/SearchCard';
 import Loading from '../Loading/Loading';
 import styles from './Search.module.scss';
-import { URL } from '../../App';
+import { SERVER_URL } from '../../App';
 import { testAnimes } from '../AnimesList/animes';
 
 export default function Search({ reference, }) {
@@ -21,7 +21,7 @@ export default function Search({ reference, }) {
 
   function searchAnimes(query) {
     setLoading(true);
-    fetch(`${URL}/api/anime?search=${query}`)
+    fetch(`${SERVER_URL}/api/anime?search=${query}`)
       .then(response => {
         if (response.ok) {
           return response.json();

@@ -41,14 +41,15 @@ ul {
 a {
   color: $light-color;
   text-decoration: none;
-  transition: all .3s ease;
+  transition: all .3s ease-in-out;
 
   &:hover {
-    opacity: 0.5;
+    color: $accent-color;
   }
 
   &:active {
-    opacity: 0.3;
+    color: $accent-color;
+    opacity: .6;
   }
 }
 
@@ -267,4 +268,20 @@ input {
 
 .invalid {
   border: 1px solid red;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  transition: .3s;
+  -webkit-transition: .3s;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: $accent-color;
+}
+
+::-webkit-scrollbar-track {
+  background-color: $bg-color;
+  border-radius: 10px;
 }

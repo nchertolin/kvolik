@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react'
 import styles from './Comment.module.scss';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
-import { URL } from '../../App';
+import { SERVER_URL } from '../../App';
+import { convertToMonth } from '../../util';
 
-export default function Comment({ review, animeId, isUser, setNewReview, newReview, isUsers, Liked }) {
+export default function Comment({ review, animeId, setNewReview, newReview, isUsers, Liked }) {
   const [isLiked, setLiked] = useState(Liked);
   const likeRef = useRef();
   const likesCount = useRef();
@@ -13,7 +14,7 @@ export default function Comment({ review, animeId, isUser, setNewReview, newRevi
 
   function likeIt() {
     disableLikeButton(true);
-    fetch(`${URL}/api/anime/${animeId}/review/${review.id}/like`, {
+    fetch(`${SERVER_URL}/api/anime/${animeId}/review/${review.id}/like`, {
       method: isLiked ? 'DELETE' : 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +34,7 @@ export default function Comment({ review, animeId, isUser, setNewReview, newRevi
   }
 
   function deleteIt() {
-    fetch(`${URL}/api/anime/${animeId}/review/${review.id}`, {
+    fetch(`${SERVER_URL}/api/anime/${animeId}/review/${review.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +58,8 @@ export default function Comment({ review, animeId, isUser, setNewReview, newRevi
           <p className={styles.message}>{review.reviewText}</p>
           <div className={styles.actions}>
             <div className={styles.item}>
-              <p className={styles.time}>{review.publishTime.substring(8, 10)}.{review.publishTime.substring(5, 7)}</p>
+              <p className={styles.time}>{review.publishTime.substring(8, 10)} {convertToMonth(review.publishTime.substring(5, 7))} в {new Date(review.publishTime).getHours()}
+                :{new Date(review.publishTime).getMinutes()}</p>
               {isUsers && <button className={styles.delete} onClick={deleteIt}>Удалить</button>}
             </div>
             <div className={styles.likes}>
