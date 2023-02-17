@@ -24,6 +24,7 @@ export default function Add() {
   const disableButton = isDisable => submit.current.disabled = isDisable;
 
   function add(data) {
+    data.imageUrl = 'https://cs.pikabu.ru/images/big_size_comm/2013-12_4/13873875745011.jpg';
     data.genres = data.genres.split(',');
     data.frames = frames;
     fetch(`${SERVER_URL}/api/admin/anime`, {
@@ -86,7 +87,7 @@ export default function Add() {
               <img src={preview} alt="" />
               <Controller
                 control={control}
-                name='imageUrl'
+                name='imageUri'
                 rules={{ required: 'Обязательноe поле.', }}
                 render={({ field }) => (
                   <input type="file"
@@ -123,9 +124,9 @@ export default function Add() {
                 className={errors?.type ? 'invalid' : ''}
                 {...register('type', { required: 'Обязательноe поле.' })}>
                 <option value="" disabled selected hidden>Тип</option>
-                <option value='0'>ТВ-Сериал</option>
-                <option value='1'>Фильм</option>
-                <option value='1'>OVA</option>
+                <option value='ТВ-Сериал'>ТВ-Сериал</option>
+                <option value='Фильм'>Фильм</option>
+                <option value='OVA'>OVA</option>
               </select>
               {errors?.type && <p className='error'>{errors?.type.message}</p>}
             </label>
