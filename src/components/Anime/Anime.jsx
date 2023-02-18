@@ -22,6 +22,8 @@ export default function Anime({ shortName, user }) {
   const error = useRef();
   const ratingRef = useRef();
   const favoriteRef = useRef();
+  const descriptionRef = useRef();
+  const [isDesctiptionShown, setDescriptionShown] = useState(false);
   const [anime, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
   const [isFavorite, setFavorite] = useState();
@@ -98,6 +100,12 @@ export default function Anime({ shortName, user }) {
         disableReviewButton(false);
         reset();
       });
+  }
+
+  function showDescription(evt) {
+    descriptionRef.current.classList.toggle(styles.opened);
+    setDescriptionShown(!isDesctiptionShown);
+    evt.target.textContent = isDesctiptionShown ? 'Показать все' : 'Скрыть'
   }
 
   useEffect(() => {
@@ -207,7 +215,16 @@ export default function Anime({ shortName, user }) {
                     <span>{anime.isMonophonic ? 'Одноголосая' : 'Многоголосая'}</span>
                   </div>}
               </div>
-              <p className={styles.description}>{anime.description}</p>
+              <div>
+                <p ref={descriptionRef}
+                  className={styles.description}>
+                  {anime.description}
+                </p>
+                <button className={styles.readMore}
+                  onClick={showDescription}>
+                  Показать все
+                </button>
+              </div>
               <div className={styles.extra}>
                 <h2 className={styles.head}>Кадры из аниме</h2>
                 <div style={{ marginBottom: '5vh' }}>

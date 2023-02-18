@@ -1,3 +1,5 @@
+@import '../../colors.scss';
+
 .add {
   display: flex;
 }
@@ -34,7 +36,7 @@
       }
 
       &:hover {
-        opacity: .5;
+        opacity: .7;
         cursor: pointer;
       }
     }
@@ -45,7 +47,7 @@
       width: 100%;
       height: 40px;
       padding: 0 15px;
-      background-color: #676666;
+      background-color: $input;
       border-radius: 5px;
       color: white;
       font-size: 16px;
@@ -60,10 +62,6 @@
       outline: none;
       font-family: 'Gilroy', sans-serif;
       padding: 10px;
-    }
-
-    select:required:invalid {
-      color: gray;
     }
 
     textarea {
@@ -102,6 +100,11 @@
   input {
     display: none;
   }
+
+  &:hover {
+    opacity: .7;
+    cursor: pointer;
+  }
 }
 
 .frame {
@@ -109,4 +112,11 @@
   height: 110px;
   object-fit: cover;
   border-radius: 10px;
+}
+
+i {
+  display: inline-block;
+  color: $second-text;
+  margin-top: 10px;
+  white-space: pre-wrap;
 }

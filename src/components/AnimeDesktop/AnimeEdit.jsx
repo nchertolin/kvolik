@@ -9,6 +9,7 @@ export default function AnimeEdit({ shortName }) {
   const [anime, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
   const [imageUrl, setImageUrl] = useState(anime.imageUrl);
+  const [imageUri, setImageUri] = useState();
   const [name, setName] = useState(anime.name);
   const [nameEng, setNameEng] = useState(anime.nameEng);
   const [type, setType] = useState(anime.type);
@@ -26,6 +27,7 @@ export default function AnimeEdit({ shortName }) {
   const [trailerUrl, setTrailerUrl] = useState(anime.trailerUrl);
   const [playerLink, setPlayerLink] = useState(anime.playerLink);
   const [frames, setFrames] = useState(anime.frames);
+  const [framesFiles, setFramesFiles] = useState([])
   const error = useRef();
   const submit = useRef();
 
@@ -36,7 +38,7 @@ export default function AnimeEdit({ shortName }) {
 
     if (matches) {
       setImageUrl(URL.createObjectURL(file));
-      console.log(file);
+      setImageUri(evt.target.files[0]);
     }
   }
 
@@ -47,8 +49,11 @@ export default function AnimeEdit({ shortName }) {
 
     if (matches) {
       const newFrames = [...frames];
-      newFrames[index] = URL.createObjectURL(file)
+      const newFramesFiles = [...framesFiles];
+      newFrames[index] = URL.createObjectURL(file);
+      newFramesFiles[index] = file;
       setFrames(newFrames);
+      setFramesFiles(newFrames);
     }
   }
 
@@ -62,33 +67,33 @@ export default function AnimeEdit({ shortName }) {
   const disableButton = isDisable => submit.current.disabled = isDisable;
 
   function edit() {
-    const data = {
-      imageUrl: imageUrl,
-      name: name,
-      nameEng: nameEng,
-      type: type,
-      episodesAmount: episodesAmount,
-      exitStatus: exitStatus,
-      genres: genres,
-      primarySource: primarySource,
-      releaseFrom: releaseFrom,
-      releaseBy: releaseBy,
-      ageLimit: ageLimit,
-      duration: duration,
-      description: description,
-      isMonophonic: isMonophonic,
-      voiceoverStatus: voiceoverStatus,
-      trailerUrl: trailerUrl,
-      playerLink: playerLink,
-      frames: frames
-    };
+    const formData = new FormData();
+    formData.append('imageUrl', imageUrl);
+    formData.append('imageUri', imageUri)
+    formData.append('name', name);
+    formData.append('nameEng', nameEng);
+    formData.append('type', type);
+    formData.append('episodesAmount', episodesAmount);
+    formData.append('exitStatus', exitStatus);
+    formData.append('genres', genres);
+    formData.append('primarySource', primarySource);
+    formData.append('releaseFrom', releaseFrom);
+    formData.append('releaseBy', releaseBy);
+    formData.append('ageLimit', ageLimit);
+    formData.append('duration', duration);
+    formData.append('description', description);
+    formData.append('isMonophonic', isMonophonic);
+    formData.append('voiceoverStatus', voiceoverStatus);
+    formData.append('trailerUrl', trailerUrl);
+    formData.append('playerLink', playerLink);
+    formData.append('frames', framesFiles);
+    formData.append('framesFiles', framesFiles);
+    formData.append('duration', duration);
 
     fetch(`${SERVER_URL}/api/admin/anime`, {
-      body: JSON.stringify(data),
+      body: JSON.stringify(formData),
       method: 'PUT',
       headers: {
-        //'Content-Type': 'application/json',
-        'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
@@ -97,7 +102,7 @@ export default function AnimeEdit({ shortName }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => window.location = '../')
+      .then(() => window.location.href = '../')
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableButton(false);
@@ -149,11 +154,15 @@ export default function AnimeEdit({ shortName }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Эпизоды</p>
-                  <input type="text" value={episodesAmount} onChange={evt => setEpisodesAmount(evt.target.value)} />
+                  <input type="number" value={episodesAmount} onChange={evt => setEpisodesAmount(evt.target.value)} />
                 </div>
                 <div className={styles.infoRow}>
-                  <p>Статус</p>
-                  <input type="text" value={exitStatus} onChange={evt => setExitStatus(evt.target.value)} />
+                  <p>Статус аниме</p>
+                  <select value={exitStatus === 'Онгоинг' ? 0 : 1}
+                    onChange={evt => setExitStatus(evt.target.value)}>
+                    <option value='0'>Онгоинг</option>
+                    <option value='1'>Вышел</option>
+                  </select>
                 </div>
                 <div className={styles.infoRow}>
                   <p>Жанры</p>
@@ -161,7 +170,13 @@ export default function AnimeEdit({ shortName }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Первоисточник</p>
-                  <input type="text" value={primarySource} onChange={evt => setPrimarySource(evt.target.value)} />
+                  <select value={primarySource}
+                    onChange={evt => setPrimarySource(evt.target.value)}>
+                    <option value='Манга'>Манга</option>
+                    <option value='Оригинал'>Оригинал</option>
+                    <option value='Ранобе'>Ранобе</option>
+                    <option value='Манхва'>Манхва</option>
+                  </select>
                 </div>
                 <div className={styles.infoRow}>
                   <p>Выпуск</p>
@@ -173,19 +188,27 @@ export default function AnimeEdit({ shortName }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Возрастные ограничения</p>
-                  <input type="text" value={ageLimit} onChange={evt => setAgeLimit(evt.target.value)} />
+                  <input type="number" value={ageLimit} onChange={evt => setAgeLimit(evt.target.value)} />
                 </div>
                 <div className={styles.infoRow}>
                   <p>Длительность</p>
-                  <input type="text" value={duration} onChange={evt => setDuration(evt.target.value)} />
+                  <input type="number" value={duration} onChange={evt => setDuration(evt.target.value)} />
                 </div>
                 <div className={styles.infoRow}>
                   <p>Статус озвучки</p>
-                  <input type="text" value={voiceoverStatus} onChange={evt => setVoiceoverStatus(evt.target.value)} />
+                  <select value={voiceoverStatus === 'Озвучено' ? 0 : 1}
+                    onChange={evt => setVoiceoverStatus(evt.target.value)}>
+                    <option value='0'>Озвучено</option>
+                    <option value='1'>Неозвучено</option>
+                  </select>
                 </div>
                 <div className={styles.infoRow}>
                   <p>Тип озвучки</p>
-                  <input type="text" value={isMonophonic} onChange={evt => setMonophonic(evt.target.value)} />
+                  <select value={isMonophonic}
+                    onChange={evt => setMonophonic(evt.target.value)}>
+                    <option value={false}>Многоголосая</option>
+                    <option value={true}>Одноголосая</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -198,7 +221,7 @@ export default function AnimeEdit({ shortName }) {
             <label>
               Ссылка на трейлер
               <input type="text" value={trailerUrl} onChange={evt => setTrailerUrl(evt.target.value)} />
-              <i>Пример: https://youtu.be/v-AGjx0N24U  ------  https://www.youtube-nocookie.com/embed/v-AGjx0N24U</i>
+              <i>Пример: https://youtu.be/v-AGjx0N24U      ------>      https://www.youtube-nocookie.com/embed/v-AGjx0N24U</i>
             </label>
             <label>
               Ссылка на плеер
@@ -220,6 +243,6 @@ export default function AnimeEdit({ shortName }) {
             <p ref={error} className='error-submit'>Возникла ошибка при добавлении.</p>
           </label>
         </div>}
-    </div>
+    </div >
   )
 }

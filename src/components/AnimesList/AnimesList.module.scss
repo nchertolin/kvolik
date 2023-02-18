@@ -8,7 +8,9 @@
   @media (min-width: 768px) {
     grid-template-columns: repeat(auto-fill, 200px);
     justify-content: space-between;
-    gap: 20px;
+    //gap: min(20px, 1vw);
+    column-gap: 15px;
+    row-gap: 40px;
     margin: 50px 0;
   }
 
@@ -21,7 +23,6 @@
   justify-content: space-between;
 
   @media (min-width: 768px) {
-    width: auto;
     column-gap: 5vw;
   }
 
@@ -65,9 +66,9 @@
 
 .search {
   width: 100%;
-  max-width: 400px;
   padding: 0 20px 0 35px;
   height: 100%;
+  font-size: 14px;
 }
 
 .selectWrapper {
@@ -85,6 +86,7 @@
   font-family: 'Gilroy', sans-serif;
   font-weight: 500;
   outline: none;
+  font-size: 14px;
   border: none;
   text-align: center;
   background-color: transparent;

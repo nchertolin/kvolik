@@ -49,10 +49,20 @@ export default function AnimeDesktop({ shortName, user }) {
       body: JSON.stringify({ reviewText: message })
     })
       .then(response => {
-        if (!response.ok)
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('token');
+            window.location.href = '../login';
+          }
           return response.json().then(text => { throw new Error(text.message) })
+        }
       })
-      .then(() => setNewReview(!newReview))
+      .then(() => {
+        setNewReview(!newReview);
+        setTimeout(() => {
+          disableReviewButton(false);
+        }, 300000);
+      })
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableReviewButton(false);

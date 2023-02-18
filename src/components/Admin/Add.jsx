@@ -1,16 +1,18 @@
 import React, { useRef, useState } from 'react'
 import { Helmet } from 'react-helmet';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styles from './Add.module.scss';
 import { SERVER_URL } from '../../App';
 import placeholder from '../../assets/icons/placeholder.svg';
 import { FILE_TYPES } from '../../App.js'
 
 export default function Add() {
-  const { register, formState: { errors }, handleSubmit, reset, control } = useForm({ mode: 'all' });
+  const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
   const [preview, setPreview] = useState(placeholder);
   const [frames, setFrames] = useState([placeholder, placeholder, placeholder,
     placeholder, placeholder, placeholder]);
+  const [framesFiles, setFramesFiles] = useState([]);
+  const [file, setFile] = useState();
   const error = useRef();
   const submit = useRef();
 
@@ -24,15 +26,30 @@ export default function Add() {
   const disableButton = isDisable => submit.current.disabled = isDisable;
 
   function add(data) {
-    data.imageUrl = 'https://cs.pikabu.ru/images/big_size_comm/2013-12_4/13873875745011.jpg';
-    data.genres = data.genres.split(',');
-    data.frames = frames;
+    const formData = new FormData();
+    formData.append('genres', data.genres.split(','));
+    formData.append('frames', framesFiles);
+    formData.append('imageUri', file);
+    formData.append('name', data.name);
+    formData.append('nameEng', data.nameEng);
+    formData.append('type', data.type);
+    formData.append('episodesAmount', data.episodesAmount);
+    formData.append('primarySource', data.primarySource);
+    formData.append('releaseFrom', data.releaseFrom);
+    formData.append('releaseBy', data.releaseBy);
+    formData.append('ageLimit', data.ageLimit);
+    formData.append('duration', data.duration);
+    formData.append('description', data.description);
+    formData.append('exitStatus', data.exitStatus);
+    formData.append('trailerUrl', data.trailerUrl);
+    formData.append('playerLink', data.playerLink);
+    formData.append('isMonophonic', data.isMonophonic);
+    formData.append('voiceoverStatus', data.voiceoverStatus);
+
     fetch(`${SERVER_URL}/api/admin/anime`, {
-      body: JSON.stringify(data),
+      body: formData,
       method: 'POST',
       headers: {
-        //'Content-Type': 'application/json',
-        'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
@@ -41,7 +58,7 @@ export default function Add() {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => window.location = '../')
+      .then(() => window.location.href = '..')
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableButton(false);
@@ -57,7 +74,7 @@ export default function Add() {
 
     if (matches) {
       setPreview(URL.createObjectURL(file));
-      console.log(file);
+      setFile(evt.target.files[0]);
     }
   }
 
@@ -68,8 +85,11 @@ export default function Add() {
 
     if (matches) {
       const newFrames = [...frames];
-      newFrames[index] = URL.createObjectURL(file)
+      const newFramesFiles = [...framesFiles];
+      newFrames[index] = URL.createObjectURL(file);
+      newFramesFiles[index] = file;
       setFrames(newFrames);
+      setFramesFiles(newFramesFiles);
     }
   }
 
@@ -85,19 +105,10 @@ export default function Add() {
             <label className={styles.file}>
               Обложка
               <img src={preview} alt="" />
-              <Controller
-                control={control}
-                name='imageUri'
-                rules={{ required: 'Обязательноe поле.', }}
-                render={({ field }) => (
-                  <input type="file"
-                    value={field.value}
-                    className={errors?.imageUrl ? `${styles.bannerInput} invalid` : styles.bannerInput}
-                    onChange={evt => {
-                      previewHandler(evt);
-                      field.onChange(evt)
-                    }} />
-                )}
+              <input type="file"
+                {...register('imageUri', { required: 'Обязательноe поле.' })}
+                className={styles.bannerInput}
+                onChange={previewHandler}
               />
               {errors?.imageUrl && <p className='error'>{errors?.imageUrl.message}</p>}
             </label>
@@ -119,15 +130,9 @@ export default function Add() {
               {errors?.shortName && <p className='error'>{errors?.shortName.message}</p>}
             </label>
             <label>
-              <select
-                onFocus={evt => evt.target.style.color = 'white'}
+              <input placeholder='Тип'
                 className={errors?.type ? 'invalid' : ''}
-                {...register('type', { required: 'Обязательноe поле.' })}>
-                <option value="" disabled selected hidden>Тип</option>
-                <option value='ТВ-Сериал'>ТВ-Сериал</option>
-                <option value='Фильм'>Фильм</option>
-                <option value='OVA'>OVA</option>
-              </select>
+                {...register('type', { required: 'Обязательноe поле.' })} />
               {errors?.type && <p className='error'>{errors?.type.message}</p>}
             </label>
             <label>
@@ -154,8 +159,8 @@ export default function Add() {
                 className={errors?.voiceoverStatus ? 'invalid' : ''}
                 {...register('voiceoverStatus', { required: 'Обязательноe поле.' })}>
                 <option value="" disabled selected hidden>Статус озвучки</option>
-                <option value='0'>Озвучено</option>
-                <option value='1'>Неозвучено</option>
+                <option value={false}>Озвучено</option>
+                <option value={true}>Неозвучено</option>
                 Статус
               </select>
               {errors?.voiceoverStatus && <p className='error'>{errors?.voiceoverStatus.message}</p>}
@@ -227,6 +232,7 @@ export default function Add() {
               <input type="url" placeholder='Ссылка на трейлер'
                 className={errors?.trailerUrl ? 'invalid' : ''}
                 {...register('trailerUrl', { required: 'Обязательноe поле.' })} />
+              <i>Пример: https://youtu.be/v-AGjx0N24U     ------>    https://www.youtube-nocookie.com/embed/v-AGjx0N24U</i>
               {errors?.trailerUrl && <p className='error'>{errors?.trailerUrl.message}</p>}
             </label>
             <label>

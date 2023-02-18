@@ -41,15 +41,15 @@ ul {
 a {
   color: $light-color;
   text-decoration: none;
-  transition: all .3s ease-in-out;
+  transition: .5s;
 
   &:hover {
     color: $accent-color;
+    opacity: .6;
   }
 
   &:active {
-    color: $accent-color;
-    opacity: .6;
+    opacity: .3;
   }
 }
 
@@ -79,6 +79,7 @@ button {
   border-radius: 5px;
   font-weight: 500;
   font-family: 'Gilroy', 'sans-serif';
+  transition: .5s;
 
   &:hover {
     opacity: .5;

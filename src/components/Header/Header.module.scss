@@ -37,6 +37,11 @@
       &.active {
         font-weight: bold;
       }
+
+      &:hover {
+        font-weight: bold;
+        opacity: 1;
+      }
     }
   }
 }

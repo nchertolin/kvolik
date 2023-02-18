@@ -1,3 +1,5 @@
+@import '../../colors.scss';
+
 .content {
   width: 85vw;
   max-width: 2000px;
@@ -59,16 +61,17 @@
     font-weight: bold;
     align-items: center;
     justify-content: center;
-    text-align: center;
     width: 100%;
     height: 50px;
     font-size: 14px;
     background-color: white;
     border-radius: 5px;
     color: black;
+    padding: 0;
 
     &.rate {
-      background-color: #FFE34F;
+      background-color: $accent;
+      ;
     }
   }
 }
@@ -77,7 +80,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  row-gap: 30px;
+  row-gap: 10px;
 }
 
 .info {
@@ -89,17 +92,17 @@
 
 .infoRow {
   display: flex;
+  column-gap: 20px;
   max-width: 70%;
 
   p {
-    opacity: .6;
+    color: $second-text;
     width: 40%;
-    font-weight: 500;
+    font-weight: bold;
   }
 
   span {
-    width: 50%;
-    text-align: left;
+    width: 55%;
   }
 }
 
@@ -141,12 +144,13 @@
 }
 
 .player {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   text-align: center;
   margin-bottom: 50px;
 
   iframe {
-    height: 80vh;
+    height: 70vh;
   }
 }
 
@@ -168,8 +172,8 @@
     outline: none;
     border: 0;
     border-radius: 5px;
-    background-color: #676666;
-    color: white;
+    background-color: $input;
+    color: $main-text;
     font-family: 'Gilroy', 'sans-serif';
     font-size: 14px;
 
@@ -231,6 +235,11 @@
   p {
     font-weight: bold;
     font-size: 22px;
+    color: $background;
+    width: 60px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: $accent;
   }
 
   .favorite {
@@ -245,12 +254,19 @@
 }
 
 .editor {
+  transition: 1s;
 
   .row {
     align-items: center;
   }
 
   .pictureWrapper {
+
+    &:hover {
+      cursor: pointer;
+      opacity: .7;
+    }
+
     input {
       display: none;
     }
@@ -261,7 +277,20 @@
     flex-direction: column;
     row-gap: 10px;
     font-weight: 500;
-    color: rgba(255, 255, 255, .6);
+    color: $second-text;
+  }
+
+
+  select {
+    width: 100%;
+    height: 40px;
+    background-color: $input;
+    color: $main-text;
+    font-family: 'Gilroy', sans-serif;
+    font-size: 16px;
+    padding-left: 10px;
+    outline: none;
+    border-radius: 5px;
   }
 
   input {
@@ -282,7 +311,7 @@
     height: 100px;
     resize: none;
     color: white;
-    background-color: #676666;
+    background-color: $input;
     border-radius: 5px;
     font-family: 'Gilroy', sans-serif;
     font-size: 16px;
@@ -315,6 +344,11 @@
     input {
       display: none;
     }
+
+    &:hover {
+      opacity: .7;
+      cursor: pointer;
+    }
   }
 
   .submit {
@@ -322,4 +356,9 @@
     height: 40px;
     margin-bottom: 50px;
   }
+}
+
+i {
+  color: $second-text;
+  white-space: pre-wrap;
 }

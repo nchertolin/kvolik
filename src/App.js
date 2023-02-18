@@ -56,10 +56,10 @@ function App() {
           } else return response.json().then(text => { throw new Error(text.message) })
         })
         .then(data => setUser(data))
-        // .catch(() => {
-        //   setUser(testUser);
-        //   localStorage.setItem('token', '123');
-        // })
+        .catch(() => {
+          setUser(testUser);
+          localStorage.setItem('token', '123');
+        })
         .catch(err => console.err(err.message))
         .finally(() => setLoading(false));
     }
