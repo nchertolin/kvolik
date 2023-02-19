@@ -164,7 +164,7 @@ export default function AnimeDesktop({ shortName, user }) {
         return data.id;
       })
       .then(id => checkFavorite(id))
-      //.catch(err => alert('Не удалось получить информацию об аниме.'))
+      .catch(err => alert('Не удалось получить информацию об аниме.'))
       .finally(() => setLoading(false));
   }, [shortName]);
 
@@ -176,7 +176,7 @@ export default function AnimeDesktop({ shortName, user }) {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => setReviews(data.reviews))
-    //.catch(err => alert('Не удалось получить информацию об аниме.'))
+      .catch(err => alert('Не удалось получить информацию об аниме.'))
   }, [shortName, newReview]);
 
 
