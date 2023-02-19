@@ -2,7 +2,7 @@
 
 .content {
   width: 85vw;
-  max-width: 2000px;
+  max-width: 1400px;
   font-size: 16px;
   margin: 0 auto;
 
@@ -15,8 +15,8 @@
 
 .row {
   display: grid;
-  grid-template-columns: min(20vw, 400px) 1fr;
-  column-gap: 100px;
+  grid-template-columns: 300px 1fr;
+  column-gap: 40px;
   margin-bottom: 60px;
 }
 
@@ -34,23 +34,64 @@
   margin: 0;
 }
 
+.actions {
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+
+}
+
 .second {
   opacity: .6;
   font-size: 20px;
 }
 
+.pictureWrapper {
+  width: 100%;
+  position: relative;
+}
+
+.absolute {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  height: 6%;
+
+  p {
+    font-weight: 500;
+    font-size: 18px;
+    color: $main-text;
+    width: 50px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: black;
+    border: 1px solid $accent;
+  }
+
+  .favorite {
+    background-color: transparent;
+    width: auto;
+    padding: 0;
+
+    img {
+      height: 30px;
+    }
+  }
+}
+
 .picture {
-  width: 20vw;
-  height: 30vw;
-  max-width: 400px;
-  max-height: 600px;
+  width: 100%;
+  height: 400px;
   border-radius: 10px;
   object-fit: cover;
 }
 
 .buttons {
-  width: 20vw;
-  max-width: 400px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -62,7 +103,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 50px;
+    height: 40px;
     font-size: 14px;
     background-color: white;
     border-radius: 5px;
@@ -106,8 +147,16 @@
   }
 }
 
-.description {
-  margin-bottom: 60px;
+
+.descriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+
+  p {
+    color: $second-text;
+    font-weight: bold;
+  }
 }
 
 .extra {
@@ -140,11 +189,12 @@
 .head {
   font-weight: bold;
   font-size: 20px;
+  color: $second-text;
   margin-bottom: 30px;
 }
 
 .player {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
   margin-bottom: 50px;
@@ -194,6 +244,11 @@
     font-size: 14px;
     margin: 5px 0;
   }
+
+  textarea {
+    background-color: $input;
+    height: 50px;
+  }
 }
 
 .more {
@@ -214,42 +269,6 @@
   button {
     width: 100%;
     height: 40px;
-  }
-}
-
-.pictureWrapper {
-  width: 100%;
-  position: relative;
-}
-
-.absolute {
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-  top: 5%;
-  left: 5%;
-  height: 6%;
-
-  p {
-    font-weight: bold;
-    font-size: 22px;
-    color: $background;
-    width: 60px;
-    text-align: center;
-    border-radius: 5px;
-    background-color: $accent;
-  }
-
-  .favorite {
-    background-color: transparent;
-    width: auto;
-    padding: 0;
-
-    img {
-      height: 30px;
-    }
   }
 }
 
@@ -285,6 +304,7 @@
     width: 100%;
     height: 40px;
     background-color: $input;
+    border: 0;
     color: $main-text;
     font-family: 'Gilroy', sans-serif;
     font-size: 16px;
@@ -311,6 +331,7 @@
     height: 100px;
     resize: none;
     color: white;
+    border: 0;
     background-color: $input;
     border-radius: 5px;
     font-family: 'Gilroy', sans-serif;
@@ -333,8 +354,8 @@
     margin-bottom: 50px;
 
     img {
-      width: min(16vw, 380px);
-      height: min(10vw, 200px);
+      width: min(16vw, 260px);
+      height: min(10vw, 140px);
       object-fit: cover;
       border-radius: 10px;
     }

@@ -5,15 +5,16 @@ import Comment from '../Comment/Comment';
 import Rating from '../Rating/Rating';
 import Slider from '../Slider/Slider';
 import styles from './AnimeDesktop.module.scss';
-import { isAuth, SERVER_URL } from '../../App';
+import { IS_AUTH, SERVER_URL } from '../../util.js';
 import { testAnime } from './anime.js';
 import Loading from '../Loading/Loading';
 import { Link } from 'react-router-dom';
 import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 import { useForm } from 'react-hook-form';
-import { convertToMonth } from '../../util.js';
-import edit from '../../assets/icons/edit.svg'
+import { convertToMonth, setLastPage } from '../../util.js';
+import edit from '../../assets/icons/edit.svg';
+import delet from '../../assets/icons/delete.svg';
 
 export function showRating(ref, isOpen) {
   ref.current.style.opacity = isOpen ? 1 : 0;
@@ -31,6 +32,7 @@ export default function AnimeDesktop({ shortName, user }) {
   const favoriteRef = useRef();
   const reviewRef = useRef();
   const error = useRef();
+  const deleteRef = useRef();
   const [anime, setAnime] = useState(testAnime);
   const [isFavorite, setFavorite] = useState();
   const [isLoading, setLoading] = useState();
@@ -49,11 +51,13 @@ export default function AnimeDesktop({ shortName, user }) {
       body: JSON.stringify({ reviewText: message })
     })
       .then(response => {
+        if (response.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.setItem('lastPage', window.location.href)
+          window.location.href = '../login';
+          throw new Error();
+        }
         if (!response.ok) {
-          if (response.status === 401) {
-            localStorage.removeItem('token');
-            window.location.href = '../login';
-          }
           return response.json().then(text => { throw new Error(text.message) })
         }
       })
@@ -63,7 +67,11 @@ export default function AnimeDesktop({ shortName, user }) {
           disableReviewButton(false);
         }, 300000);
       })
-      .catch(err => showError(true, err.message))
+      .catch(err => {
+        setLastPage();
+        window.location.href = '../login';
+        showError(true, err.message);
+      })
       .finally(() => {
         disableReviewButton(false);
         reset();
@@ -78,8 +86,8 @@ export default function AnimeDesktop({ shortName, user }) {
   }
 
   const disableReviewButton = isDisable => reviewRef.current.disabled = isDisable;
-
   const disableFavoriteButton = isDisable => ratingRef.current.disabled = isDisable;
+  const disableDeleteButton = isDisable => deleteRef.current.disabled = isDisable;
 
   function checkFavorite(animeId) {
     fetch(`${SERVER_URL}/api/favorites`, {
@@ -119,6 +127,29 @@ export default function AnimeDesktop({ shortName, user }) {
       });
   }
 
+  function deleteAnime() {
+    disableDeleteButton(true);
+    let isDelete = window.confirm(`Вы действительно хотите удалить аниме ${anime.name}?`);
+    if (isDelete) {
+      fetch(`${SERVER_URL}/api/admin/anime/${anime.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            alert(`Аниме ${anime.name} успешно удалено.`);
+            window.location.href = '..';
+          } else throw new Error();
+        })
+        .catch(alert(`Не удалось удалить аниме ${anime.name}.`))
+        .finally(() => disableDeleteButton(false))
+    }
+  }
+
   useEffect(() => {
     setLoading(true);
     fetch(`${SERVER_URL}/api/anime/${shortName}`)
@@ -133,7 +164,7 @@ export default function AnimeDesktop({ shortName, user }) {
         return data.id;
       })
       .then(id => checkFavorite(id))
-      .catch(err => console.error(err.message))
+      //.catch(err => alert('Не удалось получить информацию об аниме.'))
       .finally(() => setLoading(false));
   }, [shortName]);
 
@@ -145,7 +176,7 @@ export default function AnimeDesktop({ shortName, user }) {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => setReviews(data.reviews))
-      .catch(err => console.error(err.message))
+    //.catch(err => alert('Не удалось получить информацию об аниме.'))
   }, [shortName, newReview]);
 
 
@@ -162,7 +193,7 @@ export default function AnimeDesktop({ shortName, user }) {
                 <img className={styles.picture} src={anime.imageUrl} alt="" />
                 <div className={styles.absolute}>
                   <p>{+anime.averageRating.toFixed(2)}</p>
-                  {isAuth &&
+                  {IS_AUTH &&
                     <button className={styles.favorite} ref={favoriteRef}
                       onClick={addToFavorite}>
                       <img src={isFavorite ? starFill : star} alt="В избранное" />
@@ -170,16 +201,22 @@ export default function AnimeDesktop({ shortName, user }) {
                 </div>
               </div>
               <a href='#watch'>Смотреть онлайн</a>
-              {isAuth ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
+              {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
                 : <Link to='../login' className={styles.rate}>Оценить аниме</Link>}
             </div>
             <div className={styles.infoWrapper}>
               <div className={styles.nameWrapper}>
                 <h1 className={styles.title}>{anime.name}</h1>
                 {user.isAdmin &&
-                  <Link to='edit' className={styles.edit}>
-                    <img src={edit} alt="" />
-                  </Link>}
+                  <div className={styles.actions}>
+                    <Link to='edit' className={styles.edit}>
+                      <img src={edit} alt="" />
+                    </Link>
+                    <button ref={deleteRef} className={styles.edit}
+                      onClick={deleteAnime}>
+                      <img src={delet} alt="" />
+                    </button>
+                  </div>}
               </div>
               <h2 className={styles.second}>{anime.nameEng}</h2>
               <div className={styles.info}>
@@ -215,7 +252,7 @@ export default function AnimeDesktop({ shortName, user }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Возрастные ограничения</p>
-                  <span>{anime.ageLimit}</span>
+                  <span>{anime.ageLimit}+</span>
                 </div>
                 <div className={styles.infoRow}>
                   <p>Длительность</p>
@@ -231,12 +268,15 @@ export default function AnimeDesktop({ shortName, user }) {
                     <span>{anime.isMonophonic ? 'Одноголосая' : 'Многоголосая'}</span>
                   </div>}
               </div>
+              <div className={styles.descriptionWrapper}>
+                <p>Описание</p>
+                <span className={styles.description}>{anime.description}</span>
+              </div>
             </div>
           </div>
-          <p className={styles.description}>{anime.description}</p>
           <div className={styles.extraHeaders}>
             <h2 className={styles.head}>Кадры из аниме</h2>
-            <h2 className={styles.head}>Трейлер из аниме</h2>
+            <h2 className={styles.head}>Трейлер аниме</h2>
           </div>
           <div className={styles.extra}>
             <div className={styles.extraItem}>
@@ -262,9 +302,9 @@ export default function AnimeDesktop({ shortName, user }) {
                   setNewReview={setNewReview} newReview={newReview}
                   Liked={review.likedUsersEmails.some(email => email === user.email)} />)}
             </ul>
-            {isAuth ?
+            {IS_AUTH ?
               <form className={styles.write} onSubmit={handleSubmit(sendReview)}>
-                <textarea disabled={!isAuth} placeholder='Ваш комментарий'
+                <textarea disabled={!IS_AUTH} placeholder='Напишите свое мнение'
                   onChange={autoResize}
                   {...register('message', {
                     required: 'Обязательноe поле.',
@@ -274,7 +314,7 @@ export default function AnimeDesktop({ shortName, user }) {
                     }
                   })} />
                 {errors?.message && <p className='error'>{errors?.message.message}</p>}
-                <button ref={reviewRef} className='primary-button' disabled={!isAuth}>
+                <button ref={reviewRef} className='primary-button' disabled={!IS_AUTH}>
                   Отправить
                 </button>
                 <p ref={error} className='error-submit'>Возникла ошибка при отправке.</p>
@@ -283,6 +323,7 @@ export default function AnimeDesktop({ shortName, user }) {
           </div>
           <Rating reference={ratingRef} id={anime.id} />
         </div>}
+
     </>
   )
 }

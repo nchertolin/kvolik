@@ -4,7 +4,7 @@ import close from '../../assets/icons/close.svg';
 import search from '../../assets/icons/search.svg';
 import { NavLink } from 'react-router-dom';
 import styles from './MobileHeader.module.scss';
-import { isAuth } from '../../App';
+import { IS_AUTH } from '../../util.js';
 import Loading from '../Loading/Loading';
 
 const Search = lazy(() => import('../Search/Search'))
@@ -30,7 +30,7 @@ export default function MobileHeader({ user }) {
     <header className={styles.header}>
       <div ref={menuModal} className="menu-modal hidden">
         <div className='menu-modal__wrapper'>
-          {isAuth
+          {IS_AUTH
             ?
             <NavLink className='user-wrapper' to='/account' onClick={showMenu}>
               <img className={styles.user} src={user.avatarImageUrl} alt={user.name} />
@@ -39,11 +39,10 @@ export default function MobileHeader({ user }) {
             : <div className='user-wrapper'>
               <NavLink onClick={showMenu} className='primary-button' to='/login'>Войти</NavLink>
             </div>}
-          <p>Навигация</p>
           <ul>
             <li><NavLink to='/' className={setActiveLink} onClick={showMenu}>Аниме</NavLink></li>
             <li><NavLink to='/soon' className={setActiveLink} onClick={showMenu}>Скоро</NavLink></li>
-            {isAuth && <li><NavLink to='/favorites' className={setActiveLink} onClick={showMenu}>Избранное</NavLink></li>}
+            {IS_AUTH && <li><NavLink to='/favorites' className={setActiveLink} onClick={showMenu}>Избранное</NavLink></li>}
             <li><NavLink to='/contacts' className={setActiveLink} onClick={showMenu}>Заказать озвучку</NavLink></li>
           </ul>
         </div>

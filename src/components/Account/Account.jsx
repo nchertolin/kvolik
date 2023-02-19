@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { isAuth } from '../../App';
+import { IS_AUTH } from '../../util.js';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import styles from './Account.module.scss';
 
@@ -24,9 +24,9 @@ export default function Account({ user, setUser }) {
   return (
     <>
       <Helmet>
-        <title>{isAuth ? user.name : '404'}</title>
+        <title>{IS_AUTH ? user.name : '404'}</title>
       </Helmet>
-      {!isAuth ? <ErrorPage />
+      {!IS_AUTH ? <ErrorPage />
         : <div className={styles.wrapper}>
           <div className={styles.userInfo}>
             <img src={user.avatarImageUrl} alt="" />

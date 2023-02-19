@@ -14,7 +14,7 @@ import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 import { useForm } from 'react-hook-form';
 import { autoResize } from '../AnimeDesktop/AnimeDesktop';
-import { isAuth, SERVER_URL } from '../../App';
+import { IS_AUTH, SERVER_URL } from '../../util.js';
 
 export default function Anime({ shortName, user }) {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
@@ -153,7 +153,7 @@ export default function Anime({ shortName, user }) {
                 <img className={styles.picture} src={anime.imageUrl} alt="" />
                 <div className={styles.absolute}>
                   <p>{+anime.averageRating.toFixed(2)}</p>
-                  {isAuth &&
+                  {IS_AUTH &&
                     <button className={styles.favorite} ref={favoriteRef}
                       onClick={addToFavorite}>
                       <img src={isFavorite ? starFill : star} alt="В избранное" />
@@ -162,7 +162,7 @@ export default function Anime({ shortName, user }) {
               </div>
               <div className={styles.buttons}>
                 <a href='#watch'>Смотреть онлайн</a>
-                {isAuth ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
+                {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
                   : <Link to='../login' className={styles.rate}>Оценить аниме</Link>}
               </div>
               <Rating reference={ratingRef} />
@@ -199,7 +199,7 @@ export default function Anime({ shortName, user }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Возрастные ограничения</p>
-                  <span>{anime.ageLimit}</span>
+                  <span>{anime.ageLimit}+</span>
                 </div>
                 <div className={styles.infoRow}>
                   <p>Длительность</p>
@@ -248,15 +248,15 @@ export default function Anime({ shortName, user }) {
                       setNewReview={setNewReview} newReview={newReview}
                       Liked={review.likedUsersEmails.some(email => email === user)} />)}
                 </ul>
-                {isAuth ?
+                {IS_AUTH ?
                   <form className={styles.write} onSubmit={handleSubmit(sendReview)}>
-                    <textarea disabled={!isAuth} placeholder='Ваш комментарий' onChange={autoResize}
+                    <textarea disabled={!IS_AUTH} placeholder='Ваш комментарий' onChange={autoResize}
                       {...register('message', {
                         required: 'Обязательноe поле.',
                         maxLength: { value: 200, message: 'Максимальная длина комментария 200 символов.' }
                       })} />
                     {errors?.message && <p className='error'>{errors?.message.message}</p>}
-                    <button ref={reviewRef} className='primary-button' disabled={!isAuth}>Отправить</button>
+                    <button ref={reviewRef} className='primary-button' disabled={!IS_AUTH}>Отправить</button>
                     <p ref={error} className='error-submit'>Возникла ошибка при отправке.</p>
                   </form>
                   : <h3>Комментарии могут писать только авторизованные пользователи</h3>}

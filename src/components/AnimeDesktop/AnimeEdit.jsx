@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet';
-import { FILE_TYPES, SERVER_URL } from '../../App';
+import { FILE_TYPES, SERVER_URL } from '../../util.js';
 import Loading from '../Loading/Loading';
 import { testAnime } from './anime';
 import styles from './AnimeDesktop.module.scss';

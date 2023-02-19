@@ -72,9 +72,9 @@
   justify-content: space-between;
 
   p {
-    opacity: .6;
+    color: $second-text;
     max-width: 40%;
-    font-weight: 500;
+    font-weight: bold;
   }
 
   span {
@@ -100,6 +100,7 @@
 
 .readMore {
   font-size: 14px;
+  font-weight: bold;
   padding: 0;
   background-color: transparent;
   color: $second-text;
@@ -160,7 +161,7 @@
     outline: none;
     border: 0;
     border-radius: 5px;
-    background-color: #676666;
+    background-color: $input;
     color: white;
     font-family: 'Gilroy', 'sans-serif';
     font-size: 14px;
@@ -221,7 +222,7 @@
   p {
     font-weight: bold;
     font-size: 18px;
-    width: 40px;
+    width: 50px;
 
     @media (min-width: 768px) {
       font-size: 22px;
@@ -230,7 +231,7 @@
 
     color: $background;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 7px;
     background-color: $accent;
   }
 

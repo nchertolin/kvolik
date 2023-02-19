@@ -3,8 +3,9 @@ import show from '../../assets/icons/show.svg';
 import unShow from '../../assets/icons/show-off.svg';
 import styles from './Login.module.scss';
 import { Link } from 'react-router-dom';
-import { SERVER_URL } from '../../App';
+import { SERVER_URL } from '../../util.js';
 import { useForm } from 'react-hook-form';
+import { removeLastPage } from '../../util';
 
 export default function Login() {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
@@ -38,7 +39,7 @@ export default function Login() {
       })
       .then(data => {
         localStorage.setItem('token', `${data['token']}`);
-        window.location.href = '..';
+        removeLastPage();
       })
       .catch((err) => showError(true, err.message))
       .finally(() => disableButton(false));

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import styles from './Comment.module.scss';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
-import { SERVER_URL } from '../../App';
+import { SERVER_URL } from '../../util.js';
 import { convertToMonth } from '../../util';
 
 export default function Comment({ review, animeId, setNewReview, newReview, isUsers, Liked }) {

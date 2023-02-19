@@ -5,6 +5,7 @@ import { v4 } from "uuid";
 import Loading from "./components/Loading/Loading";
 import Layout from "./components/Layout";
 import AnimeEdit from "./components/AnimeDesktop/AnimeEdit";
+import { IS_AUTH, SERVER_URL } from './util.js';
 const Anime = lazy(() => import('./components/Anime/Anime.jsx'));
 const AnimeDesktop = lazy(() => import('./components/AnimeDesktop/AnimeDesktop'));
 const AnimesList = lazy(() => import('./components/AnimesList/AnimesList'));
@@ -16,9 +17,6 @@ const Account = lazy(() => import('./components/Account/Account'));
 const Edit = lazy(() => import('./components/Account/Edit'));
 const ErrorPage = lazy(() => import('./components/ErrorPage/ErrorPage'));
 const Add = lazy(() => import('./components/Admin/Add'));
-export const isAuth = localStorage.getItem('token') !== null;
-export const SERVER_URL = 'https://localhost:44349';
-export const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const testUser = {
   name: 'Канеки Кен',
@@ -42,6 +40,7 @@ function App() {
       })
       .then(data => setNames(data))
       .catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
+      .catch((err) => alert(err.message))
       .finally(() => setLoading(false));
 
     if (localStorage.getItem('token')) {
@@ -60,7 +59,9 @@ function App() {
           setUser(testUser);
           localStorage.setItem('token', '123');
         })
-        .catch(err => console.err(err.message))
+        .catch(err => {
+          console.err(err.message);
+        })
         .finally(() => setLoading(false));
     }
   }, []);
@@ -143,7 +144,7 @@ function App() {
 
               <Route path='favorites' element={
                 <Suspense fallback={<Loading />}>
-                  {isAuth
+                  {IS_AUTH
                     ? <AnimesList title='Избранное' isFavorites={true} />
                     : <ErrorPage />}
                 </Suspense>

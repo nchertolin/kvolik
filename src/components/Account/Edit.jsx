@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styles from './Account.module.scss';
-import { isAuth, SERVER_URL } from '../../App.js'
+import { IS_AUTH, SERVER_URL } from '../../util.js';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import ErrorPage from '../ErrorPage/ErrorPage';
@@ -49,9 +49,9 @@ export default function Edit({ user }) {
   return (
     <>
       <Helmet>
-        <title>{isAuth ? user.name : 'Редактировать профиля'}</title>
+        <title>{IS_AUTH ? user.name : 'Редактировать профиля'}</title>
       </Helmet>
-      {!isAuth ? <ErrorPage />
+      {!IS_AUTH ? <ErrorPage />
         : <div className={styles.wrapper}>
           <img src={user.avatarImageUrl} alt="" />
           <form autoComplete='off' className={styles.editList} onSubmit={handleSubmit(editUser)}>

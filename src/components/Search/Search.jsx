@@ -4,8 +4,7 @@ import close from '../../assets/icons/close.svg';
 import SearchCard from '../SearchCard/SearchCard';
 import Loading from '../Loading/Loading';
 import styles from './Search.module.scss';
-import { SERVER_URL } from '../../App';
-import { testAnimes } from '../AnimesList/animes';
+import { SERVER_URL } from '../../util.js';
 
 export default function Search({ reference, }) {
   const searchInput = useRef();

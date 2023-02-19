@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import styles from './Login.module.scss';
+import { SERVER_URL } from '../../util.js';
 
 export default function Forgot() {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
@@ -8,8 +9,63 @@ export default function Forgot() {
   const error = useRef();
   const [isSubmited, setSubmited] = useState();
 
-  function sendCode() {
-    setSubmited(true);
+  const disableButton = isDisable => submit.current.disabled = isDisable;
+
+  function showError(isShow, message) {
+    if (isShow) {
+      error.current.textContent = message;
+    }
+    error.current.style.display = isShow ? 'block' : 'none';
+  }
+
+  function sendCode({ email }) {
+    disableButton(true);
+    if (!isSubmited) {
+      fetch(`${SERVER_URL}/api/email/send/${email}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else return response.json().then(text => { throw new Error(text.message) })
+        })
+        .then(() => {
+          setSubmited(true);
+          showError(false, 'Возникла ошибка при отправке.');
+        })
+        .catch(err => showError(true, err.message))
+        .finally(() => disableButton(false));
+    } else {
+      fetch(`${SERVER_URL}/api/email/confirm`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          code: 0,
+          email: email
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else return response.json().then(text => { throw new Error(text.message) })
+        })
+        .then(({ token }) => {
+          localStorage.setItem('token', token);
+          showError(false, 'Возникла ошибка при отправке.');
+          window.location.href = '../../account/edit'
+        })
+        .catch(err => showError(true, err.message))
+        .finally(() => {
+          disableButton(false);
+          setSubmited(false);
+          reset();
+        });
+    }
   }
 
   return (
@@ -33,7 +89,7 @@ export default function Forgot() {
           {errors?.code && <p className='error'>{errors?.code.message}</p>}
         </label>}
         <button ref={submit} className={`${styles.submit} primary-button`}>Продолжить</button>
-        <p ref={error} className='error-submit'>Неверный логин или пароль.</p>
+        <p ref={error} className='error-submit'>Возникла ошибка при отправке.</p>
       </form>
     </div>
   )

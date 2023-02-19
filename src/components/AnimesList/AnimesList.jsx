@@ -1,22 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Card from '../Card/Card';
 import styles from './AnimesList.module.scss';
 import { v4 } from 'uuid';
 import search from '../../assets/icons/search.svg';
 import Loading from '../Loading/Loading';
-import { testAnimes } from './animes.js';
-import { SERVER_URL } from '../../App';
+import { testPreview, testAnimes } from './animes.js';
+import { SERVER_URL } from '../../util.js';
 import { isMobile } from 'react-device-detect';
 import EmptyCard from '../Card/EmptyCard';
+import video from '../../assets/videos/hero.mp4';
+import { Link } from 'react-router-dom';
 
 
 export default function AnimesList({ title, isSoon, isFavorites, user }) {
+  const videoRef = useRef();
+  const [preview, setPreview] = useState(testPreview);
   const [animes, setAnimes] = useState([]);
   const [isLoading, setLoading] = useState();
   const [isEmpty, setEmpty] = useState();
   const [selectedSort, setSelectedSort] = useState('DateDesc');
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > .68 * window.innerHeight) {
+        videoRef.current.pause();
+      } else videoRef.current.play();
+    })
+  }, [])
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`${SERVER_URL}/api/anime/preview/`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else return response.json().then(text => { throw new Error(text.message) })
+      })
+      .then(data => setPreview(data))
+      .catch(() => setPreview(testPreview))
+      .catch(err => console.error(err.message))
+      .finally(() => setLoading(false))
+  }, [])
 
   useEffect(() => {
     setLoading(true);
@@ -37,15 +63,30 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         setAnimes(data);
       })
       .catch(() => setAnimes(testAnimes))
-      // .catch(err => console.error(err.message))
+      .catch(err => setEmpty(!user.isAdmin))
       .finally(() => setLoading(false))
-  }, [isSoon, isFavorites, selectedSort, query]);
+  }, [isSoon, isFavorites, selectedSort, query, user.isAdmin]);
 
   return (
     <>
       <Helmet>
         <title>KvolikDub - {title}</title>
       </Helmet>
+      {!isMobile &&
+        <div className={styles.hero}>
+          <div className={styles.videoEffect}>
+            <video ref={videoRef} className={styles.video} src={video} autoPlay loop muted playsInline></video>
+          </div>
+          <div className={styles.videoTextWrapper}>
+            <div className={styles.heroInfo}>
+              <p>{preview.type}</p>
+              <span>{preview.releaseFrom.slice(0, 4)}</span>
+              <span>{preview.ageLimit}+</span>
+            </div>
+            <Link to={preview.shortName}>{preview.name}</Link>
+            <h3>{preview.description}</h3>
+          </div>
+        </div>}
       <div className='content'>
         <h1>{title}</h1>
         {!isFavorites &&

@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './SignUp.module.scss';
-import { SERVER_URL } from '../../App.js'
+import { SERVER_URL } from '../../util.js'
 
 export default function SignUp() {
   const { register, watch, formState: { errors }, handleSubmit, reset } = useForm({ mode: "all" });

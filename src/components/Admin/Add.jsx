@@ -2,9 +2,8 @@ import React, { useRef, useState } from 'react'
 import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
 import styles from './Add.module.scss';
-import { SERVER_URL } from '../../App';
 import placeholder from '../../assets/icons/placeholder.svg';
-import { FILE_TYPES } from '../../App.js'
+import { SERVER_URL, FILE_TYPES } from '../../util.js';
 
 export default function Add() {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });

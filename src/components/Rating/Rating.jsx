@@ -4,7 +4,7 @@ import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 import close from '../../assets/icons/close.svg';
 import { v4 } from 'uuid';
-import { SERVER_URL } from '../../App';
+import { SERVER_URL } from '../../util.js';
 import { useRef } from 'react';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 
