@@ -11,10 +11,10 @@ export default function EmptyCard({ shortName }) {
           <img className={styles.picture}
             src={placeholder} alt="" />
         </div>
-        <div className={styles.emptyInfo}>
-          <div className={styles.emptyNameEng}></div>
-          <div className={styles.emptyName}></div>
-          <div className={styles.emptyAbout}></div>
+        <div className={styles.info}>
+          <h3>Add new anime</h3>
+          <h2>Добавить новое аниме</h2>
+          <h3>Фильм / 12 серий / год выпуска</h3>
         </div>
       </Link>
     </div>

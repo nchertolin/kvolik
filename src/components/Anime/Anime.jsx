@@ -231,13 +231,17 @@ export default function Anime({ shortName, user }) {
                   <Slider pictures={anime.frames} />
                 </div>
                 <h2 className={styles.head}>Трейлер аниме</h2>
-                <iframe id='watch' title='Trailer' src={anime.trailerUrl}></iframe>
-                <h2 className={styles.head}>Смотреть аниме {anime.name}</h2>
-                <iframe
-                  title='Anime'
-                  src={anime.playerLink}
-                  allow="autoplay *; fullscreen *">
-                </iframe>
+                <iframe title='Trailer' src={anime.trailerUrl}></iframe>
+                <div id='watch' className={styles.player}>
+                  <h2 className={styles.head}>Смотреть аниме {anime.name}</h2>
+                  <div className={styles.kodik}>
+                    <iframe
+                      title='Anime'
+                      src={`${anime.playerLink}?only_translations=2399&min_age=${anime.ageLimit}&min_age_confirmation=true`}
+                      allow="autoplay *; fullscreen *">
+                    </iframe>
+                  </div>
+                </div>
               </div>
               <div className={styles.comments}>
                 <h3>Комментарии</h3>

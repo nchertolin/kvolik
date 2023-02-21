@@ -116,13 +116,13 @@ export default function AnimeDesktop({ shortName, user }) {
       }
     })
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else return response.json().then(text => { throw new Error(text.message) })
+        if (!response.ok) {
+          return response.json().then(text => { throw new Error(text.message) })
+        }
       })
-      .catch((err) => console.log(err.message))
+      .then(() => checkFavorite(anime.id))
+      .catch(err => console.log(err.message))
       .finally(() => {
-        checkFavorite(anime.id);
         disableFavoriteButton(false);
       });
   }
@@ -141,8 +141,8 @@ export default function AnimeDesktop({ shortName, user }) {
       })
         .then(response => {
           if (response.ok) {
-            alert(`Аниме ${anime.name} успешно удалено.`);
             window.location.href = '..';
+            alert(`Аниме ${anime.name} успешно удалено.`);
           } else throw new Error();
         })
         .catch(alert(`Не удалось удалить аниме ${anime.name}.`))
@@ -164,7 +164,7 @@ export default function AnimeDesktop({ shortName, user }) {
         return data.id;
       })
       .then(id => checkFavorite(id))
-      .catch(err => alert('Не удалось получить информацию об аниме.'))
+      //.catch(err => alert('Не удалось получить информацию об аниме.'))
       .finally(() => setLoading(false));
   }, [shortName]);
 
@@ -176,7 +176,7 @@ export default function AnimeDesktop({ shortName, user }) {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => setReviews(data.reviews))
-      .catch(err => alert('Не удалось получить информацию об аниме.'))
+    //.catch(err => alert('Не удалось получить информацию об аниме.'))
   }, [shortName, newReview]);
 
 
@@ -190,7 +190,7 @@ export default function AnimeDesktop({ shortName, user }) {
           <div className={styles.row}>
             <div className={styles.buttons}>
               <div className={styles.pictureWrapper}>
-                <img className={styles.picture} src={anime.imageUrl} alt="" />
+                <img className={styles.picture} src={`${SERVER_URL}/${anime.imageUrl}`} alt="" />
                 <div className={styles.absolute}>
                   <p>{+anime.averageRating.toFixed(2)}</p>
                   {IS_AUTH &&
@@ -280,18 +280,21 @@ export default function AnimeDesktop({ shortName, user }) {
           </div>
           <div className={styles.extra}>
             <div className={styles.extraItem}>
-              <Slider pictures={anime.frames} />
+              <Slider pictures={anime.frames.map(frameUrl => `${SERVER_URL}/${frameUrl}`)} />
             </div>
             <div className={styles.extraItem}>
               <iframe title='Trailer' src={anime.trailerUrl}></iframe>
             </div>
           </div>
-          <div className={styles.player}>
-            <h2 id='watch' className={styles.head}>Смотреть аниме {anime.name}</h2>
-            <iframe
-              title='Anime'
-              src={anime.playerLink}
-              allow="autoplay *; fullscreen *"></iframe>
+          <div className={styles.player} id='watch'>
+            <h2 className={styles.head}>Смотреть аниме {anime.name}</h2>
+            <div className={styles.kodik}>
+              <iframe
+                title='Anime'
+                src={`${anime.playerLink}?only_translations=2399&min_age=${anime.ageLimit}&min_age_confirmation=true`}
+                allow="autoplay *; fullscreen *">
+              </iframe>
+            </div>
           </div>
           <div className={styles.comments}>
             <h3>Комментарии</h3>

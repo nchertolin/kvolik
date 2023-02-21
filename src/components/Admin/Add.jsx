@@ -30,6 +30,7 @@ export default function Add() {
     formData.append('frames', framesFiles);
     formData.append('imageUri', file);
     formData.append('name', data.name);
+    formData.append('shortName', data.shortName);
     formData.append('nameEng', data.nameEng);
     formData.append('type', data.type);
     formData.append('episodesAmount', data.episodesAmount);
@@ -53,16 +54,18 @@ export default function Add() {
       }
     })
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else return response.json().then(text => { throw new Error(text.message) })
+        if (!response.ok) {
+          return response.json().then(text => { throw new Error(text.message) })
+        }
       })
-      .then(() => window.location.href = '..')
+      .then(() => {
+        reset();
+        window.location.href = '..';
+        setPreview(placeholder);
+      })
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableButton(false);
-        reset();
-        setPreview(placeholder);
       });
   }
 
@@ -109,7 +112,7 @@ export default function Add() {
                 className={styles.bannerInput}
                 onChange={previewHandler}
               />
-              {errors?.imageUrl && <p className='error'>{errors?.imageUrl.message}</p>}
+              {errors?.imageUri && <p className='error'>{errors?.imageUri.message}</p>}
             </label>
             <label>
               <input type="text" placeholder='Название' className={errors?.name ? 'invalid' : ''}

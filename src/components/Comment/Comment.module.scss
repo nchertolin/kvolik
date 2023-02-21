@@ -1,3 +1,5 @@
+@import '../../colors.scss';
+
 .wrapper {
   position: relative;
   display: flex;
@@ -9,6 +11,10 @@
   height: 45px;
   object-fit: cover;
   border-radius: 50%;
+
+  &.admin {
+    border: 1.5px solid $accent;
+  }
 }
 
 .content {
@@ -21,8 +27,28 @@
   column-gap: 10px;
 }
 
+.nameWrapper {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+
+  img {
+    height: 10px;
+    margin-bottom: 5px;
+  }
+}
+
 .name {
   font-weight: bold;
+
+  &.checked {
+    &::after {
+      display: inline-block;
+      content: url(../../assets/icons/checked.svg);
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+  }
 }
 
 .time {

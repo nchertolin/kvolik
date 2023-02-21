@@ -40,7 +40,7 @@ function App() {
       })
       .then(data => setNames(data))
       //.catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
-      .catch((err) => alert(err.message))
+      //.catch((err) => alert(err.message))
       .finally(() => setLoading(false));
 
     if (localStorage.getItem('token')) {
@@ -120,7 +120,7 @@ function App() {
 
               <Route path='soon' element={
                 <Suspense fallback={<Loading />}>
-                  <AnimesList title='Озвучка ожидается' isSoon={true} />
+                  <AnimesList title='Озвучка ожидается' isSoon={true} user={user} />
                 </Suspense>
               } />
 
@@ -145,7 +145,7 @@ function App() {
               <Route path='favorites' element={
                 <Suspense fallback={<Loading />}>
                   {IS_AUTH
-                    ? <AnimesList title='Избранное' isFavorites={true} />
+                    ? <AnimesList title='Избранное' isFavorites={true} user={user} />
                     : <ErrorPage />}
                 </Suspense>
               } />

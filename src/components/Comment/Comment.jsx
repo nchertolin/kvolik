@@ -1,16 +1,37 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './Comment.module.scss';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
+import checked from '../../assets/icons/checked.svg';
 import { SERVER_URL } from '../../util.js';
 import { convertToMonth } from '../../util';
 
 export default function Comment({ review, animeId, setNewReview, newReview, isUsers, Liked }) {
   const [isLiked, setLiked] = useState(Liked);
+  const [time, setTime] = useState(review.publishTime);
   const likeRef = useRef();
   const likesCount = useRef();
 
   const disableLikeButton = isDisable => likeRef.current.disabled = isDisable;
+
+  function getTime() {
+    const date = new Date(review.publishTime);
+    const month = convertToMonth(review.publishTime.substring(5, 7));
+    const day = date.getDay();
+    const hours = date.getHours()
+    const minutes = date.getMinutes();
+    return `${day} ${month} в ${hours}:${minutes}`;
+  }
+
+  useEffect(() => {
+    const date = new Date(review.publishTime);
+    const month = convertToMonth(review.publishTime.substring(5, 7));
+    const day = review.publishTime.substring(8, 10);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    setTime(`${day} ${month} в ${hours}:${minutes > 9 ? minutes : `0${minutes}`}`);
+  }, [review.publishTime]);
 
   function likeIt() {
     disableLikeButton(true);
@@ -52,14 +73,16 @@ export default function Comment({ review, animeId, setNewReview, newReview, isUs
   return (
     <li className={styles.comment}>
       <div className={styles.wrapper}>
-        <img className={styles.avatar} src={review.avatarImageUrl} alt="" />
+        <img className={`${styles.avatar} ${review.isAdmin ? styles.admin : ''}`} src={`${SERVER_URL}/${review.avatarImageUrl}`} alt="" />
         <div className={styles.content}>
-          <h2 className={styles.name}>{review.name}</h2>
+          <div className={styles.nameWrapper}>
+            <h2 className={`${styles.name} ${review.isAdmin ? styles.checked : ''}`}>{review.name}</h2>
+          </div>
           <p className={styles.message}>{review.reviewText}</p>
           <div className={styles.actions}>
             <div className={styles.item}>
-              <p className={styles.time}>{review.publishTime.substring(8, 10)} {convertToMonth(review.publishTime.substring(5, 7))} в {new Date(review.publishTime).getHours()}
-                :{new Date(review.publishTime).getMinutes()}</p>
+              <time dateTime={review.publishTime}
+                className={styles.time}>{time}</time>
               {isUsers && <button className={styles.delete} onClick={deleteIt}>Удалить</button>}
             </div>
             <div className={styles.likes}>
@@ -70,6 +93,6 @@ export default function Comment({ review, animeId, setNewReview, newReview, isUs
           </div>
         </div>
       </div>
-    </li>
+    </li >
   )
 }

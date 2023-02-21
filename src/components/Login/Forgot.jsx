@@ -7,6 +7,7 @@ export default function Forgot() {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
   const submit = useRef();
   const error = useRef();
+  const [isEmailDisabled, setEmailDisabled] = useState(false);
   const [isSubmited, setSubmited] = useState();
 
   const disableButton = isDisable => submit.current.disabled = isDisable;
@@ -18,7 +19,7 @@ export default function Forgot() {
     error.current.style.display = isShow ? 'block' : 'none';
   }
 
-  function sendCode({ email }) {
+  function sendCode({ email, code }) {
     disableButton(true);
     if (!isSubmited) {
       fetch(`${SERVER_URL}/api/email/send/${email}`, {
@@ -28,12 +29,13 @@ export default function Forgot() {
         },
       })
         .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else return response.json().then(text => { throw new Error(text.message) })
+          if (!response.ok) {
+            return response.json().then(text => { throw new Error(text.message) })
+          }
         })
         .then(() => {
           setSubmited(true);
+          setEmailDisabled(true);
           showError(false, 'Возникла ошибка при отправке.');
         })
         .catch(err => showError(true, err.message))
@@ -44,10 +46,7 @@ export default function Forgot() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: {
-          code: 0,
-          email: email
-        }
+        body: JSON.stringify({ code: code, email: email })
       })
         .then(response => {
           if (response.ok) {
@@ -57,13 +56,14 @@ export default function Forgot() {
         .then(({ token }) => {
           localStorage.setItem('token', token);
           showError(false, 'Возникла ошибка при отправке.');
+          setSubmited(false);
+          setEmailDisabled(false);
           window.location.href = '../../account/edit'
+          reset();
         })
         .catch(err => showError(true, err.message))
         .finally(() => {
           disableButton(false);
-          setSubmited(false);
-          reset();
         });
     }
   }
@@ -75,7 +75,8 @@ export default function Forgot() {
         <h2>Введите адрес электронной почты, связанный с вашей учетной записью
           и мы вышлем вам код для сброса пароля.</h2>
         <label>
-          <input type="email" placeholder='Эл. почта' className={errors?.email ? 'invalid' : ''}
+          <input type="email" placeholder='Эл. почта' disabled={isEmailDisabled}
+            className={errors?.email ? 'invalid' : ''}
             {...register('email', { required: 'Обязательноe поле.' })} />
           {errors?.email && <p className='error'>{errors?.email.message}</p>}
         </label>

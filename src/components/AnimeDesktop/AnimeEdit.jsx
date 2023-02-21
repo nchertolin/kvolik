@@ -12,6 +12,7 @@ export default function AnimeEdit({ shortName }) {
   const [imageUri, setImageUri] = useState();
   const [name, setName] = useState(anime.name);
   const [nameEng, setNameEng] = useState(anime.nameEng);
+  const [animeShortName, setShortName] = useState(shortName);
   const [type, setType] = useState(anime.type);
   const [episodesAmount, setEpisodesAmount] = useState(anime.episodesAmount);
   const [exitStatus, setExitStatus] = useState(anime.exitStatus);
@@ -71,6 +72,7 @@ export default function AnimeEdit({ shortName }) {
     formData.append('imageUrl', imageUrl);
     formData.append('imageUri', imageUri)
     formData.append('name', name);
+    formData.append('shortName', animeShortName);
     formData.append('nameEng', nameEng);
     formData.append('type', type);
     formData.append('episodesAmount', episodesAmount);
@@ -99,14 +101,13 @@ export default function AnimeEdit({ shortName }) {
     })
       .then(response => {
         if (response.ok) {
-          return response.json();
+          window.location.href = '..';
+          alert(`Аниме ${anime.name} успешно удалено.`);
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(() => window.location.href = '../')
       .catch(err => showError(true, err.message))
-      .finally(() => {
-        disableButton(false);
-      });
+      .finally(() => disableButton(false));
   }
 
   useEffect(() => {
@@ -146,6 +147,10 @@ export default function AnimeEdit({ shortName }) {
               <label>
                 Английское название
                 <input type="text" value={nameEng} onChange={evt => setNameEng(evt.target.value)} />
+              </label>
+              <label>
+                Короткое имя
+                <input type="text" value={animeShortName} onChange={evt => setShortName(evt.target.value)} />
               </label>
               <div className={styles.info}>
                 <div className={styles.infoRow}>

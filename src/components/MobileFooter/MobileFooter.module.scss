@@ -1,0 +1,56 @@
+@import '../../colors.scss';
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  background-color: $input;
+  height: max(30vh, 350px);
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85vw;
+  row-gap: 30px;
+
+  ul {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    column-gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.226);
+
+    li {
+      margin-top: 20px;
+    }
+
+    img {
+      width: 30px;
+    }
+  }
+}
+
+.logo {
+  font-weight: bold;
+  text-align: center;
+
+  a {
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 12px;
+    color: $second-text;
+    text-transform: uppercase;
+  }
+}
+
+.text {
+  color: $second-text;
+  //
+  text-align: center;
+}

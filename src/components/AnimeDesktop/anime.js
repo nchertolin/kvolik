@@ -28,9 +28,10 @@ export const testAnime = {
     {
       name: 'Наруто Узумаки',
       email: 'naruto@mail.ru',
+      isAdmin: true,
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я стану хогаге',
-      publishTime: '2023-01-24T18:50:17.225Z',
+      publishTime: '2023-01-24T01:50:17.225Z',
       likes: 99,
       likedUsersEmails: []
     },
@@ -39,7 +40,7 @@ export const testAnime = {
       email: 'naruto@mail.ru',
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я не вернусь в антейку',
-      publishTime: '2023-01-24T18:50:17.225Z',
+      publishTime: '2023-01-24T18:04:17.225Z',
       likes: 7,
       likedUsersEmails: []
     },

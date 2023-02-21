@@ -1,0 +1,68 @@
+@import '../../colors.scss';
+
+.footer {
+  width: 100vw;
+  background-color: $input;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.wrapper {
+  width: 85vw;
+  max-width: 1600px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+
+  a:hover {
+    opacity: 1;
+  }
+}
+
+.text {
+  color: $second-text;
+  max-width: min(30%, 380px);
+}
+
+.logo {
+  font-weight: bold;
+
+  a {
+    font-size: 20px;
+  }
+
+  p {
+    color: $second-text;
+    text-transform: uppercase;
+  }
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 2px solid rgba(255, 255, 255, 0.224);
+  border-radius: 1px;
+  margin-top: 50px;
+
+  ul {
+    display: flex;
+    justify-content: center;
+    column-gap: 30px;
+    margin: 50px 0 0;
+
+    img {
+      width: 35px;
+    }
+  }
+
+  span {
+    font-weight: bold;
+    color: $second-text;
+  }
+}

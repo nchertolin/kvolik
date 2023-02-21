@@ -58,7 +58,8 @@
     }
 
     select {
-      color: rgba(255, 255, 255, .6);
+      color: $second-text;
+      border: 0;
       outline: none;
       font-family: 'Gilroy', sans-serif;
       padding: 10px;
@@ -72,8 +73,9 @@
       padding: 10px 15px;
       font-size: 16px;
       outline: none;
-      background-color: #676666;
+      background-color: $input;
       resize: none;
+      border: 0;
       border-radius: 5px;
       color: white;
 

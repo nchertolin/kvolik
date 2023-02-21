@@ -1,14 +1,14 @@
 .contacts {
   display: grid;
-  grid-template-columns: 37vw 1fr;
-  gap: 6vw;
+  grid-template-columns: 30vw 1fr;
+  gap: 30px;
   margin-bottom: 3.5vh;
   align-items: flex-start;
 
   @media (min-width: 768px) {}
 
   @media (min-width: 991px) {
-    grid-template-columns: 300px 400px;
+    grid-template-columns: 300px .7fr;
     font-size: 18px;
   }
 
@@ -17,8 +17,7 @@
 .info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 37vw;
+  row-gap: 20px;
 
   @media (min-width: 991px) {
     height: 300px;
@@ -33,7 +32,7 @@
 }
 
 .avatar {
-  width: 37vw;
+  width: 30vw;
 
   @media (min-width: 991px) {
     width: 300px;
@@ -62,9 +61,13 @@
   img {
     width: 10vw;
 
+    @media (min-width: 768px) {
+      width: 7vw;
+      column-gap: 30px;
+    }
+
     @media (min-width: 991px) {
       width: 50px;
-      column-gap: 30px;
     }
   }
 }

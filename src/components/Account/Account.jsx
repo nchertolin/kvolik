@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { IS_AUTH } from '../../util.js';
+import { IS_AUTH, SERVER_URL } from '../../util.js';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import styles from './Account.module.scss';
 
@@ -27,16 +27,18 @@ export default function Account({ user, setUser }) {
         <title>{IS_AUTH ? user.name : '404'}</title>
       </Helmet>
       {!IS_AUTH ? <ErrorPage />
-        : <div className={styles.wrapper}>
-          <div className={styles.userInfo}>
-            <img src={user.avatarImageUrl} alt="" />
-            <h2>{user.name}</h2>
-          </div>
-          <div className={styles.buttons}>
-            <Link to='edit' className='primary-button'>Редактировать</Link>
-            <button to='/' className={styles.logout} onClick={logoutUser}>Выйти</button>
-          </div>
-        </div >}
+        : <div className='content'>
+          <div className={styles.wrapper}>
+            <div className={styles.userInfo}>
+              <img src={`${SERVER_URL}/${user.avatarImageUrl}`} alt="" />
+              <h2>{user.name}</h2>
+            </div>
+            <div className={styles.buttons}>
+              <Link to='edit' className='primary-button'>Редактировать</Link>
+              <button to='/' className={styles.logout} onClick={logoutUser}>Выйти</button>
+            </div>
+          </div >
+        </div>}
     </>
   )
 }

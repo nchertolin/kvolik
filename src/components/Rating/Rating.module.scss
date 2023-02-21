@@ -1,3 +1,5 @@
+@import '../../colors.scss';
+
 .rating {
   width: 100vw;
   height: 100vh;
@@ -14,14 +16,20 @@
 }
 
 .wrapper {
-  width: auto;
+  width: 85%;
+
+  @media (min-width: 992px) {
+    width: 40%;
+    max-width: 500px;
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   row-gap: 3vh;
   padding: 5vh;
-  background-color: #2E3031;
+  background-color: $input;
   border-radius: 10px;
 
   button {
@@ -62,7 +70,7 @@
 
 .stars {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   column-gap: 10px;
 

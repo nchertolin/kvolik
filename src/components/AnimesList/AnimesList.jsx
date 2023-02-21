@@ -11,6 +11,7 @@ import { isMobile } from 'react-device-detect';
 import EmptyCard from '../Card/EmptyCard';
 import video from '../../assets/videos/hero.mp4';
 import { Link } from 'react-router-dom';
+import edit from '../../assets/icons/edit.svg';
 
 
 export default function AnimesList({ title, isSoon, isFavorites, user }) {
@@ -22,13 +23,21 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
   const [selectedSort, setSelectedSort] = useState('DateDesc');
   const [query, setQuery] = useState('');
 
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > .68 * window.innerHeight) {
-        videoRef.current.pause();
-      } else videoRef.current.play();
-    })
-  }, [])
+
+  function changePreview() {
+    let newShortName = prompt('Введите shortName аниме на которое хотите сменить:');
+    if (newShortName !== null && newShortName !== '') {
+      fetch(`${SERVER_URL}/api/anime/preview/${newShortName}`)
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(text => { throw new Error(text.message) })
+          }
+        })
+        .then(data => alert('Превью успешно изменено'))
+        .catch(err => alert(err.message))
+        .finally(() => setLoading(false))
+    }
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -72,7 +81,7 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
       <Helmet>
         <title>KvolikDub - {title}</title>
       </Helmet>
-      {!isMobile &&
+      {!isMobile && !isFavorites &&
         <div className={styles.hero}>
           <div className={styles.videoEffect}>
             <video ref={videoRef} className={styles.video} src={video} autoPlay loop muted playsInline></video>
@@ -83,7 +92,14 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
               <span>{preview.releaseFrom.slice(0, 4)}</span>
               <span>{preview.ageLimit}+</span>
             </div>
-            <Link to={preview.shortName}>{preview.name}</Link>
+            <div className={styles.previewEdit}>
+              <Link to={preview.shortName}>{preview.name}</Link>
+              {user.isAdmin &&
+                <button to='edit' className={styles.edit}
+                  onClick={changePreview}>
+                  <img src={edit} alt="" />
+                </button>}
+            </div>
             <h3>{preview.description}</h3>
           </div>
         </div>}
@@ -108,13 +124,13 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         {isLoading
           ? <Loading />
           : <ul className={styles.ul}>
-            {user.isAdmin &&
+            {user.isAdmin && !isFavorites &&
               <li>
                 <EmptyCard shortName='admin' />
               </li>}
             {animes.map(({ name, nameEng, type, releaseFrom, episodesAmount, shortName, imageUrl, averageRating }) =>
               <li key={v4()}>
-                <Card name={name} nameEng={nameEng} shortName={shortName} picture={imageUrl} type={type}
+                <Card name={name} nameEng={nameEng} shortName={shortName} picture={`${SERVER_URL}/${imageUrl}`} type={type}
                   releaseFrom={releaseFrom} episodesAmount={episodesAmount} averageRating={averageRating} />
               </li>)}
           </ul>}

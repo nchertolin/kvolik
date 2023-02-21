@@ -17,15 +17,15 @@ export default function Contacts() {
         <div className={styles.contacts}>
           <img className={styles.avatar} src={logo} alt="" />
           <div className={styles.info}>
-            <h4>Давно выяснено, что при оценке дизайна.</h4>
+            <h4>Дорогие друзья, добро пожаловать на наш сайт!</h4>
             <p>
-              Lorem Ipsum - это просто фиктивный текст полиграфической и наборной индустрии.
-              Lorem Ipsum был...
+              Для заказа озвучки свяжитесь с нами любым удобным для вас способом.
             </p>
           </div>
         </div>
         <p className={styles.description}>
-          Для заказа озвучки свяжитесь с нами любым удобным для вас способом.
+          Мы, Kvolik Dub, готовим для вас множество интересных озвучек.
+          Вы можете познакомиться с нами ближе, присоединившись к нашим сообществам в соц. сетях!
         </p>
 
         <ul className={styles.social}>
