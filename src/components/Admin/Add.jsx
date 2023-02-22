@@ -26,8 +26,11 @@ export default function Add() {
 
   function add(data) {
     const formData = new FormData();
-    formData.append('genres', data.genres.split(','));
-    formData.append('frames', framesFiles);
+    formData.append('genres', data.genres);
+    // formData.append('frames', framesFiles);
+    formData.append('frames', framesFiles[0]);
+    formData.append('frames', framesFiles[1]);
+    formData.append('frames', framesFiles[2]);
     formData.append('imageUri', file);
     formData.append('name', data.name);
     formData.append('shortName', data.shortName);
@@ -35,8 +38,8 @@ export default function Add() {
     formData.append('type', data.type);
     formData.append('episodesAmount', data.episodesAmount);
     formData.append('primarySource', data.primarySource);
-    formData.append('releaseFrom', data.releaseFrom);
-    formData.append('releaseBy', data.releaseBy);
+    formData.append('releaseFrom', new Date(data.releaseFrom).toISOString());
+    formData.append('releaseBy', new Date(data.releaseBy).toISOString());
     formData.append('ageLimit', data.ageLimit);
     formData.append('duration', data.duration);
     formData.append('description', data.description);
@@ -45,6 +48,7 @@ export default function Add() {
     formData.append('playerLink', data.playerLink);
     formData.append('isMonophonic', data.isMonophonic);
     formData.append('voiceoverStatus', data.voiceoverStatus);
+    console.log(formData.get('frames'));
 
     fetch(`${SERVER_URL}/api/admin/anime`, {
       body: formData,
@@ -132,9 +136,17 @@ export default function Add() {
               {errors?.shortName && <p className='error'>{errors?.shortName.message}</p>}
             </label>
             <label>
-              <input placeholder='Тип'
+              <select
+                onFocus={evt => evt.target.style.color = 'white'}
                 className={errors?.type ? 'invalid' : ''}
-                {...register('type', { required: 'Обязательноe поле.' })} />
+                {...register('type', { required: 'Обязательноe поле.' })}>
+                <option value='' disabled selected>Тип</option>
+                <option value='ТВ Сериал'>ТВ Сериал</option>
+                <option value='Фильм'>Фильм</option>
+                <option value='ONA'>ONA</option>
+                <option value='OVA'>OVA</option>
+                <option value='Спешл'>Спешл</option>
+              </select>
               {errors?.type && <p className='error'>{errors?.type.message}</p>}
             </label>
             <label>
@@ -148,10 +160,9 @@ export default function Add() {
                 onFocus={evt => evt.target.style.color = 'white'}
                 className={errors?.exitStatus ? 'invalid' : ''}
                 {...register('exitStatus', { required: 'Обязательноe поле.' })}>
-                <option value="" disabled selected hidden>Статус аниме</option>
+                <option value='' disabled selected>Статус анимe</option>
                 <option value='0'>Онгоинг</option>
                 <option value='1'>Вышел</option>
-                Статус
               </select>
               {errors?.exitStatus && <p className='error'>{errors?.exitStatus.message}</p>}
             </label>
@@ -160,10 +171,9 @@ export default function Add() {
                 onFocus={evt => evt.target.style.color = 'white'}
                 className={errors?.voiceoverStatus ? 'invalid' : ''}
                 {...register('voiceoverStatus', { required: 'Обязательноe поле.' })}>
-                <option value="" disabled selected hidden>Статус озвучки</option>
+                <option value='' disabled selected>Статус озвучки</option>
                 <option value={false}>Озвучено</option>
                 <option value={true}>Неозвучено</option>
-                Статус
               </select>
               {errors?.voiceoverStatus && <p className='error'>{errors?.voiceoverStatus.message}</p>}
             </label>
@@ -172,17 +182,59 @@ export default function Add() {
                 onFocus={evt => evt.target.style.color = 'white'}
                 className={errors?.isMonophonic ? 'invalid' : ''}
                 {...register('isMonophonic', { required: 'Обязательноe поле.' })}>
-                <option value="" disabled selected hidden>Тип озвучки</option>
+                <option value='' disabled selected>Тип озвучки</option>
                 <option value={false}>Многоголосая</option>
                 <option value={true}>Одноголосая</option>
-                Статус
               </select>
               {errors?.isMonophonic && <p className='error'>{errors?.isMonophonic.message}</p>}
             </label>
-            <label>
-              <input type="text" placeholder='Жанры (через запятую)'
+            <label id={styles.genres}>
+              <span>Жанры</span>
+              <select multiple
+                onFocus={evt => evt.target.style.color = 'white'}
                 className={errors?.genres ? 'invalid' : ''}
-                {...register('genres', { required: 'Обязательноe поле.' })} />
+                {...register('genres', { required: 'Обязательноe поле.' })}>
+                <option value='Безумие'>Безумие</option>
+                <option value='Боевые искусства'>Боевые искусства</option>
+                <option value='Вампиры'>Вампиры</option>
+                <option value='Военное'>Военное</option>
+                <option value='Гарем'>Гарем</option>
+                <option value='Демоны'>Демоны</option>
+                <option value='Детектив'>Детектив</option>
+                <option value='Детское'>Детское</option>
+                <option value='Дзёсэй'>Дзёсэй</option>
+                <option value='Драма'>Драма</option>
+                <option value='Игры'>Игры</option>
+                <option value='Исторический'>Исторический</option>
+                <option value='Комедия'>Комедия</option>
+                <option value='Космос'>Космос</option>
+                <option value='Магия'>Магия</option>
+                <option value='Машины'>Машины</option>
+                <option value='Меха'>Меха</option>
+                <option value='Музыка'>Музыка</option>
+                <option value='Пародия'>Пародия</option>
+                <option value='Повседневность'>Повседневность</option>
+                <option value='Полиция'>Полиция</option>
+                <option value='Приключения'>Приключения</option>
+                <option value='Психологическое'>Психологическое</option>
+                <option value='Романтика'>Романтика</option>
+                <option value='Самураи'>Самураи</option>
+                <option value='Сверхъестественное'>Сверхъестественное</option>
+                <option value='Сёдзё'>Сёдзё</option>
+                <option value='Сёдзё-Ай'>Сёдзё-Ай</option>
+                <option value='Сёнэн'>Сёнэн</option>
+                <option value='Сёнэн-Aй'>Сёнэн-Aй</option>
+                <option value='Спорт'>Спорт</option>
+                <option value='Супер сила'>Супер сила</option>
+                <option value='Сэйнэн'>Сэйнэн</option>
+                <option value='Триллер'>Триллер</option>
+                <option value='Ужасы'>Ужасы</option>
+                <option value='Фантастика'>Фантастика</option>
+                <option value='Фэнтези'>Фэнтези</option>
+                <option value='Школа'>Школа</option>
+                <option value='Экшен'>Экшен</option>
+                <option value='Этти'>Этти</option>
+              </select>
               {errors?.genres && <p className='error'>{errors?.genres.message}</p>}
             </label>
             <label>
@@ -190,7 +242,7 @@ export default function Add() {
                 onFocus={evt => evt.target.style.color = 'white'}
                 className={errors?.primarySource ? 'invalid' : ''}
                 {...register('primarySource', { required: 'Обязательноe поле.' })}>
-                <option value="" disabled selected hidden>Первоисточник</option>
+                <option value='' disabled selected>Первоисточник</option>
                 <option value='0'>Манга</option>
                 <option value='1'>Оригинал</option>
                 <option value='2'>Ранобе</option>
@@ -199,14 +251,14 @@ export default function Add() {
               {errors?.primarySource && <p className='error'>{errors?.primarySource.message}</p>}
             </label>
             <label>
-              <input type="text" placeholder='Выпуск'
+              <input type="text" placeholder='Дата выпуска'
                 onFocus={evt => evt.target.type = 'date'}
                 className={errors?.releaseFrom ? 'invalid' : ''}
                 {...register('releaseBy', { required: 'Обязательноe поле.' })} />
               {errors?.releaseBy && <p className='error'>{errors?.releaseBy.message}</p>}
             </label>
             <label>
-              <input type="text" placeholder='Конец'
+              <input type="text" placeholder='Дата окончания'
                 onFocus={evt => evt.target.type = 'date'}
                 className={errors?.releaseFrom ? 'invalid' : ''}
                 {...register('releaseFrom', { required: 'Обязательноe поле.' })} />
@@ -254,33 +306,33 @@ export default function Add() {
               </label>
               <label className={styles.frameInput}>
                 <img className={styles.frame} src={frames[1]} alt="" />
-                <input type="file" name='frame-2' className={styles.bannerInput}
+                <input type="file" className={styles.bannerInput}
                   {...register('frame2', { required: 'Обязательноe поле.' })}
                   onChange={evt => framesHandler(evt, 1)} />
                 {errors?.frame2 && <p className='error'>{errors?.frame2.message}</p>}
               </label>
               <label className={styles.frameInput}>
                 <img className={styles.frame} src={frames[2]} alt="" />
-                <input type="file" name='frame-3' className={styles.bannerInput}
+                <input type="file" className={styles.bannerInput}
                   {...register('frame3', { required: 'Обязательноe поле.' })}
                   onChange={evt => framesHandler(evt, 2)} />
                 {errors?.frame3 && <p className='error'>{errors?.frame3.message}</p>}
               </label>
               <label className={styles.frameInput}>
                 <img className={styles.frame} src={frames[3]} alt="" />
-                <input type="file" name='frame-4'
+                <input type="file"
                   className={styles.bannerInput}
                   onChange={evt => framesHandler(evt, 3)} />
               </label>
               <label className={styles.frameInput}>
                 <img className={styles.frame} src={frames[4]} alt="" />
-                <input type="file" name='frame-5'
+                <input type="file"
                   className={styles.bannerInput}
                   onChange={evt => framesHandler(evt, 4)} />
               </label>
               <label className={styles.frameInput}>
                 <img className={styles.frame} src={frames[5]} alt="" />
-                <input type="file" name='frame-6'
+                <input type="file"
                   className={styles.bannerInput}
                   onChange={evt => framesHandler(evt, 5)} />
               </label>

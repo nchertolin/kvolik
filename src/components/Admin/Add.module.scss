@@ -122,3 +122,23 @@ i {
   margin-top: 10px;
   white-space: pre-wrap;
 }
+
+#genres {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+
+  span {
+    color: $second-text;
+    padding-left: 15px;
+  }
+
+  select {
+    height: 300px;
+    padding-left: 15px;
+  }
+
+  option {
+    margin-bottom: 5px;
+  }
+}

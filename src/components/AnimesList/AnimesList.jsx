@@ -71,7 +71,7 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         setEmpty(data.length === 0);
         setAnimes(data);
       })
-      //.catch(() => setAnimes(testAnimes))
+      .catch(() => setAnimes(testAnimes))
       .catch(err => setEmpty(!user.isAdmin))
       .finally(() => setLoading(false))
   }, [isSoon, isFavorites, selectedSort, query, user.isAdmin]);

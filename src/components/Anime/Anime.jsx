@@ -150,9 +150,10 @@ export default function Anime({ shortName, user }) {
               <h1 className={styles.title}>{anime.name}</h1>
               <h2 className={styles.second}>{anime.nameEng}</h2>
               <div className={styles.pictureWrapper}>
-                <img className={styles.picture} src={anime.imageUrl} alt="" />
+                <img className={styles.picture} src={`${SERVER_URL}/${anime.imageUrl}`} alt="" />
                 <div className={styles.absolute}>
-                  <p>{+anime.averageRating.toFixed(2)}</p>
+                  {anime.averageRating &&
+                    <p>{+anime.averageRating.toFixed(2)}</p>}
                   {IS_AUTH &&
                     <button className={styles.favorite} ref={favoriteRef}
                       onClick={addToFavorite}>
@@ -162,8 +163,8 @@ export default function Anime({ shortName, user }) {
               </div>
               <div className={styles.buttons}>
                 <a href='#watch'>Смотреть онлайн</a>
-                {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
-                  : <Link to='../login' className={styles.rate}>Оценить аниме</Link>}
+                {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Поставить оценку</button>
+                  : <Link to='../login' className={styles.rate}>Поставить оценку</Link>}
               </div>
               <Rating reference={ratingRef} />
               <div className={styles.info}>

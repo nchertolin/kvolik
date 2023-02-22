@@ -4,6 +4,7 @@ import { FILE_TYPES, SERVER_URL } from '../../util.js';
 import Loading from '../Loading/Loading';
 import { testAnime } from './anime';
 import styles from './AnimeDesktop.module.scss';
+import placeholder from '../../assets/icons/placeholder.svg'
 
 export default function AnimeEdit({ shortName }) {
   const [anime, setAnime] = useState(testAnime);
@@ -18,8 +19,8 @@ export default function AnimeEdit({ shortName }) {
   const [exitStatus, setExitStatus] = useState(anime.exitStatus);
   const [genres, setGenres] = useState(anime.genres.join(', '));
   const [primarySource, setPrimarySource] = useState(anime.primarySource);
-  const [releaseFrom, setReleaseFrom] = useState(anime.releaseFrom);
-  const [releaseBy, setReleaseBy] = useState(anime.releaseBy);
+  const [releaseFrom, setReleaseFrom] = useState(anime.releaseFrom.substring(0, 10));
+  const [releaseBy, setReleaseBy] = useState(anime.releaseBy.substring(0, 10));
   const [ageLimit, setAgeLimit] = useState(anime.ageLimit);
   const [duration, setDuration] = useState(anime.duration);
   const [description, setDescription] = useState(anime.description);
@@ -27,7 +28,7 @@ export default function AnimeEdit({ shortName }) {
   const [voiceoverStatus, setVoiceoverStatus] = useState(anime.voiceoverStatus);
   const [trailerUrl, setTrailerUrl] = useState(anime.trailerUrl);
   const [playerLink, setPlayerLink] = useState(anime.playerLink);
-  const [frames, setFrames] = useState(anime.frames);
+  const [frames, setFrames] = useState([placeholder, placeholder, placeholder, placeholder, placeholder]);
   const [framesFiles, setFramesFiles] = useState([])
   const error = useRef();
   const submit = useRef();
@@ -69,6 +70,7 @@ export default function AnimeEdit({ shortName }) {
 
   function edit() {
     const formData = new FormData();
+    // Не мменять в базе если не было изменений изображений 
     formData.append('imageUrl', imageUrl);
     formData.append('imageUri', imageUri)
     formData.append('name', name);
@@ -79,8 +81,8 @@ export default function AnimeEdit({ shortName }) {
     formData.append('exitStatus', exitStatus);
     formData.append('genres', genres);
     formData.append('primarySource', primarySource);
-    formData.append('releaseFrom', releaseFrom);
-    formData.append('releaseBy', releaseBy);
+    formData.append('releaseFrom', new Date(releaseFrom).toISOString());
+    formData.append('releaseBy', new Date(releaseBy).toISOString());
     formData.append('ageLimit', ageLimit);
     formData.append('duration', duration);
     formData.append('description', description);
@@ -89,11 +91,10 @@ export default function AnimeEdit({ shortName }) {
     formData.append('trailerUrl', trailerUrl);
     formData.append('playerLink', playerLink);
     formData.append('frames', framesFiles);
-    formData.append('framesFiles', framesFiles);
     formData.append('duration', duration);
 
     fetch(`${SERVER_URL}/api/admin/anime`, {
-      body: JSON.stringify(formData),
+      body: formData,
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -135,7 +136,7 @@ export default function AnimeEdit({ shortName }) {
         <div className={styles.content}>
           <div className={styles.row}>
             <label className={styles.pictureWrapper}>
-              <img className={styles.picture} src={imageUrl} alt="" />
+              <img className={styles.picture} src={`${SERVER_URL}/${imageUrl}`} alt="" />
               <input type="file" name='frame-6'
                 onChange={previewHandler} />
             </label>
@@ -185,11 +186,11 @@ export default function AnimeEdit({ shortName }) {
                 </div>
                 <div className={styles.infoRow}>
                   <p>Выпуск</p>
-                  <input type="text" value={releaseFrom} onChange={evt => setReleaseFrom(evt.target.value)} />
+                  <input type="date" value={releaseFrom} onChange={evt => setReleaseFrom(evt.target.value)} />
                 </div>
                 <div className={styles.infoRow}>
                   <p>Конец</p>
-                  <input type="text" value={releaseBy} onChange={evt => setReleaseBy(evt.target.value)} />
+                  <input type="date" value={releaseBy} onChange={evt => setReleaseBy(evt.target.value)} />
                 </div>
                 <div className={styles.infoRow}>
                   <p>Возрастные ограничения</p>

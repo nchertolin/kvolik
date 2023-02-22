@@ -192,17 +192,19 @@ export default function AnimeDesktop({ shortName, user }) {
               <div className={styles.pictureWrapper}>
                 <img className={styles.picture} src={`${SERVER_URL}/${anime.imageUrl}`} alt="" />
                 <div className={styles.absolute}>
-                  <p>{+anime.averageRating.toFixed(2)}</p>
+                  {anime.averageRating &&
+                    <p>{+anime.averageRating.toFixed(2)}</p>
+                  }
                   {IS_AUTH &&
                     <button className={styles.favorite} ref={favoriteRef}
                       onClick={addToFavorite}>
-                      <img src={isFavorite ? starFill : star} alt="В избранное" />
+                      <img src={isFavorite ? starFill : star} alt='' />
                     </button>}
                 </div>
               </div>
               <a href='#watch'>Смотреть онлайн</a>
-              {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Оценить аниме</button>
-                : <Link to='../login' className={styles.rate}>Оценить аниме</Link>}
+              {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Поставить оценку</button>
+                : <Link to='../login' className={styles.rate}>Поставить оценку</Link>}
             </div>
             <div className={styles.infoWrapper}>
               <div className={styles.nameWrapper}>

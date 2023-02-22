@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './Comment.module.scss';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
-import checked from '../../assets/icons/checked.svg';
 import { SERVER_URL } from '../../util.js';
 import { convertToMonth } from '../../util';
 
@@ -13,15 +12,6 @@ export default function Comment({ review, animeId, setNewReview, newReview, isUs
   const likesCount = useRef();
 
   const disableLikeButton = isDisable => likeRef.current.disabled = isDisable;
-
-  function getTime() {
-    const date = new Date(review.publishTime);
-    const month = convertToMonth(review.publishTime.substring(5, 7));
-    const day = date.getDay();
-    const hours = date.getHours()
-    const minutes = date.getMinutes();
-    return `${day} ${month} в ${hours}:${minutes}`;
-  }
 
   useEffect(() => {
     const date = new Date(review.publishTime);

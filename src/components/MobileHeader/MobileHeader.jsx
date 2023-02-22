@@ -4,7 +4,7 @@ import close from '../../assets/icons/close.svg';
 import search from '../../assets/icons/search.svg';
 import { NavLink } from 'react-router-dom';
 import styles from './MobileHeader.module.scss';
-import { IS_AUTH } from '../../util.js';
+import { IS_AUTH, SERVER_URL } from '../../util.js';
 import Loading from '../Loading/Loading';
 
 const Search = lazy(() => import('../Search/Search'))
@@ -33,7 +33,7 @@ export default function MobileHeader({ user }) {
           {IS_AUTH
             ?
             <NavLink className='user-wrapper' to='/account' onClick={showMenu}>
-              <img className={styles.user} src={user.avatarImageUrl} alt={user.name} />
+              <img className={styles.user} src={`${SERVER_URL}/${user.avatarImageUrl}`} alt={user.name} />
               <h2>{user.name}</h2>
             </NavLink>
             : <div className='user-wrapper'>

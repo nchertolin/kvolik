@@ -42,7 +42,7 @@ export default function Edit({ user }) {
       body: JSON.stringify({ email: email, name: name, password: password })
     })
       .then(response => {
-        if (response.ok) {
+        if (!response.ok) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { SERVER_URL } from '../../util';
 import styles from './Header.module.scss';
 
 export default function Header({ user }) {
@@ -22,7 +23,11 @@ export default function Header({ user }) {
           <li><NavLink className={setActiveLink} to='/contacts'>Заказать озвучку</NavLink></li>
           {user.name && <li><NavLink className={setActiveLink} to='/favorites'>Избранное</NavLink></li>}
         </ul>
-        {user.name ? <NavLink to='/account'><img className={styles.user} src={user.avatarImageUrl} alt={user.name} /></NavLink>
+        {user.name ?
+          <NavLink to='/account'>
+            <img className={styles.user} src={`${SERVER_URL}/${user.avatarImageUrl}`}
+              alt='' />
+          </NavLink>
           : <NavLink className='primary-button' to='login'>Войти</NavLink>}
       </div>
     </ header>
