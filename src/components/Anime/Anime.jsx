@@ -210,11 +210,10 @@ export default function Anime({ shortName, user }) {
                   <p>Статус озвучки</p>
                   <span>{anime.voiceoverStatus}</span>
                 </div>
-                {anime.voiceoverStatus === 'Озвучено' &&
-                  <div className={styles.infoRow}>
-                    <p>Тип озвучки</p>
-                    <span>{anime.isMonophonic ? 'Одноголосая' : 'Многоголосая'}</span>
-                  </div>}
+                <div className={styles.infoRow}>
+                  <p>Тип озвучки</p>
+                  <span>{anime.isMonophonic ? 'Одноголосая' : 'Многоголосая'}</span>
+                </div>
               </div>
               <div>
                 <p ref={descriptionRef}

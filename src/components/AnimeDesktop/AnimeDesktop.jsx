@@ -264,11 +264,10 @@ export default function AnimeDesktop({ shortName, user }) {
                   <p>Статус озвучки</p>
                   <span>{anime.voiceoverStatus}</span>
                 </div>
-                {anime.voiceoverStatus === 'Озвучено' &&
-                  <div className={styles.infoRow}>
-                    <p>Тип озвучки</p>
-                    <span>{anime.isMonophonic ? 'Одноголосая' : 'Многоголосая'}</span>
-                  </div>}
+                <div className={styles.infoRow}>
+                  <p>Тип озвучки</p>
+                  <span>{anime.isMonophonic ? 'Одноголосая' : 'Многоголосая'}</span>
+                </div>
               </div>
               <div className={styles.descriptionWrapper}>
                 <p>Описание</p>
@@ -326,7 +325,7 @@ export default function AnimeDesktop({ shortName, user }) {
               </form>
               : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
           </div>
-          <Rating reference={ratingRef} id={anime.id} />
+          <Rating reference={ratingRef} id={anime.id} shortName={shortName} userRatings={user.userRatings} />
         </div>}
 
     </>

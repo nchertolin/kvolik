@@ -8,7 +8,7 @@ import { SERVER_URL } from '../../util.js';
 import { useRef } from 'react';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 
-export default function Rating({ reference, id }) {
+export default function Rating({ reference, id, userRatings, shortName }) {
   const [isSubmited, setSubmited] = useState();
   const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const submit = useRef();
@@ -61,7 +61,7 @@ export default function Rating({ reference, id }) {
     <div ref={reference} className={styles.rating}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h1>Ваша оценка</h1>
+          <h1>{`Ваша оценка ${userRatings.filter(info => info.shortName === shortName)?.grade}`}</h1>
           <button onClick={() => showRating(reference, false)}><img className={styles.close} src={close} alt="" /></button>
         </div>
         <ul className={styles.stars}>

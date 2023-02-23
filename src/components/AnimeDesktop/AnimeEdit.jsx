@@ -78,6 +78,27 @@ export default function AnimeEdit({ shortName }) {
     error.current.style.display = isShow ? 'block' : 'none';
   }
 
+  function setAnimeData(data) {
+    setImageUrl(data.imageUrl);
+    setName(data.name);
+    setNameEng(data.nameEng)
+    setType(data.type);
+    setEpisodesAmount(data.episodesAmount);
+    setExitStatus(data.exitStatus);
+    setGenres(data.genres.join(', '));
+    setPrimarySource(data.primarySource)
+    setReleaseFrom(data.releaseFrom.substring(0, 10))
+    setReleaseBy(data.releaseBy.substring(0, 10))
+    setAgeLimit(data.ageLimit)
+    setDuration(data.duration)
+    setDescription(data.description)
+    setMonophonic(data.isMonophonic)
+    setVoiceoverStatus(data.voiceoverStatus)
+    setTrailerUrl(data.trailerUrl)
+    setPlayerLink(data.playerLink);
+    setFrames([...data.frames]);
+  }
+
   const disableButton = isDisable => submit.current.disabled = isDisable;
 
   function edit() {
@@ -90,7 +111,6 @@ export default function AnimeEdit({ shortName }) {
     formData.append('episodesAmount', episodesAmount);
     formData.append('exitStatus', exitStatus);
     genres.split(', ').forEach(genre => formData.append('genres', genre));
-    // formData.append('genres', genres);
     formData.append('primarySource', primarySource);
     formData.append('releaseFrom', new Date(releaseFrom).toISOString());
     formData.append('releaseBy', new Date(releaseBy).toISOString());
@@ -102,10 +122,9 @@ export default function AnimeEdit({ shortName }) {
     formData.append('trailerUrl', trailerUrl);
     formData.append('playerLink', playerLink);
     framesFiles.forEach(file => formData.append('frames', file));
-    //formData.append('frames', framesFiles);
     formData.append('duration', duration);
 
-    fetch(`${SERVER_URL}/api/admin/anime`, {
+    fetch(`${SERVER_URL}/api/admin/anime/${anime.id}`, {
       body: formData,
       method: 'PUT',
       headers: {
@@ -133,6 +152,7 @@ export default function AnimeEdit({ shortName }) {
       })
       .then(data => {
         setAnime(data);
+        setAnimeData(data);
       })
       .catch(err => console.error(err.message))
       .finally(() => setLoading(false));
@@ -248,7 +268,7 @@ export default function AnimeEdit({ shortName }) {
           <div className={styles.frames}>
             {frames.map((frame, index) =>
               <label key={v4()} className={styles.frameInput}>
-                <img src={frames[index]} alt="" />
+                <img src={`${SERVER_URL}/${frames[index]}`} alt="" />
                 <input type="file"
                   onChange={evt => framesHandler(evt, index)} />
               </label>)}

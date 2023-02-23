@@ -27,7 +27,7 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
   function changePreview() {
     let newShortName = prompt('Введите shortName аниме на которое хотите сменить:');
     if (newShortName !== null && newShortName !== '') {
-      fetch(`${SERVER_URL}/api/anime/preview/${newShortName}`)
+      fetch(`${SERVER_URL}/api/admin/preview/${newShortName}`)
         .then(response => {
           if (!response.ok) {
             return response.json().then(text => { throw new Error(text.message) })

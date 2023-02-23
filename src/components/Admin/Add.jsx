@@ -26,7 +26,6 @@ export default function Add() {
 
   function add(data) {
     const formData = new FormData();
-    formData.append('genres', data.genres);
     data.genres.forEach(genre => formData.append('genres', genre));
     framesFiles.forEach(file => formData.append('frames', file));
     // formData.append('frames', framesFiles[0]);
