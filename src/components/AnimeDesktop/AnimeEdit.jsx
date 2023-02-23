@@ -261,7 +261,7 @@ export default function AnimeEdit({ shortName }) {
           <div className={styles.links}>
             <label>
               Ссылка на трейлер
-              <input type="text" value={trailerUrl} onChange={evt => setTrailerUrl(evt.target.value)} />
+              <input type="url" value={trailerUrl} onChange={evt => setTrailerUrl(evt.target.value)} />
               <i>Пример: https://youtu.be/v-AGjx0N24U      ------>      https://www.youtube-nocookie.com/embed/v-AGjx0N24U</i>
             </label>
             <label>

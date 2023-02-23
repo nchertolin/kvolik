@@ -109,8 +109,8 @@ function App() {
                 element={
                   <Suspense fallback={<Loading />}>
                     {isMobile
-                      ? <Anime shortName={shortName} user={user} />
-                      : <AnimeDesktop shortName={shortName} user={user} />}
+                      ? <Anime shortName={shortName} user={user} setUser={setUser} />
+                      : <AnimeDesktop shortName={shortName} user={user} setUser={setUser} />}
                   </Suspense>
                 } />)}
 

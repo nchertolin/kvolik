@@ -8,7 +8,7 @@ import { SERVER_URL } from '../../util.js';
 import { useRef } from 'react';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 
-export default function Rating({ reference, id, userRatings, shortName }) {
+export default function Rating({ reference, id, user, setUser, shortName }) {
   const [isSubmited, setSubmited] = useState();
   const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const submit = useRef();
@@ -58,11 +58,27 @@ export default function Rating({ reference, id, userRatings, shortName }) {
   }
 
   useEffect(() => {
-    const rating = userRatings.filter(info => info.shortName === shortName)[0]?.grade;
-    if (rating !== undefined) {
-      fillStars(rating);
+    if (localStorage.getItem('token')) {
+      fetch(`${SERVER_URL}/api/account/`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else return response.json().then(text => { throw new Error(text.message) })
+        })
+        .then(data => setUser(data))
+        .catch(err => console.err(err.message))
+        .finally(() => {
+          const rating = user.userRatings.filter(info => info.shortName === shortName)[0]?.grade;
+          if (rating !== undefined) {
+            fillStars(rating - 1);
+          }
+        })
     }
-  }, [shortName, userRatings]);
+  }, [shortName]);
 
   return (
     <div ref={reference} className={styles.rating}>

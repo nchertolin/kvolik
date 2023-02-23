@@ -286,7 +286,7 @@ export default function Add() {
               {errors?.trailerUrl && <p className='error'>{errors?.trailerUrl.message}</p>}
             </label>
             <label>
-              <input type="url" placeholder='Ссылка на аниме в плеере'
+              <input type="text" placeholder='Ссылка на аниме в плеере'
                 className={errors?.playerLink ? 'invalid' : ''}
                 {...register('playerLink', { required: 'Обязательноe поле.' })} />
               {errors?.playerLink && <p className='error'>{errors?.playerLink.message}</p>}

@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form';
 import { autoResize } from '../AnimeDesktop/AnimeDesktop';
 import { IS_AUTH, SERVER_URL } from '../../util.js';
 
-export default function Anime({ shortName, user }) {
+export default function Anime({ shortName, user, setUser }) {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
   const reviewRef = useRef();
   const error = useRef();
@@ -266,7 +266,7 @@ export default function Anime({ shortName, user }) {
                   : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
               </div>
             </div>
-            <Rating reference={ratingRef} id={anime.id} shortName={shortName} userRatings={user.userRatings} />
+            <Rating reference={ratingRef} id={anime.id} shortName={shortName} user={user} setUser={setUser} />
           </>}
       </>
   )

@@ -26,7 +26,7 @@ export function autoResize(evt) {
   evt.target.style.height = `${evt.target.scrollHeight}px`;
 }
 
-export default function AnimeDesktop({ shortName, user }) {
+export default function AnimeDesktop({ shortName, user, setUser }) {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
   const ratingRef = useRef();
   const favoriteRef = useRef();
@@ -324,7 +324,7 @@ export default function AnimeDesktop({ shortName, user }) {
               </form>
               : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
           </div>
-          <Rating reference={ratingRef} id={anime.id} shortName={shortName} userRatings={user.userRatings} />
+          <Rating reference={ratingRef} id={anime.id} shortName={shortName} user={user} setUser={setUser} />
         </div>}
 
     </>
