@@ -48,7 +48,6 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => setPreview(data))
-      //.catch(() => setPreview(testPreview))
       .catch(err => console.error(err.message))
       .finally(() => setLoading(false))
   }, [])
@@ -68,11 +67,10 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => {
-        setEmpty(data.length === 0);
+        setEmpty(data.length === 0 && !user.isAdmin);
         setAnimes(data);
       })
-      .catch(() => setAnimes(testAnimes))
-      .catch(err => setEmpty(!user.isAdmin))
+      //.catch(() => setAnimes(testAnimes))
       .finally(() => setLoading(false))
   }, [isSoon, isFavorites, selectedSort, query, user.isAdmin]);
 

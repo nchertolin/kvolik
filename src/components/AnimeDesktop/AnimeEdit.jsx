@@ -133,7 +133,6 @@ export default function AnimeEdit({ shortName }) {
       })
       .then(data => {
         setAnime(data);
-        return data.id;
       })
       .catch(err => console.error(err.message))
       .finally(() => setLoading(false));
