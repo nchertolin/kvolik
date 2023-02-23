@@ -84,7 +84,9 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
       {!isMobile && !isFavorites &&
         <div className={styles.hero}>
           <div className={styles.videoEffect}>
-            <video ref={videoRef} className={styles.video} src={video} autoPlay loop muted playsInline></video>
+            <video ref={videoRef} className={styles.video}
+              src={video}
+              autoPlay loop muted playsInline></video>
           </div>
           <div className={styles.videoTextWrapper}>
             <div className={styles.heroInfo}>

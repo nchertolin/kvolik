@@ -5,12 +5,14 @@ import Loading from '../Loading/Loading';
 import { testAnime } from './anime';
 import styles from './AnimeDesktop.module.scss';
 import placeholder from '../../assets/icons/placeholder.svg'
+import { v4 } from 'uuid';
 
 export default function AnimeEdit({ shortName }) {
+  const [flag, setFlag] = useState(true);
   const [anime, setAnime] = useState(testAnime);
   const [isLoading, setLoading] = useState();
   const [imageUrl, setImageUrl] = useState(anime.imageUrl);
-  const [imageUri, setImageUri] = useState();
+  const [imageUri, setImageUri] = useState(null);
   const [name, setName] = useState(anime.name);
   const [nameEng, setNameEng] = useState(anime.nameEng);
   const [animeShortName, setShortName] = useState(shortName);
@@ -28,7 +30,7 @@ export default function AnimeEdit({ shortName }) {
   const [voiceoverStatus, setVoiceoverStatus] = useState(anime.voiceoverStatus);
   const [trailerUrl, setTrailerUrl] = useState(anime.trailerUrl);
   const [playerLink, setPlayerLink] = useState(anime.playerLink);
-  const [frames, setFrames] = useState([placeholder, placeholder, placeholder, placeholder, placeholder]);
+  const [frames, setFrames] = useState([...anime.frames]);
   const [framesFiles, setFramesFiles] = useState([])
   const error = useRef();
   const submit = useRef();
@@ -51,11 +53,21 @@ export default function AnimeEdit({ shortName }) {
 
     if (matches) {
       const newFrames = [...frames];
-      const newFramesFiles = [...framesFiles];
+      if (flag) {
+        newFrames.forEach((image, index) => newFrames[index] = placeholder);
+        setFlag(false);
+      } else {
+        newFrames.forEach((image, index) => {
+          if (image === placeholder) {
+            newFrames[index] = placeholder;
+          }
+        });
+      }
       newFrames[index] = URL.createObjectURL(file);
+      const newFramesFiles = [...framesFiles];
       newFramesFiles[index] = file;
       setFrames(newFrames);
-      setFramesFiles(newFrames);
+      setFramesFiles(newFramesFiles.filter(file => file !== null));
     }
   }
 
@@ -70,8 +82,6 @@ export default function AnimeEdit({ shortName }) {
 
   function edit() {
     const formData = new FormData();
-    // Не мменять в базе если не было изменений изображений 
-    formData.append('imageUrl', imageUrl);
     formData.append('imageUri', imageUri)
     formData.append('name', name);
     formData.append('shortName', animeShortName);
@@ -236,7 +246,7 @@ export default function AnimeEdit({ shortName }) {
           </div>
           <div className={styles.frames}>
             {frames.map((frame, index) =>
-              <label className={styles.frameInput}>
+              <label key={v4()} className={styles.frameInput}>
                 <img src={frames[index]} alt="" />
                 <input type="file"
                   onChange={evt => framesHandler(evt, index)} />
