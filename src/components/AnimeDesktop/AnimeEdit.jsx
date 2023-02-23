@@ -89,7 +89,8 @@ export default function AnimeEdit({ shortName }) {
     formData.append('type', type);
     formData.append('episodesAmount', episodesAmount);
     formData.append('exitStatus', exitStatus);
-    formData.append('genres', genres);
+    genres.split(', ').forEach(genre => formData.append('genres', genre));
+    // formData.append('genres', genres);
     formData.append('primarySource', primarySource);
     formData.append('releaseFrom', new Date(releaseFrom).toISOString());
     formData.append('releaseBy', new Date(releaseBy).toISOString());
@@ -100,7 +101,8 @@ export default function AnimeEdit({ shortName }) {
     formData.append('voiceoverStatus', voiceoverStatus);
     formData.append('trailerUrl', trailerUrl);
     formData.append('playerLink', playerLink);
-    formData.append('frames', framesFiles);
+    framesFiles.forEach(file => formData.append('frames', file));
+    //formData.append('frames', framesFiles);
     formData.append('duration', duration);
 
     fetch(`${SERVER_URL}/api/admin/anime`, {
