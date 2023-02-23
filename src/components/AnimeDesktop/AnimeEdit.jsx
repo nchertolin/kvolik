@@ -19,7 +19,7 @@ export default function AnimeEdit({ shortName }) {
   const [type, setType] = useState(anime.type);
   const [episodesAmount, setEpisodesAmount] = useState(anime.episodesAmount);
   const [exitStatus, setExitStatus] = useState(anime.exitStatus);
-  const [genres, setGenres] = useState(anime.genres.join(', '));
+  const [genres, setGenres] = useState(anime.genres.join(','));
   const [primarySource, setPrimarySource] = useState(anime.primarySource);
   const [releaseFrom, setReleaseFrom] = useState(anime.releaseFrom.substring(0, 10));
   const [releaseBy, setReleaseBy] = useState(anime.releaseBy.substring(0, 10));
@@ -30,7 +30,9 @@ export default function AnimeEdit({ shortName }) {
   const [voiceoverStatus, setVoiceoverStatus] = useState(anime.voiceoverStatus);
   const [trailerUrl, setTrailerUrl] = useState(anime.trailerUrl);
   const [playerLink, setPlayerLink] = useState(anime.playerLink);
-  const [frames, setFrames] = useState([...anime.frames]);
+  const [frames, setFrames] = useState(anime.frames.length
+    ? [...anime.frames]
+    : [placeholder, placeholder, placeholder, placeholder, placeholder]);
   const [framesFiles, setFramesFiles] = useState([])
   const error = useRef();
   const submit = useRef();
@@ -85,7 +87,7 @@ export default function AnimeEdit({ shortName }) {
     setType(data.type);
     setEpisodesAmount(data.episodesAmount);
     setExitStatus(data.exitStatus);
-    setGenres(data.genres.join(', '));
+    setGenres(data.genres.join(','));
     setPrimarySource(data.primarySource)
     setReleaseFrom(data.releaseFrom.substring(0, 10))
     setReleaseBy(data.releaseBy.substring(0, 10))
@@ -96,7 +98,9 @@ export default function AnimeEdit({ shortName }) {
     setVoiceoverStatus(data.voiceoverStatus)
     setTrailerUrl(data.trailerUrl)
     setPlayerLink(data.playerLink);
-    setFrames([...data.frames]);
+    setFrames(data.frames.length
+      ? [...data.frames]
+      : [placeholder, placeholder, placeholder, placeholder, placeholder]);
   }
 
   const disableButton = isDisable => submit.current.disabled = isDisable;
@@ -110,7 +114,7 @@ export default function AnimeEdit({ shortName }) {
     formData.append('type', type);
     formData.append('episodesAmount', episodesAmount);
     formData.append('exitStatus', exitStatus);
-    genres.split(', ').forEach(genre => formData.append('genres', genre));
+    genres.split(',').forEach(genre => formData.append('genres', genre));
     formData.append('primarySource', primarySource);
     formData.append('releaseFrom', new Date(releaseFrom).toISOString());
     formData.append('releaseBy', new Date(releaseBy).toISOString());
@@ -268,7 +272,11 @@ export default function AnimeEdit({ shortName }) {
           <div className={styles.frames}>
             {frames.map((frame, index) =>
               <label key={v4()} className={styles.frameInput}>
-                <img src={`${SERVER_URL}/${frames[index]}`} alt="" />
+                <img src={
+                  flag
+                    ? `${SERVER_URL}/${frames[index]}`
+                    : frames[index]
+                } alt="" />
                 <input type="file"
                   onChange={evt => framesHandler(evt, index)} />
               </label>)}

@@ -181,7 +181,7 @@ export default function Anime({ shortName, user }) {
                   <span>{anime.exitStatus}</span>
                 </div>
                 <div className={styles.infoRow}>
-                  <p>Жанр</p>
+                  <p>Жанры</p>
                   <span>{anime.genres.join(', ')}</span>
                 </div>
                 <div className={styles.infoRow}>
@@ -266,7 +266,7 @@ export default function Anime({ shortName, user }) {
                   : <h3>Комментарии могут писать только авторизованные пользователи</h3>}
               </div>
             </div>
-            <Rating reference={ratingRef} shortName={shortName} />
+            <Rating reference={ratingRef} id={anime.id} shortName={shortName} userRatings={user.userRatings} />
           </>}
       </>
   )

@@ -22,7 +22,13 @@ const Add = lazy(() => import('./components/Admin/Add'));
 //   name: 'Канеки Кен',
 //   email: 'kanekiken@mail.ru',
 //   avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-//   isAdmin: true
+//   isAdmin: true,
+//   userRatings: [
+//     {
+//       shortName: 'code-geas',
+//       grade: 10
+//     }
+//   ]
 // };
 
 function App() {
@@ -59,9 +65,7 @@ function App() {
         //   setUser(testUser);
         //   localStorage.setItem('token', '123');
         // })
-        .catch(err => {
-          console.err(err.message);
-        })
+        .catch(err => console.err(err.message))
         .finally(() => setLoading(false));
     }
   }, []);

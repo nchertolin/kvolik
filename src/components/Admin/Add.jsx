@@ -28,7 +28,6 @@ export default function Add() {
     const formData = new FormData();
     data.genres.forEach(genre => formData.append('genres', genre));
     framesFiles.forEach(file => formData.append('frames', file));
-    // formData.append('frames', framesFiles[0]);
     formData.append('imageUri', file);
     formData.append('name', data.name);
     formData.append('shortName', data.shortName);
@@ -46,7 +45,6 @@ export default function Add() {
     formData.append('playerLink', data.playerLink);
     formData.append('isMonophonic', data.isMonophonic);
     formData.append('voiceoverStatus', data.voiceoverStatus);
-    console.log(formData.get('frames'));
 
     fetch(`${SERVER_URL}/api/admin/anime`, {
       body: formData,
@@ -320,19 +318,17 @@ export default function Add() {
                 <img className={styles.frame} src={frames[3]} alt="" />
                 <input type="file"
                   className={styles.bannerInput}
+                  {...register('frame4', { required: 'Обязательноe поле.' })}
                   onChange={evt => framesHandler(evt, 3)} />
+                {errors?.frame4 && <p className='error'>{errors?.frame4.message}</p>}
               </label>
               <label className={styles.frameInput}>
                 <img className={styles.frame} src={frames[4]} alt="" />
                 <input type="file"
                   className={styles.bannerInput}
+                  {...register('frame5', { required: 'Обязательноe поле.' })}
                   onChange={evt => framesHandler(evt, 4)} />
-              </label>
-              <label className={styles.frameInput}>
-                <img className={styles.frame} src={frames[5]} alt="" />
-                <input type="file"
-                  className={styles.bannerInput}
-                  onChange={evt => framesHandler(evt, 5)} />
+                {errors?.frame5 && <p className='error'>{errors?.frame5.message}</p>}
               </label>
             </div>
             <label>

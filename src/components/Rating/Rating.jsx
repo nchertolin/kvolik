@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Rating.module.scss';
 import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
@@ -57,11 +57,18 @@ export default function Rating({ reference, id, userRatings, shortName }) {
       .finally(() => disableButton(false));
   }
 
+  useEffect(() => {
+    const rating = userRatings.filter(info => info.shortName === shortName)[0]?.grade;
+    if (rating !== undefined) {
+      fillStars(rating);
+    }
+  }, [shortName, userRatings]);
+
   return (
     <div ref={reference} className={styles.rating}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h1>{`Ваша оценка ${userRatings.filter(info => info.shortName === shortName)?.grade}`}</h1>
+          <h1>Ваша оценка</h1>
           <button onClick={() => showRating(reference, false)}><img className={styles.close} src={close} alt="" /></button>
         </div>
         <ul className={styles.stars}>

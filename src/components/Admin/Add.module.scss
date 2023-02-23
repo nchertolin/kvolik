@@ -94,8 +94,9 @@
 
 .frames {
   display: flex;
-  gap: 30px;
+  gap: 10px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .frameInput {
@@ -110,7 +111,7 @@
 }
 
 .frame {
-  width: 180px;
+  width: 190px;
   height: 110px;
   object-fit: cover;
   border-radius: 10px;
