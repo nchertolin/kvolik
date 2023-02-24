@@ -143,3 +143,30 @@ i {
     margin-bottom: 5px;
   }
 }
+
+.videoInput {
+
+  video,
+  .video {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
+  .videoWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .mute {
+    position: absolute;
+    bottom: 5%;
+    right: 1%;
+
+    button {
+      background-color: transparent;
+    }
+  }
+}

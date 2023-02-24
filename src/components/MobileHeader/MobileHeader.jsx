@@ -14,6 +14,7 @@ export default function MobileHeader({ user }) {
   function showMenu() {
     menuModal.current.classList.toggle('hidden');
     setMenuActive(!isMenuActive);
+    document.body.classList.toggle('fixed');
   }
 
   function showSearch() {

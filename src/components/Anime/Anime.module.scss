@@ -131,6 +131,7 @@
   font-size: 20px;
   text-align: center;
   margin-bottom: 30px;
+  color: $second-text
 }
 
 .player {
@@ -171,6 +172,7 @@
 
   button {
     height: 40px;
+    font-size: 14px;
   }
 
   textarea {
@@ -181,7 +183,7 @@
     border: 0;
     border-radius: 5px;
     background-color: $input;
-    color: white;
+    color: $main-text;
     font-family: 'Gilroy', 'sans-serif';
     font-size: 14px;
 
@@ -205,7 +207,7 @@
 }
 
 .rate {
-  background-color: #FFE34F;
+  background-color: $accent;
   width: 50vw;
   height: 10vw;
   font-weight: bold;
@@ -248,10 +250,11 @@
       width: 60px;
     }
 
-    color: $background;
+    color: $main-text;
     text-align: center;
     border-radius: 7px;
-    background-color: $accent;
+    background-color: $background;
+    border: 1px solid $accent;
   }
 
   .favorite {

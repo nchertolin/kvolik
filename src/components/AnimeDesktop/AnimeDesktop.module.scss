@@ -2,7 +2,7 @@
 
 .content {
   width: 85vw;
-  max-width: 1400px;
+  max-width: 1600px;
   font-size: 16px;
   margin: 0 auto;
 
@@ -195,9 +195,8 @@
 
 .player {
   width: 100%;
-  margin: 0 auto;
+  margin: 150px auto 50px;
   text-align: center;
-  margin-bottom: 50px;
 
   iframe {
     position: absolute;
@@ -217,7 +216,7 @@
 .comments {
   position: relative;
   width: 90%;
-  margin: 0 auto 50px;
+  margin: 0 auto 100px;
 
   h3 {
     font-size: 16px;
@@ -250,15 +249,24 @@
   left: 0;
   width: 100%;
 
-  button {
-    font-size: 14px;
-    margin: 5px 0;
-  }
-
   textarea {
+    position: relative;
     background-color: $input;
     height: 50px;
+    padding-right: 60px;
   }
+
+  button {
+    position: absolute;
+    right: 0;
+    background-color: transparent;
+  }
+}
+
+.writeWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .more {
@@ -269,8 +277,8 @@
   display: flex;
   flex-direction: column;
   row-gap: 30px;
-  margin-bottom: 20px;
-  max-height: 400px;
+  margin-bottom: 30px;
+  max-height: 500px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -284,6 +292,28 @@
 
 .editor {
   transition: 1s;
+
+  .videoLabel {
+    width: 100%;
+    height: 100%;
+
+    input {
+      display: none;
+    }
+  }
+
+  .videoWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 50px;
+
+    video {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+    }
+  }
 
   .row {
     align-items: center;
@@ -364,7 +394,7 @@
     margin-bottom: 50px;
 
     img {
-      width: min(16vw, 260px);
+      width: min(16vw, 300px);
       height: min(10vw, 140px);
       object-fit: cover;
       border-radius: 10px;
@@ -392,4 +422,51 @@
 i {
   color: $second-text;
   white-space: pre-wrap;
+}
+
+.banner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.videoEffect {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 100px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(180deg, transparent, $background);
+  }
+}
+
+.trailerVideo {
+  width: 100%;
+  height: min(400px, 30vw);
+  object-fit: cover;
+  filter: brightness(70%);
+  border-radius: 20px 20px 0 0;
+}
+
+.mute {
+  position: absolute;
+  bottom: 5%;
+  right: 2%;
+
+  button {
+    background-color: transparent;
+    padding: 10px;
+
+    img {
+      width: 30px;
+    }
+  }
 }

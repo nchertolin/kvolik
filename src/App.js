@@ -18,18 +18,18 @@ const Edit = lazy(() => import('./components/Account/Edit'));
 const ErrorPage = lazy(() => import('./components/ErrorPage/ErrorPage'));
 const Add = lazy(() => import('./components/Admin/Add'));
 
-// const testUser = {
-//   name: 'Канеки Кен',
-//   email: 'kanekiken@mail.ru',
-//   avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-//   isAdmin: true,
-//   userRatings: [
-//     {
-//       shortName: 'code-geas',
-//       grade: 10
-//     }
-//   ]
-// };
+const testUser = {
+  name: 'Канеки Кен',
+  email: 'kanekiken@mail.ru',
+  avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
+  isAdmin: true,
+  userRatings: [
+    {
+      shortName: 'code-geas',
+      grade: 10
+    }
+  ]
+};
 
 function App() {
   const [user, setUser] = useState({});
@@ -45,7 +45,7 @@ function App() {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => setNames(data))
-      //.catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
+      .catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
       .catch((err) => alert(err.message))
       .finally(() => setLoading(false));
 
@@ -61,10 +61,10 @@ function App() {
           } else return response.json().then(text => { throw new Error(text.message) })
         })
         .then(data => setUser(data))
-        // .catch(() => {
-        //   setUser(testUser);
-        //   localStorage.setItem('token', '123');
-        // })
+        .catch(() => {
+          setUser(testUser);
+          localStorage.setItem('token', '123');
+        })
         .catch(err => console.err(err.message))
         .finally(() => setLoading(false));
     }

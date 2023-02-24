@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import { v4 } from 'uuid';
 import Comment from '../Comment/Comment';
 import Rating from '../Rating/Rating';
-import Slider from '../Slider/Slider';
 import styles from './AnimeDesktop.module.scss';
 import { IS_AUTH, SERVER_URL } from '../../util.js';
 import { testAnime } from './anime.js';
@@ -15,6 +14,9 @@ import { useForm } from 'react-hook-form';
 import { convertToMonth, setLastPage } from '../../util.js';
 import edit from '../../assets/icons/edit.svg';
 import delet from '../../assets/icons/delete.svg';
+import muted from '../../assets/icons/muted.svg';
+import unmuted from '../../assets/icons/unmuted.svg';
+import send from '../../assets/icons/send.svg';
 
 export function showRating(ref, isOpen) {
   ref.current.style.opacity = isOpen ? 1 : 0;
@@ -28,6 +30,7 @@ export function autoResize(evt) {
 
 export default function AnimeDesktop({ shortName, user, setUser }) {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
+  const [isMuted, setMuted] = useState(true);
   const ratingRef = useRef();
   const favoriteRef = useRef();
   const reviewRef = useRef();
@@ -164,7 +167,7 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
         return data.id;
       })
       .then(id => checkFavorite(id))
-      .catch(err => alert('Не удалось получить информацию об аниме.'))
+      //.catch(err => alert('Не удалось получить информацию об аниме.'))
       .finally(() => setLoading(false));
   }, [shortName]);
 
@@ -186,6 +189,18 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
       </Helmet>
       {isLoading ? <Loading /> :
         <div className={styles.content}>
+          <div className={styles.banner}>
+            <div className={styles.videoEffect}>
+              <video className={styles.trailerVideo} autoPlay loop playsInline
+                muted={isMuted}
+                src={`${SERVER_URL}/${anime.previewVideoUrl}`}></video>
+            </div>
+            <div className={styles.mute}>
+              <button onClick={() => setMuted(!isMuted)}>
+                <img src={isMuted ? muted : unmuted} alt="" />
+              </button>
+            </div>
+          </div>
           <div className={styles.row}>
             <div className={styles.buttons}>
               <div className={styles.pictureWrapper}>
@@ -274,18 +289,6 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
               </div>
             </div>
           </div>
-          <div className={styles.extraHeaders}>
-            <h2 className={styles.head}>Кадры из аниме</h2>
-            <h2 className={styles.head}>Трейлер аниме</h2>
-          </div>
-          <div className={styles.extra}>
-            <div className={styles.extraItem}>
-              <Slider pictures={anime.frames.map(frameUrl => `${SERVER_URL}/${frameUrl}`)} />
-            </div>
-            <div className={styles.extraItem}>
-              <iframe title='Trailer' src={anime.trailerUrl}></iframe>
-            </div>
-          </div>
           <div className={styles.player} id='watch'>
             <h2 className={styles.head}>Смотреть аниме {anime.name}</h2>
             <div className={styles.kodik}>
@@ -307,19 +310,21 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
             </ul>
             {IS_AUTH ?
               <form className={styles.write} onSubmit={handleSubmit(sendReview)}>
-                <textarea disabled={!IS_AUTH} placeholder='Напишите свое мнение'
-                  onChange={autoResize}
-                  {...register('message', {
-                    required: 'Обязательноe поле.',
-                    maxLength: {
-                      value: 200,
-                      message: 'Максимальная длина комментария 200 символов.'
-                    }
-                  })} />
+                <div className={styles.writeWrapper}>
+                  <textarea disabled={!IS_AUTH} placeholder='Напишите свое мнение'
+                    onChange={autoResize}
+                    {...register('message', {
+                      required: 'Обязательноe поле.',
+                      maxLength: {
+                        value: 200,
+                        message: 'Максимальная длина комментария 200 символов.'
+                      }
+                    })} />
+                  <button ref={reviewRef} disabled={!IS_AUTH}>
+                    <img src={send} alt="" />
+                  </button>
+                </div>
                 {errors?.message && <p className='error'>{errors?.message.message}</p>}
-                <button ref={reviewRef} className='primary-button' disabled={!IS_AUTH}>
-                  Отправить
-                </button>
                 <p ref={error} className='error-submit'>Возникла ошибка при отправке.</p>
               </form>
               : <h3>Комментарии могут писать только авторизованные пользователи</h3>}

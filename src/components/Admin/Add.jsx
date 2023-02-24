@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
 import styles from './Add.module.scss';
 import placeholder from '../../assets/icons/placeholder.svg';
-import { SERVER_URL, FILE_TYPES } from '../../util.js';
+import { SERVER_URL, IMAGE_TYPES, VIDEO_TYPES } from '../../util.js';
+import muted from '../../assets/icons/muted.svg';
+import unmuted from '../../assets/icons/unmuted.svg';
 
 export default function Add() {
   const { register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'all' });
@@ -14,6 +16,10 @@ export default function Add() {
   const [file, setFile] = useState();
   const error = useRef();
   const submit = useRef();
+  const [isVideoChanging, setVideoChanging] = useState();
+  const [video, setVideo] = useState();
+  const [videoFile, setVideoFile] = useState();
+  const [isMuted, setMuted] = useState(true);
 
   function showError(isShow, message) {
     if (isShow) {
@@ -45,6 +51,7 @@ export default function Add() {
     formData.append('playerLink', data.playerLink);
     formData.append('isMonophonic', data.isMonophonic);
     formData.append('voiceoverStatus', data.voiceoverStatus);
+    formData.append('previewVideoUri', videoFile);
 
     fetch(`${SERVER_URL}/api/admin/anime`, {
       body: formData,
@@ -72,18 +79,18 @@ export default function Add() {
   function previewHandler(evt) {
     const file = evt.target.files[0];
     const fileName = file.name.toLowerCase();
-    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+    const matches = IMAGE_TYPES.some((it) => fileName.endsWith(it));
 
     if (matches) {
       setPreview(URL.createObjectURL(file));
-      setFile(evt.target.files[0]);
+      setFile(file);
     }
   }
 
   function framesHandler(evt, index) {
     const file = evt.target.files[0];
     const fileName = file.name.toLowerCase();
-    const matches = FILE_TYPES.some(it => fileName.endsWith(it));
+    const matches = IMAGE_TYPES.some(it => fileName.endsWith(it));
 
     if (matches) {
       const newFrames = [...frames];
@@ -92,6 +99,18 @@ export default function Add() {
       newFramesFiles[index] = file;
       setFrames(newFrames);
       setFramesFiles(newFramesFiles);
+    }
+  }
+
+  function videoHandler(evt) {
+    const file = evt.target.files[0];
+    const fileName = file.name.toLowerCase();
+    const matches = VIDEO_TYPES.some((it) => fileName.endsWith(it));
+
+    if (matches) {
+      setVideoChanging(true);
+      setVideo(URL.createObjectURL(file));
+      setVideoFile(file);
     }
   }
 
@@ -331,6 +350,24 @@ export default function Add() {
                 {errors?.frame5 && <p className='error'>{errors?.frame5.message}</p>}
               </label>
             </div>
+            <label className={styles.videoInput}>
+              <p>Видео обложка</p>
+              {isVideoChanging
+                ? <div className={styles.videoWrapper}>
+                  <video src={video} autoPlay loop muted={isMuted}></video>
+                  <div className={styles.mute}>
+                    <button type='button' onClick={() => setMuted(!isMuted)}>
+                      <img src={isMuted ? muted : unmuted} alt="" />
+                    </button>
+                  </div>
+                </div>
+                : <img className={styles.video} src={frames[4]} alt="" />}
+              <input type="file"
+                className={styles.bannerInput}
+                {...register('video', { required: 'Обязательноe поле.' })}
+                onChange={videoHandler} />
+              {errors?.video && <p className='error'>{errors?.video.message}</p>}
+            </label>
             <label>
               <button ref={submit} className='primary-button'>Добавить на сайт</button>
               <p ref={error} className='error-submit'>Возникла ошибка при добавлении.</p>

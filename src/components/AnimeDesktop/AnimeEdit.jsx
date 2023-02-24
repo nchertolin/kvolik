@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet';
-import { FILE_TYPES, SERVER_URL } from '../../util.js';
+import { IMAGE_TYPES, SERVER_URL, VIDEO_TYPES } from '../../util.js';
 import Loading from '../Loading/Loading';
 import { testAnime } from './anime';
 import styles from './AnimeDesktop.module.scss';
 import placeholder from '../../assets/icons/placeholder.svg'
 import { v4 } from 'uuid';
+import muted from '../../assets/icons/muted.svg';
+import unmuted from '../../assets/icons/unmuted.svg';
 
 export default function AnimeEdit({ shortName }) {
   const [flag, setFlag] = useState(true);
@@ -33,14 +35,18 @@ export default function AnimeEdit({ shortName }) {
   const [frames, setFrames] = useState(anime.frames.length
     ? [...anime.frames]
     : [placeholder, placeholder, placeholder, placeholder, placeholder]);
+  const [previewVideoUrl, setPreviewVideoUrl] = useState(anime.previewVideoUrl);
+  const [videoFile, setVideoFile] = useState(null);
+  const [isMuted, setMuted] = useState(true);
   const [framesFiles, setFramesFiles] = useState([])
   const error = useRef();
   const submit = useRef();
 
+
   function previewHandler(evt) {
     const file = evt.target.files[0];
     const fileName = file.name.toLowerCase();
-    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+    const matches = IMAGE_TYPES.some((it) => fileName.endsWith(it));
 
     if (matches) {
       setImageUrl(URL.createObjectURL(file));
@@ -51,7 +57,7 @@ export default function AnimeEdit({ shortName }) {
   function framesHandler(evt, index) {
     const file = evt.target.files[0];
     const fileName = file.name.toLowerCase();
-    const matches = FILE_TYPES.some(it => fileName.endsWith(it));
+    const matches = IMAGE_TYPES.some(it => fileName.endsWith(it));
 
     if (matches) {
       const newFrames = [...frames];
@@ -80,6 +86,17 @@ export default function AnimeEdit({ shortName }) {
     error.current.style.display = isShow ? 'block' : 'none';
   }
 
+  function videoHandler(evt) {
+    const file = evt.target.files[0];
+    const fileName = file.name.toLowerCase();
+    const matches = VIDEO_TYPES.some((it) => fileName.endsWith(it));
+
+    if (matches) {
+      setPreviewVideoUrl(URL.createObjectURL(file));
+      setVideoFile(file);
+    }
+  }
+
   function setAnimeData(data) {
     setImageUrl(data.imageUrl);
     setName(data.name);
@@ -101,6 +118,7 @@ export default function AnimeEdit({ shortName }) {
     setFrames(data.frames.length
       ? [...data.frames]
       : [placeholder, placeholder, placeholder, placeholder, placeholder]);
+    setPreviewVideoUrl(data.previewVideoUrl);
   }
 
   const disableButton = isDisable => submit.current.disabled = isDisable;
@@ -127,6 +145,7 @@ export default function AnimeEdit({ shortName }) {
     formData.append('playerLink', playerLink);
     framesFiles.forEach(file => formData.append('frames', file));
     formData.append('duration', duration);
+    formData.append('previewVideoUri', videoFile);
 
     fetch(`${SERVER_URL}/api/admin/anime/${anime.id}`, {
       body: formData,
@@ -281,6 +300,17 @@ export default function AnimeEdit({ shortName }) {
                   onChange={evt => framesHandler(evt, index)} />
               </label>)}
           </div>
+          <label htmlFor='video' className={styles.videoLabel}>
+            <div className={styles.videoWrapper}>
+              <video src={`${SERVER_URL}/${previewVideoUrl}`} autoPlay loop muted={isMuted}></video>
+              <div className={styles.mute}>
+                <button type='button' onClick={() => setMuted(!isMuted)}>
+                  <img src={isMuted ? muted : unmuted} alt="" />
+                </button>
+              </div>
+            </div>
+            <input id='video' type="file" onChange={videoHandler} />
+          </label>
           <label className={styles.submit}>
             <button ref={submit} className='primary-button'
               onClick={edit}

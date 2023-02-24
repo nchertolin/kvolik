@@ -50,7 +50,7 @@ export default function Rating({ reference, id, user, setUser, shortName }) {
     })
       .then(response => {
         if (response.ok) {
-          showRating(reference, false);
+          window.location.reload();
         } else throw new Error();
       })
       .catch(showError)
@@ -69,14 +69,14 @@ export default function Rating({ reference, id, user, setUser, shortName }) {
             return response.json();
           } else return response.json().then(text => { throw new Error(text.message) })
         })
-        .then(data => setUser(data))
-        .catch(err => console.err(err.message))
-        .finally(() => {
+        .then(data => {
+          setUser(data);
           const rating = user.userRatings.filter(info => info.shortName === shortName)[0]?.grade;
           if (rating !== undefined) {
             fillStars(rating - 1);
           }
         })
+        .catch(err => console.error(err.message));
     }
   }, [shortName]);
 
