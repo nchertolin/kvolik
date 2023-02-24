@@ -122,7 +122,7 @@ export default function Anime({ shortName, user, setUser }) {
         return data.id;
       })
       .then(id => checkFavorite(id))
-      .catch(err => console.error(err.message))
+      .catch(err => alert(err.message))
       .finally(() => setLoading(false));
   }, [shortName]);
 

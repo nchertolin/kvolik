@@ -45,7 +45,7 @@ function App() {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => setNames(data))
-      .catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
+      //.catch(() => setNames(['code-geas', 'spy-x-family-2', 'spy-x-family']))
       .catch((err) => alert(err.message))
       .finally(() => setLoading(false));
 
@@ -61,10 +61,10 @@ function App() {
           } else return response.json().then(text => { throw new Error(text.message) })
         })
         .then(data => setUser(data))
-        .catch(() => {
-          setUser(testUser);
-          localStorage.setItem('token', '123');
-        })
+        // .catch(() => {
+        //   setUser(testUser);
+        //   localStorage.setItem('token', '123');
+        // })
         .catch(err => console.err(err.message))
         .finally(() => setLoading(false));
     }

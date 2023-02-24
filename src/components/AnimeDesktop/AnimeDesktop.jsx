@@ -167,7 +167,7 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
         return data.id;
       })
       .then(id => checkFavorite(id))
-      //.catch(err => alert('Не удалось получить информацию об аниме.'))
+      .catch(err => alert('Не удалось получить информацию об аниме.'))
       .finally(() => setLoading(false));
   }, [shortName]);
 
