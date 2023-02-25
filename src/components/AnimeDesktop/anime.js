@@ -32,7 +32,7 @@ export const testAnime = {
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
       reviewText: 'Я стану хогаге',
       publishTime: '2023-01-24T01:50:17.225Z',
-      likes: 99,
+      likes: 9123,
       likedUsersEmails: []
     },
     {
@@ -48,9 +48,9 @@ export const testAnime = {
       name: 'Канеки Кен',
       email: 'naruto@mail.ru',
       avatarImageUrl: 'https://kartinkof.club/uploads/posts/2022-03/1648286079_5-kartinkof-club-p-ken-kaneki-mem-5.jpg',
-      reviewText: 'Я не вернусь в антейку',
+      reviewText: 'Есть много вариантов Lorem Ipsum, но большинство из них имеет не всегда приемлемые модификации, например, юмористические вставки или слова, которые даже отдалённо не напоминают латынь.',
       publishTime: '2023-01-24T18:50:17.225Z',
-      likes: 7,
+      likes: 0,
       likedUsersEmails: []
     },
     {

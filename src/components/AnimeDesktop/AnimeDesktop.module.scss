@@ -251,6 +251,7 @@
 
   textarea {
     position: relative;
+    display: flex;
     background-color: $input;
     height: 50px;
     padding-right: 60px;
@@ -276,9 +277,9 @@
 .userComments {
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
+  row-gap: 35px;
   margin-bottom: 30px;
-  max-height: 500px;
+  max-height: 1000px;
   overflow-y: scroll;
   overflow-x: hidden;
 }

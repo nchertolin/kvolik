@@ -27,7 +27,13 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
   function changePreview() {
     let newShortName = prompt('Введите shortName аниме на которое хотите сменить:');
     if (newShortName !== null && newShortName !== '') {
-      fetch(`${SERVER_URL}/api/admin/preview/${newShortName}`)
+      fetch(`${SERVER_URL}/api/admin/preview/${newShortName}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        })
         .then(response => {
           if (!response.ok) {
             return response.json().then(text => { throw new Error(text.message) })
@@ -83,7 +89,7 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         <div className={styles.hero}>
           <div className={styles.videoEffect}>
             <video ref={videoRef} className={styles.video}
-              src={`${SERVER_URL}/${preview.videoUrl}`}
+              src={`${SERVER_URL}/${preview.previewVideoUrl}`}
               autoPlay loop muted playsInline></video>
           </div>
           <div className={styles.videoTextWrapper}>

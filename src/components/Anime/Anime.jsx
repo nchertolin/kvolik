@@ -228,7 +228,7 @@ export default function Anime({ shortName, user, setUser }) {
               <div className={styles.extra}>
                 <h2 className={styles.head}>Кадры из аниме</h2>
                 <div style={{ marginBottom: '5vh' }}>
-                  <Slider pictures={anime.frames} />
+                  <Slider pictures={anime.frames.map(frameUrl => `${SERVER_URL}/${frameUrl}`)} />
                 </div>
                 <h2 className={styles.head}>Трейлер аниме</h2>
                 <iframe title='Trailer' src={anime.trailerUrl}></iframe>

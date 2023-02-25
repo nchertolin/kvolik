@@ -71,9 +71,7 @@ export default function Add() {
         setPreview(placeholder);
       })
       .catch(err => showError(true, err.message))
-      .finally(() => {
-        disableButton(false);
-      });
+      .finally(() => disableButton(false));
   }
 
   function previewHandler(evt) {
@@ -361,7 +359,7 @@ export default function Add() {
                     </button>
                   </div>
                 </div>
-                : <img className={styles.video} src={frames[4]} alt="" />}
+                : <img className={styles.video} src={placeholder} alt="" />}
               <input type="file"
                 className={styles.bannerInput}
                 {...register('video', { required: 'Обязательноe поле.' })}

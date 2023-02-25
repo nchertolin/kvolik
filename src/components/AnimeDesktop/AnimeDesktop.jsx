@@ -24,7 +24,7 @@ export function showRating(ref, isOpen) {
 }
 
 export function autoResize(evt) {
-  evt.target.style.height = 'auto';
+  evt.target.style.height = 0;
   evt.target.style.height = `${evt.target.scrollHeight}px`;
 }
 
@@ -312,7 +312,7 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
               <form className={styles.write} onSubmit={handleSubmit(sendReview)}>
                 <div className={styles.writeWrapper}>
                   <textarea disabled={!IS_AUTH} placeholder='Напишите свое мнение'
-                    onChange={autoResize}
+                    onInput={autoResize}
                     {...register('message', {
                       required: 'Обязательноe поле.',
                       maxLength: {

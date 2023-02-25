@@ -37,6 +37,7 @@ export default function AnimeEdit({ shortName }) {
     : [placeholder, placeholder, placeholder, placeholder, placeholder]);
   const [previewVideoUrl, setPreviewVideoUrl] = useState(anime.previewVideoUrl);
   const [videoFile, setVideoFile] = useState(null);
+  const [isVideoChanging, setVideoChanging] = useState();
   const [isMuted, setMuted] = useState(true);
   const [framesFiles, setFramesFiles] = useState([])
   const error = useRef();
@@ -92,6 +93,7 @@ export default function AnimeEdit({ shortName }) {
     const matches = VIDEO_TYPES.some((it) => fileName.endsWith(it));
 
     if (matches) {
+      setVideoChanging(true);
       setPreviewVideoUrl(URL.createObjectURL(file));
       setVideoFile(file);
     }
@@ -157,7 +159,7 @@ export default function AnimeEdit({ shortName }) {
       .then(response => {
         if (response.ok) {
           window.location.href = '..';
-          alert(`Аниме ${anime.name} успешно удалено.`);
+          alert(`Аниме ${anime.name} успешно изменено.`);
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(() => window.location.href = '../')
@@ -302,7 +304,7 @@ export default function AnimeEdit({ shortName }) {
           </div>
           <label htmlFor='video' className={styles.videoLabel}>
             <div className={styles.videoWrapper}>
-              <video src={`${SERVER_URL}/${previewVideoUrl}`} autoPlay loop muted={isMuted}></video>
+              <video src={isVideoChanging ? previewVideoUrl : `${SERVER_URL}/${previewVideoUrl}`} autoPlay loop muted={isMuted}></video>
               <div className={styles.mute}>
                 <button type='button' onClick={() => setMuted(!isMuted)}>
                   <img src={isMuted ? muted : unmuted} alt="" />

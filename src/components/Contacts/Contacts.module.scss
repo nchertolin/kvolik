@@ -54,6 +54,10 @@
   justify-content: center;
   column-gap: 9vw;
 
+  @media (min-width: 768px) {
+    column-gap: 40px;
+  }
+
   @media (min-width: 991px) {
     column-gap: 50px;
   }
@@ -62,12 +66,11 @@
     width: 10vw;
 
     @media (min-width: 768px) {
-      width: 7vw;
-      column-gap: 30px;
+      width: 5vw;
     }
 
     @media (min-width: 991px) {
-      width: 50px;
+      width: 40px;
     }
   }
 }
