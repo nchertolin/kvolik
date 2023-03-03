@@ -4,7 +4,7 @@ import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 import close from '../../assets/icons/close.svg';
 import { v4 } from 'uuid';
-import { SERVER_URL } from '../../util.js';
+import { IS_AUTH, SERVER_URL } from '../../util.js';
 import { useRef } from 'react';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 
@@ -58,27 +58,13 @@ export default function Rating({ reference, id, user, setUser, shortName }) {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      fetch(`${SERVER_URL}/api/account/`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else return response.json().then(text => { throw new Error(text.message) })
-        })
-        .then(data => {
-          setUser(data);
-          const rating = user.userRatings.filter(info => info.shortName === shortName)[0]?.grade;
-          if (rating !== undefined) {
-            fillStars(rating - 1);
-          }
-        })
-        .catch(err => console.error(err.message));
+    if (IS_AUTH && user) {
+      const rating = user.userRatings?.filter(info => info.shortName === shortName)[0]?.grade;
+      if (rating) {
+        fillStars(rating - 1);
+      }
     }
-  }, [shortName]);
+  }, []);
 
   return (
     <div ref={reference} className={styles.rating}>

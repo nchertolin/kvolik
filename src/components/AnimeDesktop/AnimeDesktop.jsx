@@ -24,7 +24,7 @@ export function showRating(ref, isOpen) {
 }
 
 export function autoResize(evt) {
-  evt.target.style.height = 0;
+  evt.target.style.height = '0';
   evt.target.style.height = `${evt.target.scrollHeight}px`;
 }
 
@@ -54,12 +54,6 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
       body: JSON.stringify({ reviewText: message })
     })
       .then(response => {
-        if (response.status === 401) {
-          localStorage.removeItem('token');
-          localStorage.setItem('lastPage', window.location.href)
-          window.location.href = '../login';
-          throw new Error();
-        }
         if (!response.ok) {
           return response.json().then(text => { throw new Error(text.message) })
         }
@@ -68,13 +62,9 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
         setNewReview(!newReview);
         setTimeout(() => {
           disableReviewButton(false);
-        }, 300000);
+        }, 100000);
       })
-      .catch(err => {
-        setLastPage();
-        window.location.href = '../login';
-        showError(true, err.message);
-      })
+      .catch(err => showError(true, err.message))
       .finally(() => {
         disableReviewButton(false);
         reset();
@@ -166,7 +156,11 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
         setReviews(data.reviews);
         return data.id;
       })
-      .then(id => checkFavorite(id))
+      .then(id => {
+        if (IS_AUTH) {
+          checkFavorite(id);
+        }
+      })
       .catch(err => alert('Не удалось получить информацию об аниме.'))
       .finally(() => setLoading(false));
   }, [shortName]);

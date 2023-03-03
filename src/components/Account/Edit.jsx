@@ -10,7 +10,7 @@ import ErrorPage from '../ErrorPage/ErrorPage';
 export default function Edit({ user }) {
   const { register, watch, formState: { errors, }, handleSubmit, reset } =
     useForm({
-      mode: "all",
+      mode: "onBlur",
       defaultValues: {
         email: user.email,
         name: user.name,
@@ -42,7 +42,7 @@ export default function Edit({ user }) {
       body: JSON.stringify({ email: email, name: name, password: password })
     })
       .then(response => {
-        if (!response.ok) {
+        if (response.ok) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
@@ -83,7 +83,11 @@ export default function Edit({ user }) {
               <label>
                 <h3>Пароль</h3>
                 <input type="password" className={errors?.password ? styles.invalid : ''}
-                  {...register('password', { required: 'Обязательноe поле.' })} />
+                  {...register('password', {
+                    required: 'Обязательноe поле.',
+                    minLength: { value: 6, message: 'Длина пароля должна быть в диапазоне от 6 до 30.' },
+                    maxLength: { value: 30, message: 'Длина пароля должна быть в диапазоне от 6 до 30.' }
+                  })} />
                 {errors?.password && <p className='error'>{errors?.password.message}</p>}
               </label>
               <label>
@@ -91,6 +95,8 @@ export default function Edit({ user }) {
                 <input type="password" className={errors?.cpassword ? styles.invalid : ''}
                   {...register('cpassword', {
                     required: 'Обязательноe поле.',
+                    minLength: { value: 6, message: 'Длина пароля должна быть в диапазоне от 6 до 30.' },
+                    maxLength: { value: 30, message: 'Длина пароля должна быть в диапазоне от 6 до 30.' },
                     validate: (value) => {
                       return watch('password') === value || "Пароли не совпадают.";
                     }

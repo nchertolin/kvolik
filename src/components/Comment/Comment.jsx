@@ -18,7 +18,7 @@ export default function Comment({ review, animeId, setNewReview, newReview, isUs
   useEffect(() => {
     const date = new Date(review.publishTime);
     const month = convertToMonth(review.publishTime.substring(5, 7));
-    const day = review.publishTime.substring(8, 10);
+    const day = parseInt(review.publishTime.substring(8, 10));
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
@@ -70,7 +70,7 @@ export default function Comment({ review, animeId, setNewReview, newReview, isUs
       onMouseEnter={() => setDeleteHidden(false)}
       onMouseLeave={() => setDeleteHidden(true)}>
       <div className={styles.wrapper}>
-        <img className={`${styles.avatar} ${review.isAdmin ? styles.admin : ''}`} src={review.avatarImageUrl} alt="" />
+        <img className={`${styles.avatar} ${review.isAdmin ? styles.admin : ''}`} src={`${SERVER_URL}/${review.avatarImageUrl}`} alt="" />
         <div className={styles.content}>
           <div className={styles.nameWrapper}>
             <h2 className={`${styles.name} ${review.isAdmin ? styles.checked : ''}`}>{review.name}</h2>

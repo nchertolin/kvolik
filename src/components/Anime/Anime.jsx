@@ -42,7 +42,7 @@ export default function Anime({ shortName, user, setUser }) {
   }
 
   function checkFavorite(animeId) {
-    fetch(`${SERVER_URL}/api/favorites`, {
+    fetch(`${SERVER_URL}/api/favorites/`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -54,12 +54,12 @@ export default function Anime({ shortName, user, setUser }) {
           return response.json();
         } else return response.json().then(text => { throw new Error(text.message) })
       })
-      .then((animes) => setFavorite(animes.some(({ id }) => id === animeId)))
+      .then(animes => setFavorite(animes.some(({ id }) => id === animeId)))
   }
 
   function addToFavorite() {
     disableFavoriteButton(true);
-    fetch(`${SERVER_URL}/api/favorites/${shortName}`, {
+    fetch(`${SERVER_URL}/api/favorites/${anime.id}`, {
       method: isFavorite ? 'DELETE' : 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,11 +68,11 @@ export default function Anime({ shortName, user, setUser }) {
       }
     })
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else return response.json().then(text => { throw new Error(text.message) })
+        if (!response.ok) {
+          return response.json().then(text => { throw new Error(text.message) })
+        }
       })
-      .catch((err) => console.log(err.message))
+      .catch(err => console.log(err.message))
       .finally(() => {
         checkFavorite(anime.id);
         disableFavoriteButton(false);
@@ -121,7 +121,11 @@ export default function Anime({ shortName, user, setUser }) {
         setReviews(data.reviews);
         return data.id;
       })
-      .then(id => checkFavorite(id))
+      .then(id => {
+        if (IS_AUTH) {
+          checkFavorite(id);
+        }
+      })
       .catch(err => alert(err.message))
       .finally(() => setLoading(false));
   }, [shortName]);
@@ -254,7 +258,7 @@ export default function Anime({ shortName, user, setUser }) {
                 </ul>
                 {IS_AUTH ?
                   <form className={styles.write} onSubmit={handleSubmit(sendReview)}>
-                    <textarea disabled={!IS_AUTH} placeholder='Ваш комментарий' onChange={autoResize}
+                    <textarea disabled={!IS_AUTH} placeholder='Ваш комментарий' onInput={autoResize}
                       {...register('message', {
                         required: 'Обязательноe поле.',
                         maxLength: { value: 200, message: 'Максимальная длина комментария 200 символов.' }
