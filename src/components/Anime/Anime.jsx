@@ -260,7 +260,7 @@ export default function Anime({ shortName, user, setUser }) {
                     <Comment key={v4()} review={review} animeId={anime.id}
                       isUsers={user.email === review.email || user.isAdmin}
                       setNewReview={setNewReview} newReview={newReview}
-                      Liked={review.likedUsersEmails.some(email => email === user)} />)}
+                      Liked={review.likedUsersEmails.some(email => email === user.email)} />)}
                 </ul>
                 {IS_AUTH ?
                   <form className={styles.write} onSubmit={handleSubmit(sendReview)}>

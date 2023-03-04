@@ -37,6 +37,7 @@ export default function AnimeEdit({ shortName }) {
     : [placeholder, placeholder, placeholder, placeholder, placeholder]);
   const [previewVideoUrl, setPreviewVideoUrl] = useState(anime.previewVideoUrl);
   const [videoFile, setVideoFile] = useState(null);
+  const [isImageChanging, setImageChanging] = useState();
   const [isVideoChanging, setVideoChanging] = useState();
   const [isMuted, setMuted] = useState(true);
   const [framesFiles, setFramesFiles] = useState([])
@@ -51,6 +52,7 @@ export default function AnimeEdit({ shortName }) {
     if (matches) {
       setImageUrl(URL.createObjectURL(file));
       setImageUri(evt.target.files[0]);
+      setImageChanging(true);
     }
   }
 
@@ -193,7 +195,7 @@ export default function AnimeEdit({ shortName }) {
           <form onSubmit={edit}>
             <div className={styles.row}>
               <label className={styles.pictureWrapper}>
-                <img className={styles.picture} src={`${SERVER_URL}/${imageUrl}`} alt="" />
+                <img className={styles.picture} src={isImageChanging ? imageUrl : `${SERVER_URL}/${imageUrl}`} alt="" />
                 <input type="file" name='frame-6'
                   onChange={previewHandler} />
               </label>
