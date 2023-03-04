@@ -150,6 +150,9 @@ export default function Anime({ shortName, user, setUser }) {
       <>
         <Helmet>
           <title>{anime.name}</title>
+          <meta name="description" content={`Смотреть аниме ${anime.name} в озвучке KvolikDub.`} />
+          <meta name="keywords"
+            content={`${anime.name}, многоголосая, в хорошем качестве`} />
         </Helmet>
         {isLoading ? <Loading /> :
           <>
