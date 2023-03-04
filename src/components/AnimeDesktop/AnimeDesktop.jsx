@@ -132,9 +132,9 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
         .then(response => {
           if (response.ok) {
             window.location.href = '..';
-            alert(`Аниме ${anime.name} успешно удалено.`);
           } else throw new Error();
         })
+        .then(alert(`Аниме ${anime.name} успешно удалено.`))
         .catch(alert(`Не удалось удалить аниме ${anime.name}.`))
         .finally(() => disableDeleteButton(false))
     }

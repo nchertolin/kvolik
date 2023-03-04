@@ -5,11 +5,10 @@ import styles from './AnimesList.module.scss';
 import { v4 } from 'uuid';
 import search from '../../assets/icons/search.svg';
 import Loading from '../Loading/Loading';
-import { testPreview, testAnimes } from './animes.js';
+import { testPreview } from './animes.js';
 import { SERVER_URL } from '../../util.js';
 import { isMobile } from 'react-device-detect';
 import EmptyCard from '../Card/EmptyCard';
-import video from '../../assets/videos/hero.mp4';
 import { Link } from 'react-router-dom';
 import edit from '../../assets/icons/edit.svg';
 
