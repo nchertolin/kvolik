@@ -49,7 +49,7 @@ export default function Search({ reference, }) {
         : <ul className={styles.list}>
           {animes.map(({ shortName, imageUrl, name, nameEng, releaseFrom, type }) =>
             <li key={v4()} onClick={closeSearch}>
-              <SearchCard shortName={shortName} picture={imageUrl} name={name} nameEng={nameEng} releaseFrom={releaseFrom} type={type} />
+              <SearchCard shortName={shortName} picture={`${SERVER_URL}/${imageUrl}`} name={name} nameEng={nameEng} releaseFrom={releaseFrom} type={type} />
             </li>)}
           {isEmpty && <li className={styles.empty}><p>Не удалось найти аниме по вашему запросу.</p></li>}
         </ul>}

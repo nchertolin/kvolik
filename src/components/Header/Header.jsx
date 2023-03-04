@@ -9,7 +9,7 @@ export default function Header({ user }) {
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      setColor(window.pageYOffset > 60);
+      setColor(window.pageYOffset > 30);
     })
   }, []);
 
@@ -28,7 +28,7 @@ export default function Header({ user }) {
             <img className={styles.user} src={`${SERVER_URL}/${user.avatarImageUrl}`}
               alt='' />
           </NavLink>
-          : <NavLink className='primary-button' to='login'>Войти</NavLink>}
+          : <NavLink className={`${styles.signin} primary-button`} to='login'>Войти</NavLink>}
       </div>
     </ header>
   )

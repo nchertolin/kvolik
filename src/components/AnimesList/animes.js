@@ -80,7 +80,7 @@ export const testAnimes = [
 
 export const testPreview = {
   name: "Код Гиас: Восставший Лелуш",
-  shortName: 'code-geas',
+  shortName: 'code-geass',
   releaseFrom: "2023-02-19T11:56:21.306Z",
   ageLimit: 21,
   type: "ТВ-Сериал",

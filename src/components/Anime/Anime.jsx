@@ -9,7 +9,7 @@ import Loading from '../Loading/Loading';
 import { showRating } from '../AnimeDesktop/AnimeDesktop';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { convertToMonth } from '../../util.js';
+import { convertToMonth, setLastPage } from '../../util.js';
 import star from '../../assets/icons/star.svg';
 import starFill from '../../assets/icons/star-fill.svg';
 import { useForm } from 'react-hook-form';
@@ -94,7 +94,10 @@ export default function Anime({ shortName, user, setUser }) {
         if (!response.ok)
           return response.json().then(text => { throw new Error(text.message) })
       })
-      .then(() => setNewReview(!newReview))
+      .then(() => {
+        setNewReview(!newReview);
+        reset();
+      })
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableReviewButton(false);
@@ -168,7 +171,7 @@ export default function Anime({ shortName, user, setUser }) {
               <div className={styles.buttons}>
                 <a href='#watch'>Смотреть онлайн</a>
                 {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Поставить оценку</button>
-                  : <Link to='../login' className={styles.rate}>Поставить оценку</Link>}
+                  : <Link to='/login' onClick={setLastPage} className={styles.rate}>Поставить оценку</Link>}
               </div>
               <Rating reference={ratingRef} />
               <div className={styles.info}>

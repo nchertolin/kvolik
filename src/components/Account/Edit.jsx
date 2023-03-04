@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import styles from './Account.module.scss';
 import { IS_AUTH, SERVER_URL } from '../../util.js';
 import { useRef } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import ErrorPage from '../ErrorPage/ErrorPage';
+import Loading from '../Loading/Loading';
 
 
 export default function Edit({ user }) {
@@ -55,10 +56,11 @@ export default function Edit({ user }) {
     reset();
   };
 
+
   return (
     <>
       <Helmet>
-        <title>{IS_AUTH ? user.name : 'Редактировать профиля'}</title>
+        <title>Редактировать профиль</title>
       </Helmet>
       {!IS_AUTH ? <ErrorPage />
         :
@@ -70,6 +72,7 @@ export default function Edit({ user }) {
                 <h3>Эл. почта</h3>
                 <input type="email"
                   className={errors?.name ? 'invalid' : ''}
+                  placeholder={user.email}
                   {...register('email', { required: 'Обязательноe поле.' })}
                 />
                 {errors?.email && <p className='error'>{errors?.email.message}</p>}

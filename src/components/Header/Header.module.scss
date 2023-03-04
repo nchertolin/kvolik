@@ -59,3 +59,11 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.signin {
+  padding: 6px 24px;
+
+  &:hover {
+    color: $background;
+  }
+}

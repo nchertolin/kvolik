@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './SignUp.module.scss';
-import { SERVER_URL } from '../../util.js'
+import { removeLastPage, SERVER_URL } from '../../util.js'
 
 export default function SignUp() {
   const { register, watch, formState: { errors }, handleSubmit, reset } = useForm({ mode: "all" });
@@ -34,8 +34,8 @@ export default function SignUp() {
         } else return response.json().then(text => { throw new Error(text.message) })
       })
       .then(data => {
-        window.location.href = '..';
         localStorage.setItem('token', `${data['token']}`)
+        removeLastPage();
       })
       .catch(err => showError(err.message))
       .finally(() => disableButton(false));

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styles from './SearchCard.module.scss';
+
 export default function SearchCard({ shortName, picture, name, nameEng, releaseFrom, type }) {
   return (
     <Link to={shortName} className={styles.card}>

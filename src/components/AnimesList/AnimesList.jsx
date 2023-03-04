@@ -76,7 +76,6 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         setEmpty(data.length === 0 && !user.isAdmin);
         setAnimes(data);
       })
-      //.catch(() => setAnimes(testAnimes))
       .finally(() => setLoading(false))
   }, [isSoon, isFavorites, selectedSort, query, user.isAdmin]);
 
@@ -114,7 +113,7 @@ export default function AnimesList({ title, isSoon, isFavorites, user }) {
         {!isFavorites &&
           <div className={styles.buttons}>
             <div className={styles.actions}>
-              <button className={styles.filter}>Фильтр</button>
+              {/* <button className={styles.filter}>Фильтр</button> */}
               <div className={`primary-button ${styles.selectWrapper}`}>
                 <select className={styles.select} value={selectedSort} onChange={evt => setSelectedSort(evt.target.value)}>
                   <option value="DateDesc">По дате добавления</option>

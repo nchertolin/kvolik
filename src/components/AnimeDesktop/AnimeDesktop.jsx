@@ -60,14 +60,11 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
       })
       .then(() => {
         setNewReview(!newReview);
-        setTimeout(() => {
-          disableReviewButton(false);
-        }, 100000);
+        reset();
       })
       .catch(err => showError(true, err.message))
       .finally(() => {
         disableReviewButton(false);
-        reset();
       });
   }
 
@@ -212,7 +209,7 @@ export default function AnimeDesktop({ shortName, user, setUser }) {
               </div>
               <a href='#watch'>Смотреть онлайн</a>
               {IS_AUTH ? <button className={styles.rate} onClick={() => showRating(ratingRef, true)}>Поставить оценку</button>
-                : <Link to='../login' className={styles.rate}>Поставить оценку</Link>}
+                : <Link to='/login' onClick={setLastPage} className={styles.rate}>Поставить оценку</Link>}
             </div>
             <div className={styles.infoWrapper}>
               <div className={styles.nameWrapper}>

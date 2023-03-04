@@ -348,7 +348,7 @@ export default function Add() {
                 {errors?.frame5 && <p className='error'>{errors?.frame5.message}</p>}
               </label>
             </div>
-            <label className={styles.videoInput}>
+            <label htmlFor='video-add' className={styles.videoInput}>
               <p>Видео обложка</p>
               {isVideoChanging
                 ? <div className={styles.videoWrapper}>
@@ -360,7 +360,7 @@ export default function Add() {
                   </div>
                 </div>
                 : <img className={styles.video} src={placeholder} alt="" />}
-              <input type="file"
+              <input id='video-add' type="file"
                 className={styles.bannerInput}
                 {...register('video', { required: 'Обязательноe поле.' })}
                 onChange={videoHandler} />

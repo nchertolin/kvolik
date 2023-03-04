@@ -43,7 +43,6 @@ export default function AnimeEdit({ shortName }) {
   const error = useRef();
   const submit = useRef();
 
-
   function previewHandler(evt) {
     const file = evt.target.files[0];
     const fileName = file.name.toLowerCase();
@@ -125,7 +124,8 @@ export default function AnimeEdit({ shortName }) {
 
   const disableButton = isDisable => submit.current.disabled = isDisable;
 
-  function edit() {
+  function edit(e) {
+    e.preventDefault();
     const formData = new FormData();
     formData.append('imageUri', imageUri)
     formData.append('name', name);
@@ -190,136 +190,137 @@ export default function AnimeEdit({ shortName }) {
       </Helmet>
       {isLoading ? <Loading /> :
         <div className={styles.content}>
-          <div className={styles.row}>
-            <label className={styles.pictureWrapper}>
-              <img className={styles.picture} src={`${SERVER_URL}/${imageUrl}`} alt="" />
-              <input type="file" name='frame-6'
-                onChange={previewHandler} />
-            </label>
-            <div className={styles.infoWrapper}>
-              <label>
-                Название
-                <input type="text" value={name} onChange={evt => setName(evt.target.value)} />
+          <form onSubmit={edit}>
+            <div className={styles.row}>
+              <label className={styles.pictureWrapper}>
+                <img className={styles.picture} src={`${SERVER_URL}/${imageUrl}`} alt="" />
+                <input type="file" name='frame-6'
+                  onChange={previewHandler} />
               </label>
-              <label>
-                Английское название
-                <input type="text" value={nameEng} onChange={evt => setNameEng(evt.target.value)} />
-              </label>
-              <label>
-                Короткое имя
-                <input type="text" value={animeShortName} onChange={evt => setShortName(evt.target.value)} />
-              </label>
-              <div className={styles.info}>
-                <div className={styles.infoRow}>
-                  <p>Тип</p>
-                  <input type="text" value={type} onChange={evt => setType(evt.target.value)} />
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Эпизоды</p>
-                  <input type="number" value={episodesAmount} onChange={evt => setEpisodesAmount(evt.target.value)} />
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Статус аниме</p>
-                  <select value={exitStatus === 'Онгоинг' ? 0 : 1}
-                    onChange={evt => setExitStatus(evt.target.value)}>
-                    <option value='0'>Онгоинг</option>
-                    <option value='1'>Вышел</option>
-                  </select>
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Жанры</p>
-                  <input type="text" value={genres} onChange={evt => setGenres(evt.target.value)} />
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Первоисточник</p>
-                  <select value={primarySource}
-                    onChange={evt => setPrimarySource(evt.target.value)}>
-                    <option value='Манга'>Манга</option>
-                    <option value='Оригинал'>Оригинал</option>
-                    <option value='Ранобе'>Ранобе</option>
-                    <option value='Манхва'>Манхва</option>
-                  </select>
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Выпуск</p>
-                  <input type="date" value={releaseFrom} onChange={evt => setReleaseFrom(evt.target.value)} />
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Конец</p>
-                  <input type="date" value={releaseBy} onChange={evt => setReleaseBy(evt.target.value)} />
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Возрастные ограничения</p>
-                  <input type="number" value={ageLimit} onChange={evt => setAgeLimit(evt.target.value)} />
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Длительность</p>
-                  <input type="number" value={duration} onChange={evt => setDuration(evt.target.value)} />
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Статус озвучки</p>
-                  <select value={voiceoverStatus === 'Озвучено' ? 0 : 1}
-                    onChange={evt => setVoiceoverStatus(evt.target.value)}>
-                    <option value='0'>Озвучено</option>
-                    <option value='1'>Неозвучено</option>
-                  </select>
-                </div>
-                <div className={styles.infoRow}>
-                  <p>Тип озвучки</p>
-                  <select value={isMonophonic}
-                    onChange={evt => setMonophonic(evt.target.value)}>
-                    <option value={false}>Многоголосая</option>
-                    <option value={true}>Одноголосая</option>
-                  </select>
+              <div className={styles.infoWrapper}>
+                <label>
+                  Название
+                  <input type="text" value={name} onChange={evt => setName(evt.target.value)} required />
+                </label>
+                <label>
+                  Английское название
+                  <input type="text" value={nameEng} onChange={evt => setNameEng(evt.target.value)} required />
+                </label>
+                <label>
+                  Короткое имя
+                  <input type="text" value={animeShortName} onChange={evt => setShortName(evt.target.value)} required />
+                </label>
+                <div className={styles.info}>
+                  <div className={styles.infoRow}>
+                    <p>Тип</p>
+                    <input type="text" value={type} onChange={evt => setType(evt.target.value)} required />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Эпизоды</p>
+                    <input type="number" value={episodesAmount} onChange={evt => setEpisodesAmount(evt.target.value)} required />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Статус аниме</p>
+                    <select required value={exitStatus === 'Онгоинг' ? 0 : 1}
+                      onChange={evt => setExitStatus(evt.target.value)}>
+                      <option value='0'>Онгоинг</option>
+                      <option value='1'>Вышел</option>
+                    </select>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Жанры</p>
+                    <input type="text" value={genres} onChange={evt => setGenres(evt.target.value)} required />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Первоисточник</p>
+                    <select value={primarySource} required
+                      onChange={evt => setPrimarySource(evt.target.value)}>
+                      <option value='Манга'>Манга</option>
+                      <option value='Оригинал'>Оригинал</option>
+                      <option value='Ранобе'>Ранобе</option>
+                      <option value='Манхва'>Манхва</option>
+                    </select>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Выпуск</p>
+                    <input type="date" value={releaseFrom} onChange={evt => setReleaseFrom(evt.target.value)} required />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Конец</p>
+                    <input type="date" value={releaseBy} onChange={evt => setReleaseBy(evt.target.value)} required />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Возрастные ограничения</p>
+                    <input type="number" value={ageLimit} onChange={evt => setAgeLimit(evt.target.value)} required />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Длительность</p>
+                    <input type="number" value={duration} onChange={evt => setDuration(evt.target.value)} required />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Статус озвучки</p>
+                    <select value={voiceoverStatus === 'Озвучено' ? 0 : 1} required
+                      onChange={evt => setVoiceoverStatus(evt.target.value)}>
+                      <option value='0'>Озвучено</option>
+                      <option value='1'>Неозвучено</option>
+                    </select>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <p>Тип озвучки</p>
+                    <select value={isMonophonic} required
+                      onChange={evt => setMonophonic(evt.target.value)}>
+                      <option value={false}>Многоголосая</option>
+                      <option value={true}>Одноголосая</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <label>
-            Описание
-            <textarea value={description} onChange={evt => setDescription(evt.target.value)} />
-          </label>
-          <div className={styles.links}>
             <label>
-              Ссылка на трейлер
-              <input type="url" value={trailerUrl} onChange={evt => setTrailerUrl(evt.target.value)} />
-              <i>Пример: https://youtu.be/v-AGjx0N24U      ------>      https://www.youtube-nocookie.com/embed/v-AGjx0N24U</i>
+              Описание
+              <textarea value={description} onChange={evt => setDescription(evt.target.value)} required />
             </label>
-            <label>
-              Ссылка на плеер
-              <input type="text" value={playerLink} onChange={evt => setPlayerLink(evt.target.value)} />
-            </label>
-          </div>
-          <div className={styles.frames}>
-            {frames.map((frame, index) =>
-              <label key={v4()} className={styles.frameInput}>
-                <img src={
-                  flag
-                    ? `${SERVER_URL}/${frames[index]}`
-                    : frames[index]
-                } alt="" />
-                <input type="file"
-                  onChange={evt => framesHandler(evt, index)} />
-              </label>)}
-          </div>
-          <label htmlFor='video' className={styles.videoLabel}>
-            <div className={styles.videoWrapper}>
-              <video src={isVideoChanging ? previewVideoUrl : `${SERVER_URL}/${previewVideoUrl}`} autoPlay loop muted={isMuted}></video>
-              <div className={styles.mute}>
-                <button type='button' onClick={() => setMuted(!isMuted)}>
-                  <img src={isMuted ? muted : unmuted} alt="" />
-                </button>
-              </div>
+            <div className={styles.links}>
+              <label>
+                Ссылка на трейлер
+                <input type="url" value={trailerUrl} onChange={evt => setTrailerUrl(evt.target.value)} required />
+                <i>Пример: https://youtu.be/v-AGjx0N24U      ------>      https://www.youtube-nocookie.com/embed/v-AGjx0N24U</i>
+              </label>
+              <label>
+                Ссылка на плеер
+                <input type="text" value={playerLink} onChange={evt => setPlayerLink(evt.target.value)} required />
+              </label>
             </div>
-            <input id='video' type="file" onChange={videoHandler} />
-          </label>
-          <label className={styles.submit}>
-            <button ref={submit} className='primary-button'
-              onClick={edit}
-            >Сохранить</button>
-            <p ref={error} className='error-submit'>Возникла ошибка при добавлении.</p>
-          </label>
+            <div className={styles.frames}>
+              {frames.map((frame, index) =>
+                <label key={v4()} className={styles.frameInput}>
+                  <img src={
+                    flag
+                      ? `${SERVER_URL}/${frames[index]}`
+                      : frames[index]
+                  } alt="" />
+                  <input type="file"
+                    onChange={evt => framesHandler(evt, index)} />
+                </label>)}
+            </div>
+            <label htmlFor='video' className={styles.videoLabel}>
+              <div className={styles.videoWrapper}>
+                <video src={isVideoChanging ? previewVideoUrl : `${SERVER_URL}/${previewVideoUrl}`} autoPlay loop muted={isMuted}></video>
+                <div className={styles.mute}>
+                  <button type='button' onClick={() => setMuted(!isMuted)}>
+                    <img src={isMuted ? muted : unmuted} alt="" />
+                  </button>
+                </div>
+              </div>
+              <input id='video' type="file" onChange={videoHandler} />
+            </label>
+            <label className={styles.submit}>
+              <button ref={submit} className='primary-button'
+              >Сохранить</button>
+              <p ref={error} className='error-submit'>Возникла ошибка при добавлении.</p>
+            </label>
+          </form>
         </div>}
-    </div >
+    </div>
   )
 }

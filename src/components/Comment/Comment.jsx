@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './Comment.module.scss';
 import like from '../../assets/icons/like.svg';
 import liked from '../../assets/icons/like-fill.svg';
-import { SERVER_URL } from '../../util.js';
+import { IS_AUTH, SERVER_URL, setLastPage } from '../../util.js';
 import { convertToMonth } from '../../util';
 import deleteComment from '../../assets/icons/deleteComment.svg';
+import { Link } from 'react-router-dom';
 
 export default function Comment({ review, animeId, setNewReview, newReview, isUsers, Liked }) {
   const [isLiked, setLiked] = useState(Liked);
@@ -84,8 +85,13 @@ export default function Comment({ review, animeId, setNewReview, newReview, isUs
                 <img src={deleteComment} alt="" />
               </button>}
             <div className={styles.likes}>
-              <button className={styles.like} onClick={likeIt}>
-                <img ref={likeRef} src={isLiked ? liked : like} alt="нравится" /></button>
+              {IS_AUTH ?
+                <button className={styles.like} onClick={likeIt}>
+                  <img ref={likeRef} src={isLiked ? liked : like} alt="нравится" />
+                </button>
+                : <Link to='/login' onClick={setLastPage}>
+                  <img ref={likeRef} src={isLiked ? liked : like} alt="нравится" />
+                </Link>}
               <span ref={likesCount}>{review.likes}</span>
             </div>
           </div>

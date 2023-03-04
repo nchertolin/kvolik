@@ -1,6 +1,6 @@
 export const IS_AUTH = localStorage.getItem('token') !== null;
 export const SERVER_URL = 'http://92.255.79.135:8000';
-export const IMAGE_TYPES = ['jpg', 'jpeg', 'png'];
+export const IMAGE_TYPES = ['jpg', 'jpeg', 'png', 'webp'];
 export const VIDEO_TYPES = ['mp4', 'avi', 'mkv', 'mov',];
 
 export function convertToMonth(str) {
